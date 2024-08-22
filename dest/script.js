@@ -3,11 +3,14 @@ const refreshTime = 100;
 const decimals = 1;
 let refreshInterval;
 let miliseconds = 1000;
-let ul = document.querySelector("#timer");
-if (ul) {
-    ul.textContent = milisecondsToSecondsFormat(miliseconds);
-    refreshInterval = setInterval(updateTime, refreshTime);
-}
+let ul;
+window.addEventListener('load', () => {
+    ul = document.getElementById('list-content');
+    if (ul) {
+        ul.textContent = milisecondsToSecondsFormat(miliseconds);
+        refreshInterval = setInterval(updateTime, refreshTime);
+    }
+});
 function updateTime() {
     miliseconds -= refreshTime;
     if (miliseconds > 0)
