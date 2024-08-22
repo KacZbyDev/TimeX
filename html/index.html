@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../src/output.css">
+    <script src="../dest/script.js"></script>
 </head>
 <body>
 <div id="navbar" class="flex items-center p-4 bg-gradient-to-r from-white via-gray-100 to-white shadow-lg h-20">
@@ -12,11 +13,14 @@
         <div class="text-blue-600 font-extrabold tracking-wide hover:text-blue-700 transition duration-300">TIME</div>
         <div class="text-orange-500 font-extrabold tracking-wide hover:text-orange-600 transition duration-300">TIX</div>
     </div>
-    <div id="user-interface-wrapper">
-        <div></div>
+
+</div>
+<div id="user-interface-wrapper" class="flex ml-2 mt-2">
+    <div id="list-of-timers" class="w-1/5 border-gray-300 border-solid border-[1px]">
+        <div id="list-header" class="flex justify-center items-center text-orange-600 border-b  font-mono">TIMERS</div>
+        <div id="list-content" class="mt-2 mb-2 bg-gray-100 flex justify-center items-center"> Placeholder</div>
+        <div id="list-footer"></div>
     </div>
 </div>
-<div id="timer">placeholder</div>
-<script src="../dest/script.js"></script>
 </body>
 </html>
