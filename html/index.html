@@ -8,18 +8,20 @@
 </head>
 <body>
 <div id="navbar" class="flex items-center p-4 bg-gradient-to-r from-white via-gray-100 to-white shadow-lg h-16 z-10">
-    <a href="#" class="inline-flex items-center border border-cyan-500 px-3 py-1.5 rounded-md text-cyan-600 hover:bg-cyan-50">
+    <button class="inline-flex items-center border border-cyan-500 px-3 py-1.5 rounded-md text-cyan-600 hover:bg-cyan-50">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18">
             </path>
         </svg>
         <span class="ml-1 font-bold text-lg">Back</span>
-    </a>
-    <div class="flex justify-center items-center space-x-4 w-full text-5xl">
-        <div class="text-blue-600 font-extrabold tracking-wide hover:text-blue-700 transition duration-300">TIME</div>
-        <div class="text-orange-500 font-extrabold tracking-wide hover:text-orange-600 transition duration-300">TIX</div>
+    </button>
+    <div class="flex justify-center items-center space-x-4 w-full text-5xl  group">
+        <div id="Tim" class="text-blue-600 font-extrabold tracking-wide group-hover:text-orange-500 transition duration-300">TIME</div>
+        <div id="Tix" class="text-orange-500 font-extrabold tracking-wide group-hover:text-blue-600 transition duration-300 ">TIX</div>
     </div>
-    <img src="../img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5">
+
+    <!-- goofy code -->
+    <img src="../img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
 </div>
 
 <div id="user-interface-wrapper" class="flex">
@@ -32,10 +34,11 @@
         <div>some</div>
         <div>some</div>
         <div id="list-footer" class="flex justify-between pt-4 p-2">
-            <button class=" w-12 h-12 bg-orange-500 rounded-2xl text-center pb-1 text-white">Tbd</button>
-            <button class=" w-12 h-12 bg-blue-600 rounded-2xl text-center pb-1 text-white font-bold">+</button>
+            <button class="size-12 bg-orange-500 rounded-2xl text-center pb-1 text-white">Tbd</button>
+            <button class="size-12 bg-blue-600 rounded-2xl text-center pb-1 text-white font-bold">+</button>
         </div>
-    </div>
+     </div> 
+ 
 </div>
 
 </body>
