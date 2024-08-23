@@ -26,8 +26,8 @@
     <img src="../img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:hue-rotate-180 hover:-rotate-180 trasition duration-300">
 </div>
 
-<div id="user-interface-wrapper" class="flex-1 justify-between w-full bg-slate-400">
-    <div id="user-interface-wrappero" class="flex-1 justify-between w-full bg-red-400">
+<!-- <div id="user-interface-wrapper" class="flex-grow justify-between bg-slate-400"> -->
+    <div id="user-interface-wrappero" class="h-full flex justify-between bg-red-400">
         <div id="list-of-intervals" class="flex-none bg-slate-300 z-20 w-1/4 border-r-gray-300 border-r-[1px] border-b-[1px]">
             <div id="list-header" class="flex justify-center items-center text-orange-600 p-2 text-2xl font-mono font-bold border-b">*TIMER NAME*</div>
             <div id="list-content" class="mt-2 mb-2 bg-gray-100 flex justify-center items-center overflow-x-hidden"> Placeholder</div>
@@ -41,15 +41,17 @@
                 <button class="size-12 bg-blue-600 rounded-2xl text-center pb-1 text-white font-bold">+</button>
             </div>
         </div>
-        
-        <div id="timer-interface-wrapper" class="flex justify-center bg-blue-200">
-            <div class="bg-slate-200 text-3xl underline-offset-2 underline font-semibold">Interval name</div>
-            <div class="bg-slate-600 rounded-full size-40"></div>
+         
+        <div id="timer-interface-wrapper" class="flex flex-grow flex-col justify-between items-center bg-blue-200">
+            <div class="flex-none bg-slate-200 text-3xl underline-offset-2 underline font-semibold">Interval name</div>
+            <div id="timer" class="flex justify-center items-center bg-slate-200">
+                <div class="bg-slate-600 rounded-full size-40"></div>
+            </div>
         </div> 
     </div>
 </div>
 
-</div>
+<!-- </div> -->
 </body>
 
 </html>
