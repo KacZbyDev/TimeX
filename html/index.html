@@ -8,8 +8,9 @@
 </head>
 
 <body>
-<div id="viewport-wrapper" class="flex flex-col h-screen bg-slate-900">
-<div id="navbar" class="flex items-center p-4 bg-gradient-to-r from-white via-gray-100 to-white shadow-lg h-16 z-10">
+<div id="viewport-wrapper" class="flex flex-col h-screen">
+
+<div id="navbar" class="flex justify-between items-center p-4 bg-gradient-to-r from-white via-gray-100 to-white shadow-lg h-16 z-10">
     <button class="inline-flex items-center border border-cyan-500 px-3 py-1.5 rounded-md text-cyan-600 hover:bg-cyan-50">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18">
@@ -26,9 +27,8 @@
     <img src="../img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:hue-rotate-180 hover:-rotate-180 trasition duration-300">
 </div>
 
-<!-- <div id="user-interface-wrapper" class="h-screen justify-between bg-slate-400"> -->
-    <div id="user-interface-wrappero" class="h-full flex justify-between bg-red-400">
-        <div id="list-of-intervals" class="flex-none bg-slate-300 z-20 w-1/4 border-r-gray-300 border-r-[1px] border-b-[1px]">
+<div id="user-interface-wrappero" class="h-full flex justify-between ">
+    <div id="list-of-intervals" class="flex-none rounded-r-3xl z-20 w-1/4 border-r-gray-300 border-r-[1px] border-b-[1px]">
             <div id="list-header" class="flex justify-center items-center text-orange-600 p-2 text-2xl font-mono font-bold border-b">*TIMER NAME*</div>
             <div id="list-content" class="mt-2 mb-2 bg-gray-100 flex justify-center items-center overflow-x-hidden"> Placeholder</div>
             <div>some</div>
@@ -40,18 +40,17 @@
                 <button class="size-12 bg-orange-500 rounded-2xl text-center pb-1 text-white">Tbd</button>
                 <button class="size-12 bg-blue-600 rounded-2xl text-center pb-1 text-white font-bold">+</button>
             </div>
-        </div>
-         
-        <div id="timer-interface-wrapper" class="flex flex-grow flex-col justify-between items-center bg-blue-200">
-            <div class="flex-none bg-slate-200 text-3xl underline-offset-2 underline font-semibold">Interval name</div>
-            <div id="timer" class="flex flex-grow  justify-center items-center bg-slate-400">
-                <div class="bg-slate-600 rounded-full size-40"></div>
-            </div>
-        </div> 
     </div>
+         
+    <div id="timer-interface-wrapper" class="flex flex-grow flex-col justify-between items-center">
+        <div class="flex-none pt-3 text-3xl underline-offset-2 underline font-semibold">*Interval name*</div>
+        
+        <div id="timer" class="flex flex-grow  justify-center items-center">
+           <div class="flex justify-center items-center text-5xl text-white bg-slate-600 rounded-full size-96">*timer*</div>
+        </div>
+    </div> 
 </div>
 
-<!-- </div> -->
+</div>
 </body>
-
 </html>
