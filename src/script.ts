@@ -1,30 +1,53 @@
-import milisecondsToSecondsFormat from "./utils";
+const decimals = 1
+const refreshDelay:number = 100;
 
-const refreshTime:number = 100;
+let timerRefresher: number
+let ul: HTMLElement | null
+let bigTimerDisplay: HTMLElement | null
 
-let refreshInterval:number
+let miliseconds:number = 3000;
 
-let miliseconds:number = 1000;
-
-let ul:HTMLElement | null
+import Collections = require('typescript-collections');
 
 window.addEventListener('load', () => {
-    ul = document.getElementById('list-content');
+    ul = document.getElementById('list-content')
+    bigTimerDisplay = document.getElementById('big-timer-time')
+
+    var mySet = new Collections.Set<number>();
+    console.log(mySet)
     if(ul) {
-        ul!.textContent = milisecondsToSecondsFormat(miliseconds)
-        refreshInterval = setInterval(updateTime, refreshTime)
+        timerRefresher = setInterval(Utils.updateBigTimer, refreshDelay)
     }
 });
 
-function updateTime(): void {
-    miliseconds -= refreshTime;  
-    if(miliseconds > 0)
-        ul!.textContent = milisecondsToSecondsFormat(miliseconds)
-    else
-        refreshIntervalFinished()
+function loadTimers():void {
+    
 }
 
-function refreshIntervalFinished() :void{
+class Timer {
+    start(): void {
+        Utils.updateBigTimer()
+    }
+}
+
+class Utils {
+    static updateBigTimer(): void {
+        miliseconds -= refreshDelay;  
+        if(miliseconds >= 0) {
+            ul!.textContent = Utils.milisecondsToSecondsFormat(miliseconds)
+            bigTimerDisplay!.textContent = Utils.milisecondsToSecondsFormat(miliseconds)
+        }
+        else
+            timerRefresherFinished()
+    }
+
+    static milisecondsToSecondsFormat(miliseconds:number):string{
+        return (miliseconds / 1000).toFixed(decimals)
+    }
+}
+
+function timerRefresherFinished() :void{
+    //if no more timers:
     ul!.textContent = "finished"
-    clearInterval(refreshInterval)
+    clearInterval(timerRefresher)
 }

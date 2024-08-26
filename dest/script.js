@@ -1,29 +1,44 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __importDefault(require("./utils"));
-const refreshTime = 100;
-let refreshInterval;
-let miliseconds = 1000;
+const decimals = 1;
+const refreshDelay = 100;
+let timerRefresher;
 let ul;
+let bigTimerDisplay;
+let miliseconds = 3000;
+const Collections = require("typescript-collections");
 window.addEventListener('load', () => {
     ul = document.getElementById('list-content');
+    bigTimerDisplay = document.getElementById('big-timer-time');
+    var mySet = new Collections.Set();
+    console.log(mySet);
     if (ul) {
-        ul.textContent = (0, utils_1.default)(miliseconds);
-        refreshInterval = setInterval(updateTime, refreshTime);
+        timerRefresher = setInterval(Utils.updateBigTimer, refreshDelay);
     }
 });
-function updateTime() {
-    miliseconds -= refreshTime;
-    if (miliseconds > 0)
-        ul.textContent = (0, utils_1.default)(miliseconds);
-    else
-        refreshIntervalFinished();
+function loadTimers() {
 }
-function refreshIntervalFinished() {
+class Timer {
+    start() {
+        Utils.updateBigTimer();
+    }
+}
+class Utils {
+    static updateBigTimer() {
+        miliseconds -= refreshDelay;
+        if (miliseconds >= 0) {
+            ul.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
+            bigTimerDisplay.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
+        }
+        else
+            timerRefresherFinished();
+    }
+    static milisecondsToSecondsFormat(miliseconds) {
+        return (miliseconds / 1000).toFixed(decimals);
+    }
+}
+function timerRefresherFinished() {
     ul.textContent = "finished";
-    clearInterval(refreshInterval);
+    clearInterval(timerRefresher);
 }
 //# sourceMappingURL=script.js.map
