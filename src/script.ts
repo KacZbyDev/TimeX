@@ -1,11 +1,12 @@
+import milisecondsToSecondsFormat from "./utils";
+
 const refreshTime:number = 100;
-const decimals = 1
 
 let refreshInterval:number
 
 let miliseconds:number = 1000;
 
-let ul:any
+let ul:HTMLElement | null
 
 window.addEventListener('load', () => {
     ul = document.getElementById('list-content');
@@ -14,7 +15,6 @@ window.addEventListener('load', () => {
         refreshInterval = setInterval(updateTime, refreshTime)
     }
 });
-
 
 function updateTime(): void {
     miliseconds -= refreshTime;  
@@ -27,8 +27,4 @@ function updateTime(): void {
 function refreshIntervalFinished() :void{
     ul!.textContent = "finished"
     clearInterval(refreshInterval)
-}
-
-function milisecondsToSecondsFormat(miliseconds:number):string{
-    return (miliseconds / 1000).toFixed(decimals)
 }
