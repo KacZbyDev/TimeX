@@ -1,44 +1,56 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const decimals = 1;
 const refreshDelay = 100;
 let timerRefresher;
-let ul;
 let bigTimerDisplay;
+let queueTimers = [];
+let currentTimer;
 let miliseconds = 3000;
-const Collections = require("typescript-collections");
 window.addEventListener('load', () => {
-    ul = document.getElementById('list-content');
+    loadTimers();
+    currentTimer = queueTimers[0];
     bigTimerDisplay = document.getElementById('big-timer-time');
-    var mySet = new Collections.Set();
-    console.log(mySet);
-    if (ul) {
-        timerRefresher = setInterval(Utils.updateBigTimer, refreshDelay);
-    }
+    timerRefresher = setInterval(Utils.updateBigTimer, refreshDelay);
 });
 function loadTimers() {
+    queueTimers[0] = new Timer(3000, document.getElementById('timey1'));
+    queueTimers[1] = new Timer(3000, document.getElementById('timey2'));
 }
 class Timer {
+    constructor(miliseconds, element) {
+        this.miliseconds = miliseconds;
+        this.element = element;
+        this.timerID = Timer.timersCount;
+        Timer.timersCount++;
+    }
     start() {
         Utils.updateBigTimer();
     }
 }
+Timer.timersCount = 0;
 class Utils {
     static updateBigTimer() {
         miliseconds -= refreshDelay;
         if (miliseconds >= 0) {
-            ul.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
+            currentTimer.element.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
             bigTimerDisplay.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
         }
         else
-            timerRefresherFinished();
+            timeyFinished();
     }
     static milisecondsToSecondsFormat(miliseconds) {
         return (miliseconds / 1000).toFixed(decimals);
     }
 }
-function timerRefresherFinished() {
-    ul.textContent = "finished";
-    clearInterval(timerRefresher);
+function timeyFinished() {
+    currentTimer.element.textContent = "finished";
+    if (currentTimer.timerID < Timer.timersCount - 1) {
+        currentTimer = queueTimers[currentTimer.timerID + 1];
+        miliseconds = currentTimer.miliseconds;
+    }
+    else {
+        bigTimerDisplay.textContent = "done";
+        clearInterval(timerRefresher);
+    }
 }
 //# sourceMappingURL=script.js.map
