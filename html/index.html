@@ -23,30 +23,38 @@
         <div id="Tix" class="text-orange-primary font-extrabold tracking-wide group-hover:text-blue-secondary transition duration-300 ">TIX</div>
     </div>
 
-    <!-- //TODO what do you think of this?-->
-    <!-- goofy code -->
     <img src="../img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
 </div>
 
 <div id="user-interface-wrapper" class="h-full flex justify-between ">
-    <div id="list-of-intervals" class="flex-none rounded-r-3xl z-20 w-1/4 border-r-gray-300 border-r-[1px] border-b-[1px]">
+    <!--TODO maybe make this panel more visible, like adding a top border and a white bg -->
+    <ol id="list-of-intervals" class="flex-none rounded-r-3xl z-20 w-1/4 border-r-gray-300 border-r-[1px] border-b-[1px]">
             <div id="list-header" class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b">*TIMER NAME*</div>
-            <div id="list-content overflow-x-hidden">
-                <div id="timey1" class="mt-2 mb-2 bg-gray-100 rounded-full flex justify-center items-center">1</div>
-                <div id="timey2" class="mt-2 mb-2 bg-gray-100 flex justify-center items-center">2</div>
-                <div>some</div>
-                <div>some</div>
-                <div>some</div>
+            <div id="list-content" class="overflow-x-hidden">
+                <!-- subtimer Model, Can't be deleted -->
+                <div id="subtimer" class="relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center">
+                    <p class="w-full text-center">squat</p>
+                    <p class="absolute right-4">1</p>
+                </div>
+
+                <div id="subtimer1" class="relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center">
+                    <p class="w-full text-center">jump</p>
+                    <p class="absolute right-4">1</p>
+                </div>
+                <div id="subtimer2" class="relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center">
+                    <p class="w-full text-center">pause</p>
+                    <p class="absolute right-4 ">1:00:15</p>
+                </div>
             </div>
-            <div id="list-footer" class="flex justify-between pt-4 p-2">
+            <div id="list-footer" class="flex justify-between pt-2 p-2">
                 <button class="size-10 bg-orange-secondary rounded-xl text-center pb-1 text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:size-12 transition-all duration-500">Tbd</button>
                 <!--Center the "+"-->
                 <button class="size-10 bg-blue-secondary rounded-xl text-center pb-1 text-white font-bold text-4xl flex justify-center items-center hover:shadow-custom-amber hover:shadow-blue-600 hover:size-12 transition-all duration-500">+</button>
             </div>
-    </div>
+    </ol>
          
-    <div id="timer-interface-wrapper" class="flex flex-grow flex-col pt-4 justify-between items-center">
-        <div class="flex-none text-3xl underline-offset-2 underline font-semibold">*Interval name*</div>
+    <div id="timer-interface-wrapper" class="flex flex-grow flex-col pt-4 items-center">
+        <div class="flex-none text-3xl underline-offset-2 underline font-semibold">*Subtimer name*</div>
         <div id="timer" class="flex flex-grow justify-center items-center">
            <div id="big-timer-time" class="flex justify-center items-center text-5xl text-white bg-slate-600 rounded-full size-96"></div>
         </div>

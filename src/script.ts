@@ -1,76 +1,101 @@
 const decimals = 1
 const refreshDelay:number = 100;
 
-let timerRefresher: number
-let bigTimerDisplay: HTMLElement | null
+let timerRefresher:number
+let bigTimerDisplay:HTMLElement | null
 
-let queueTimers:Timer[] = []
-let currentTimer:Timer
+let queueSubtimers:Subtimer[] = []
+let currentSubtimer:Subtimer
 
-let miliseconds:number = 3000;
+let miliseconds:number;
 
 window.addEventListener('load', () => {
     loadTimers()
-    currentTimer = queueTimers[0] 
+    currentSubtimer = queueSubtimers[0] 
+    miliseconds = queueSubtimers[0].miliseconds
 
     bigTimerDisplay = document.getElementById('big-timer-time')
 
-    timerRefresher = setInterval(Utils.updateBigTimer, refreshDelay)
+    timerRefresher = setInterval(Utils.updateTimer, refreshDelay)
 });
 
 function loadTimers():void {
-    queueTimers[0] = new Timer(3000, document.getElementById('timey1'))
-    queueTimers[1] = new Timer(3000, document.getElementById('timey2'))
+    let subtimersElements:HTMLCollection = document.getElementById('list-content')!.children
+
+    while(Subtimer.Count < subtimersElements.length) {
+        queueSubtimers[Subtimer.Count] = new Subtimer(subtimersElements.item(Subtimer.Count)!)
+    }
 }
 
-class Timer {
-    public static timersCount:number = 0
-    public readonly timerID:number
+class Subtimer {
+    public static Count:number = 0
+    public readonly ID:number
 
-    public element:HTMLElement | null
+    public element:Element
+    public name:string
     public readonly miliseconds:number
 
-    //idea
-    // public subTimers:Timer[] = []
+    constructor(element:Element) {
+        this.ID = Subtimer.Count
+        Subtimer.Count++
 
-    constructor(miliseconds:number, element:HTMLElement | null) {
-        this.miliseconds = miliseconds
         this.element = element
-
-        this.timerID = Timer.timersCount
-        Timer.timersCount++
-    }
-
-    start(): void {
-        Utils.updateBigTimer()
+        
+        this.name = element!.firstElementChild!.textContent!
+        this.miliseconds = Utils.timeToMiliseconds(element!.lastElementChild!.textContent!)
     }
 }
 
 class Utils {
-    static updateBigTimer(): void {
+    static updateTimer(): void {
         miliseconds -= refreshDelay;
         if(miliseconds >= 0) {
-            currentTimer.element!.textContent = Utils.milisecondsToSecondsFormat(miliseconds)
-            bigTimerDisplay!.textContent = Utils.milisecondsToSecondsFormat(miliseconds)
+            currentSubtimer.element!.firstElementChild!.textContent = Utils.milisecondsToTime(miliseconds)
+            bigTimerDisplay!.textContent = Utils.milisecondsToTime(miliseconds)
         }
         else
-            timeyFinished()
+            subtimerFinished()
     }
 
-    static milisecondsToSecondsFormat(miliseconds:number):string{
-        return (miliseconds / 1000).toFixed(decimals)
+    static timeToMiliseconds(time:string): number {
+        if (time.length > 2)
+            return this.timeToMiliseconds(time.substring(time.length - 2, time.length)) +
+                this.timeToMiliseconds(time.substring(0, time.length - 3)) * 60
+
+        return parseInt(time) * 1000
+    }
+
+    static milisecondsToTime(miliseconds:number):string {
+        let seconds:number = (miliseconds / 1000)
+        let minutes:number = Math.floor(seconds / 60)
+        let hours:number = Math.floor(minutes / 60)
+        seconds %= 60
+        minutes %= 60
+
+        let res:string = ''
+        if(hours > 0) {
+            res += hours + ':'
+            if(minutes < 10)
+                res += '0'
+        }
+        if(minutes > 0 || hours > 0) {
+            res += minutes + ':'
+            if(seconds < 10)
+                res += '0'
+        }
+
+        return res + seconds.toFixed(decimals) 
     }
 }
 
-function timeyFinished() :void {
-    currentTimer.element!.textContent = "finished"
+function subtimerFinished():void {
+    currentSubtimer.element!.firstElementChild!.textContent = 'finished'
 
-    //if there are more
-    if(currentTimer.timerID < Timer.timersCount - 1) {
-        currentTimer = queueTimers[currentTimer.timerID + 1]
-        miliseconds = currentTimer.miliseconds
+    if(currentSubtimer.ID < Subtimer.Count - 1) {
+        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1]
+        miliseconds = currentSubtimer.miliseconds
     } else {
-        bigTimerDisplay!.textContent = "done"
+        bigTimerDisplay!.textContent = 'done'
         clearInterval(timerRefresher)
     }
 }

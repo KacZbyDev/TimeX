@@ -3,53 +3,76 @@ const decimals = 1;
 const refreshDelay = 100;
 let timerRefresher;
 let bigTimerDisplay;
-let queueTimers = [];
-let currentTimer;
-let miliseconds = 3000;
+let queueSubtimers = [];
+let currentSubtimer;
+let miliseconds;
 window.addEventListener('load', () => {
     loadTimers();
-    currentTimer = queueTimers[0];
+    currentSubtimer = queueSubtimers[0];
+    miliseconds = queueSubtimers[0].miliseconds;
     bigTimerDisplay = document.getElementById('big-timer-time');
-    timerRefresher = setInterval(Utils.updateBigTimer, refreshDelay);
+    timerRefresher = setInterval(Utils.updateTimer, refreshDelay);
 });
 function loadTimers() {
-    queueTimers[0] = new Timer(3000, document.getElementById('timey1'));
-    queueTimers[1] = new Timer(3000, document.getElementById('timey2'));
+    let subtimersElements = document.getElementById('list-content').children;
+    while (Subtimer.Count < subtimersElements.length) {
+        queueSubtimers[Subtimer.Count] = new Subtimer(subtimersElements.item(Subtimer.Count));
+    }
 }
-class Timer {
-    constructor(miliseconds, element) {
-        this.miliseconds = miliseconds;
+class Subtimer {
+    constructor(element) {
+        this.ID = Subtimer.Count;
+        Subtimer.Count++;
         this.element = element;
-        this.timerID = Timer.timersCount;
-        Timer.timersCount++;
-    }
-    start() {
-        Utils.updateBigTimer();
+        this.name = element.firstElementChild.textContent;
+        this.miliseconds = Utils.timeToMiliseconds(element.lastElementChild.textContent);
     }
 }
-Timer.timersCount = 0;
+Subtimer.Count = 0;
 class Utils {
-    static updateBigTimer() {
+    static updateTimer() {
         miliseconds -= refreshDelay;
         if (miliseconds >= 0) {
-            currentTimer.element.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
-            bigTimerDisplay.textContent = Utils.milisecondsToSecondsFormat(miliseconds);
+            currentSubtimer.element.firstElementChild.textContent = Utils.milisecondsToTime(miliseconds);
+            bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds);
         }
         else
-            timeyFinished();
+            subtimerFinished();
     }
-    static milisecondsToSecondsFormat(miliseconds) {
-        return (miliseconds / 1000).toFixed(decimals);
+    static timeToMiliseconds(time) {
+        if (time.length > 2)
+            return this.timeToMiliseconds(time.substring(time.length - 2, time.length)) +
+                this.timeToMiliseconds(time.substring(0, time.length - 3)) * 60;
+        return parseInt(time) * 1000;
+    }
+    static milisecondsToTime(miliseconds) {
+        let seconds = (miliseconds / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+        seconds %= 60;
+        minutes %= 60;
+        let res = '';
+        if (hours > 0) {
+            res += hours + ':';
+            if (minutes < 10)
+                res += '0';
+        }
+        if (minutes > 0 || hours > 0) {
+            res += minutes + ':';
+            if (seconds < 10)
+                res += '0';
+        }
+        return res + seconds.toFixed(decimals);
     }
 }
-function timeyFinished() {
-    currentTimer.element.textContent = "finished";
-    if (currentTimer.timerID < Timer.timersCount - 1) {
-        currentTimer = queueTimers[currentTimer.timerID + 1];
-        miliseconds = currentTimer.miliseconds;
+function subtimerFinished() {
+    currentSubtimer.element.firstElementChild.textContent = 'finished';
+    if (currentSubtimer.ID < Subtimer.Count - 1) {
+        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1];
+        miliseconds = currentSubtimer.miliseconds;
     }
     else {
-        bigTimerDisplay.textContent = "done";
+        bigTimerDisplay.textContent = 'done';
         clearInterval(timerRefresher);
     }
 }
