@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Tailwind Watch",
+        "type": "shell",
+        "command": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+        "group": "build",
+        "problemMatcher": [],
+        "detail": "Tailwind CSS Watch Task"
+      }
+    ]
+  }
+  

@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+    .timer-progress {
+        border-radius: 50%;
+        background: conic-gradient(#2C599D calc(var(--value) * 1%), #193A6F 0);
+        /* background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); */
+        -webkit-mask: radial-gradient(transparent 60%, #000 0);
+        -webkit-mask-mode: alpha;
+        
+    }
+}
