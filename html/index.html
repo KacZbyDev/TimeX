@@ -24,7 +24,6 @@
     </div>
 
     <!-- //TODO what do you think of this?-->
-    <!-- goofy code -->
     <img src="../img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
 </div>
 
@@ -48,8 +47,16 @@
         <div class="flex-none text-3xl underline-offset-2 underline font-semibold">*Interval name*</div>
         
         <div id="timer" class="flex flex-grow justify-center items-center">
-           <div class="flex justify-center items-center text-5xl text-white bg-slate-600 rounded-full size-96">*timer*</div>
+            <div class="flex justify-center items-center  bg-dark-blue-primary rounded-full size-96">
+                <div id="progress-time" class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10">12:00</div>
+                <div id="progress-bar"  style="--value: 10" class="timer-progress relative flex justify-center items-center size-[90%] text-5xl text-white"></div>
+            </div>
         </div>
+    <!-- another variant
+        <div class="flex justify-center items-center  bg-dark-blue-secondary rounded-full size-96">
+            <div id="progress-time" class="absolute flex justify-center items-center text-5xl text-dark-blue-secondary z-10">12:00</div>
+            <div id="progress-bar"  style="--value: 10" class="timer-progress relative flex justify-center items-center size-[90%] text-5xl text-white"></div>
+        </div> -->
     </div> 
 </div> 
 
