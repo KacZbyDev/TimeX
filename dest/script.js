@@ -3,6 +3,7 @@ const decimals = 1;
 const refreshDelay = 100;
 let timerRefresher;
 let bigTimerDisplay;
+let progress_bar;
 let queueSubtimers = [];
 let currentSubtimer;
 let miliseconds;
@@ -11,6 +12,7 @@ window.addEventListener('load', () => {
     currentSubtimer = queueSubtimers[0];
     miliseconds = queueSubtimers[0].miliseconds;
     bigTimerDisplay = document.getElementById('big-timer-time');
+    progress_bar = document.getElementById('progress-bar');
     timerRefresher = setInterval(Utils.updateTimer, refreshDelay);
 });
 function loadTimers() {
@@ -31,6 +33,8 @@ class Subtimer {
 Subtimer.Count = 0;
 class Utils {
     static updateTimer() {
+        let percent = 100 - miliseconds / currentSubtimer.miliseconds * 100;
+        console.log(document.getElementById('progress-bar').style.setProperty('--value', percent + ''));
         miliseconds -= refreshDelay;
         if (miliseconds >= 0) {
             currentSubtimer.element.firstElementChild.textContent = Utils.milisecondsToTime(miliseconds);
