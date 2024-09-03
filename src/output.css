@@ -578,10 +578,6 @@ video {
   right: 1rem;
 }
 
-.right-96 {
-  right: 24rem;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -792,6 +788,10 @@ video {
 
 .p-4 {
   padding: 1rem;
+}
+
+.p-12 {
+  padding: 3rem;
 }
 
 .px-3 {
