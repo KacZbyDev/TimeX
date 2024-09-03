@@ -1,9 +1,10 @@
-import {Subtimer} from './subtimer'
-import {Utils} from './utils'
+import {Subtimer} from './subtimer.js'
+import {Utils} from './utils.js'
+
 
 const refreshDelay:number = 100;
 
-let timerRefresher:number
+let timerRefresher:any
 let bigTimerDisplay:HTMLElement
 let progress_bar:HTMLElement
 
@@ -47,7 +48,6 @@ function subtimerFinished():void {
 function updateTime():void {
     let percent = 100 - miliseconds / currentSubtimer.miliseconds * 100
     progress_bar.style.setProperty('--value', percent +'')
-
     
     miliseconds -= refreshDelay
 

@@ -1,5 +1,5 @@
-import { Subtimer } from './subtimer';
-import { Utils } from './utils';
+import { Subtimer } from './subtimer.js';
+import { Utils } from './utils.js';
 const refreshDelay = 100;
 let timerRefresher;
 let bigTimerDisplay;

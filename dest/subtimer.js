@@ -1,4 +1,4 @@
-import { Utils } from './utils';
+import { Utils } from './utils.js';
 export class Subtimer {
     constructor(element) {
         this.ID = Subtimer.Count;
