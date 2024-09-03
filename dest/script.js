@@ -4,22 +4,21 @@ const refreshDelay = 100;
 let timerRefresher;
 let bigTimerDisplay;
 let progress_bar;
-let queueSubtimers = [];
+let list;
+let firstSubtimer;
 let currentSubtimer;
 let miliseconds;
 window.addEventListener('load', () => {
-    loadTimers();
-    currentSubtimer = queueSubtimers[0];
-    miliseconds = queueSubtimers[0].miliseconds;
+    loadFirstSubtimer();
     bigTimerDisplay = document.getElementById('big-timer-time');
     progress_bar = document.getElementById('progress-bar');
     timerRefresher = setInterval(updateTime, refreshDelay);
 });
-function loadTimers() {
-    let subtimersElements = document.getElementById('list-content').children;
-    while (Subtimer.Count < subtimersElements.length) {
-        queueSubtimers[Subtimer.Count] = new Subtimer(subtimersElements.item(Subtimer.Count));
-    }
+function loadFirstSubtimer() {
+    list = document.getElementById('list-content');
+    firstSubtimer = new Subtimer(list.children[0]);
+    currentSubtimer = firstSubtimer;
+    miliseconds = currentSubtimer.miliseconds;
 }
 function updateTime() {
     let percent = 100 - miliseconds / currentSubtimer.miliseconds * 100;
@@ -35,13 +34,13 @@ function updateTime() {
 function subtimerFinished() {
     Utils.playSubtimerFinish();
     currentSubtimer.element.firstElementChild.textContent = 'finished';
-    if (currentSubtimer.ID < Subtimer.Count - 1) {
-        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1];
+    let listNextChildren = list.children[currentSubtimer.ID + 1];
+    if (listNextChildren != null) {
+        currentSubtimer = new Subtimer(listNextChildren);
         miliseconds = currentSubtimer.miliseconds;
+        return;
     }
-    else {
-        bigTimerDisplay.textContent = 'done';
-        clearInterval(timerRefresher);
-    }
+    bigTimerDisplay.textContent = 'done';
+    clearInterval(timerRefresher);
 }
 //# sourceMappingURL=script.js.map
