@@ -1,4 +1,7 @@
 export class Utils {
+    static playSubtimerFinish() {
+        this.subtimerFinish.play();
+    }
     static timeToMiliseconds(time) {
         if (time.length > 2)
             return this.timeToMiliseconds(time.substring(time.length - 2, time.length)) +
@@ -26,4 +29,5 @@ export class Utils {
     }
 }
 Utils.decimals = 1;
+Utils.subtimerFinish = new Audio('../res/timer-ending-sound.mp3');
 //# sourceMappingURL=utils.js.map

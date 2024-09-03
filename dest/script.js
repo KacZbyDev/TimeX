@@ -21,17 +21,6 @@ function loadTimers() {
         queueSubtimers[Subtimer.Count] = new Subtimer(subtimersElements.item(Subtimer.Count));
     }
 }
-function subtimerFinished() {
-    currentSubtimer.element.firstElementChild.textContent = 'finished';
-    if (currentSubtimer.ID < Subtimer.Count - 1) {
-        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1];
-        miliseconds = currentSubtimer.miliseconds;
-    }
-    else {
-        bigTimerDisplay.textContent = 'done';
-        clearInterval(timerRefresher);
-    }
-}
 function updateTime() {
     let percent = 100 - miliseconds / currentSubtimer.miliseconds * 100;
     progress_bar.style.setProperty('--value', percent + '');
@@ -42,5 +31,17 @@ function updateTime() {
     }
     else
         subtimerFinished();
+}
+function subtimerFinished() {
+    Utils.playSubtimerFinish();
+    currentSubtimer.element.firstElementChild.textContent = 'finished';
+    if (currentSubtimer.ID < Subtimer.Count - 1) {
+        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1];
+        miliseconds = currentSubtimer.miliseconds;
+    }
+    else {
+        bigTimerDisplay.textContent = 'done';
+        clearInterval(timerRefresher);
+    }
 }
 //# sourceMappingURL=script.js.map

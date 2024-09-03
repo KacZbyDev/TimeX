@@ -33,18 +33,6 @@ function loadTimers():void {
     }
 }
 
-function subtimerFinished():void {
-    currentSubtimer.element!.firstElementChild!.textContent = 'finished'
-
-    if(currentSubtimer.ID < Subtimer.Count - 1) {
-        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1]
-        miliseconds = currentSubtimer.miliseconds
-    } else {
-        bigTimerDisplay!.textContent = 'done'
-        clearInterval(timerRefresher)
-    }
-}
-
 function updateTime():void {
     let percent = 100 - miliseconds / currentSubtimer.miliseconds * 100
     progress_bar.style.setProperty('--value', percent +'')
@@ -57,4 +45,17 @@ function updateTime():void {
     }
     else
         subtimerFinished()
+}
+
+function subtimerFinished():void {
+    Utils.playSubtimerFinish()
+    currentSubtimer.element!.firstElementChild!.textContent = 'finished'
+
+    if(currentSubtimer.ID < Subtimer.Count - 1) {
+        currentSubtimer = queueSubtimers[currentSubtimer.ID + 1]
+        miliseconds = currentSubtimer.miliseconds
+    } else {
+        bigTimerDisplay!.textContent = 'done'
+        clearInterval(timerRefresher)
+    }
 }

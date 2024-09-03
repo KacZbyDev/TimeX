@@ -1,5 +1,11 @@
 export class Utils {
     private static readonly decimals:number = 1
+    private static readonly subtimerFinish:HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
+    
+
+    static playSubtimerFinish():void{
+        this.subtimerFinish.play()
+    }
 
     static timeToMiliseconds(time:string): number {
         if (time.length > 2)
