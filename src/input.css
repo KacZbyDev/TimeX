@@ -10,6 +10,13 @@
         /* background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); */
         -webkit-mask: radial-gradient(transparent 60%, #000 0);
         -webkit-mask-mode: alpha;
-        
+    }
+
+    .sub-timer {
+        @apply relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center;
+    }
+
+    .repeater {
+        @apply m-1 border-l-8 border-b-[16px] border-t-2 border-orange-secondary rounded-xl;
     }
 }

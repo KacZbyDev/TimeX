@@ -1,19 +1,15 @@
 import {Utils} from './utils.js'
 
 export class Subtimer {
-    public static Count:number = 0
-    public readonly ID:number
-
     public element:Element
+    public time:Element
+
     public name:string
     public readonly miliseconds:number
 
     constructor(element:Element) {
-        this.ID = Subtimer.Count
-        Subtimer.Count++
-
         this.element = element
-        
+        this.time = element.firstElementChild!
         this.name = element!.firstElementChild!.textContent!
         this.miliseconds = Utils.timeToMiliseconds(element!.lastElementChild!.textContent!)
     }

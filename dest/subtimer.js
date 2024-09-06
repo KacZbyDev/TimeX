@@ -1,12 +1,10 @@
 import { Utils } from './utils.js';
 export class Subtimer {
     constructor(element) {
-        this.ID = Subtimer.Count;
-        Subtimer.Count++;
         this.element = element;
+        this.time = element.firstElementChild;
         this.name = element.firstElementChild.textContent;
         this.miliseconds = Utils.timeToMiliseconds(element.lastElementChild.textContent);
     }
 }
-Subtimer.Count = 0;
 //# sourceMappingURL=subtimer.js.map

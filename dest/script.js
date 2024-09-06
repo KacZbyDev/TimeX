@@ -23,7 +23,7 @@ function updateTime() {
     let percent = miliseconds / currentSubtimer.miliseconds * 100;
     progress_bar.style.setProperty('--value', percent + '');
     bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds);
-    currentSubtimer.element.firstElementChild.textContent = Utils.milisecondsToTime(miliseconds);
+    currentSubtimer.time.textContent = Utils.milisecondsToTime(miliseconds);
     miliseconds -= refreshDelay;
     if (miliseconds < 0) {
         clearInterval(timerRefresher);
@@ -35,16 +35,16 @@ function subtimerFinished() {
     Utils.playSubtimerFinish();
     currentElement = currentElement.nextElementSibling;
     if (currentElement != null) {
-        if (currentElement.className.includes('repeat')) {
+        if (currentElement.className.includes('repeater')) {
             list = currentElement;
             currentElement = list.children[1];
         }
-        currentSubtimer.element.firstElementChild.textContent = 'finished';
+        currentSubtimer.time.textContent = 'finished';
         currentSubtimer = new Subtimer(currentElement);
         miliseconds = currentSubtimer.miliseconds;
         return;
     }
-    if (list.className.includes('repeat')) {
+    if (list.className.includes('repeater')) {
         let firstChild = list.firstElementChild;
         firstChild.firstElementChild.textContent = "" + (parseInt(firstChild.firstElementChild.textContent) + 1);
         if (parseInt(firstChild.firstElementChild.textContent) >= parseInt(firstChild.lastElementChild.textContent)) {
@@ -52,7 +52,7 @@ function subtimerFinished() {
             list = list.parentElement;
         }
         else
-            currentElement = list.children[0];
+            currentElement = list.firstElementChild;
         subtimerFinished();
     }
 }
