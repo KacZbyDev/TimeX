@@ -559,7 +559,7 @@ video {
   background: conic-gradient(#2C599D calc(var(--value) * 1%), #193A6F 0);
   /* background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); */
   -webkit-mask: radial-gradient(transparent 60%, #000 0);
-  -webkit-mask-mode: alpha;
+  -webkit-mask-mode: alpha
 }
 
 .sub-timer {

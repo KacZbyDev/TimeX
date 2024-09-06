@@ -28,15 +28,15 @@ function updateTime() {
     if (miliseconds < 0) {
         clearInterval(timerRefresher);
         bigTimerDisplay.textContent = "DONE";
-        currentSubtimer.element.firstElementChild.textContent = 'finished';
+        currentSubtimer.time.textContent = 'finished';
     }
 }
 function subtimerFinished() {
-    Utils.playSubtimerFinish();
     currentElement = currentElement.nextElementSibling;
-    if (currentElement != null) {
+    if (currentElement) {
         if (currentElement.className.includes('repeater')) {
             list = currentElement;
+            findFirstSubTimer(list);
             currentElement = list.children[1];
         }
         currentSubtimer.time.textContent = 'finished';
@@ -44,16 +44,47 @@ function subtimerFinished() {
         miliseconds = currentSubtimer.miliseconds;
         return;
     }
-    if (list.className.includes('repeater')) {
-        let firstChild = list.firstElementChild;
-        firstChild.firstElementChild.textContent = "" + (parseInt(firstChild.firstElementChild.textContent) + 1);
-        if (parseInt(firstChild.firstElementChild.textContent) >= parseInt(firstChild.lastElementChild.textContent)) {
-            currentElement = list;
-            list = list.parentElement;
-        }
-        else
-            currentElement = list.firstElementChild;
-        subtimerFinished();
+    if (list.className.includes('repeater'))
+        repeaterReachEnd();
+}
+function repeaterReachEnd() {
+    let repeatValues = list.firstElementChild;
+    let currentRepeats = parseInt(repeatValues.firstElementChild.textContent) + 1;
+    let totalRepeats = parseInt(repeatValues.lastElementChild.textContent);
+    repeatValues.firstElementChild.textContent = currentRepeats + "";
+    if (currentRepeats >= totalRepeats) {
+        if (currentRepeats > totalRepeats)
+            clearInterval(timerRefresher);
+        currentElement = list;
+        list = list.parentElement;
     }
+    else {
+        currentElement = list.firstElementChild;
+        resetChildren(list);
+    }
+    subtimerFinished();
+}
+function resetChildren(repeater) {
+    for (let i = 1; i < repeater.children.length; i++) {
+        let child = repeater.children[i];
+        if (child.className.includes("sub-timer"))
+            child.firstElementChild.textContent = child.lastElementChild.textContent;
+        else {
+            child.firstElementChild.firstElementChild.textContent = "0";
+            resetChildren(child);
+        }
+    }
+}
+function findFirstSubTimer(repeater) {
+    for (let i = 0; i < repeater.children.length; i++) {
+        let child = repeater.children[i];
+        if (child.className.includes("sub-timer")) {
+            list = child.parentElement;
+            return true;
+        }
+        if (findFirstSubTimer(child))
+            return true;
+    }
+    return false;
 }
 //# sourceMappingURL=script.js.map

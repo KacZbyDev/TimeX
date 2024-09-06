@@ -38,21 +38,28 @@ function updateTime(): void {
     if(miliseconds < 0) {
         clearInterval(timerRefresher)
         bigTimerDisplay.textContent = "DONE"
-    currentSubtimer.element.firstElementChild!.textContent = 'finished'
-
+        currentSubtimer.time.textContent = 'finished'
     }
 }
 
 function subtimerFinished(): void {
-    Utils.playSubtimerFinish()
-    
+    // Utils.playSubtimerFinish()
+    // console.log("a fost")
+    // console.log(currentElement)
+
     currentElement = currentElement!.nextElementSibling
-    
-    if (currentElement != null) {
+    // console.log("este")
+    // console.log(currentElement)
+
+    // console.log("")
+
+
+    if (currentElement) {
         if (currentElement.className.includes('repeater')) {
-            //TODO reset children
-            //TODO iterate until you find subtimer 
             list = currentElement
+
+            findFirstSubTimer(list)
+
             currentElement = list.children[1]
         }
 
@@ -63,20 +70,54 @@ function subtimerFinished(): void {
         return
     }
 
-    if (list.className.includes('repeater')) {
-        let firstChild = list.firstElementChild!
+    if (list.className.includes('repeater'))
+        repeaterReachEnd()
+}
 
+function repeaterReachEnd():void {
+    let repeatValues = list.firstElementChild!
+    let currentRepeats = parseInt(repeatValues.firstElementChild!.textContent!) + 1
+    let totalRepeats = parseInt(repeatValues.lastElementChild!.textContent!)
+    
+    repeatValues.firstElementChild!.textContent = currentRepeats + ""
+    
+    if (currentRepeats >= totalRepeats) {//repeater is done
+        if(currentRepeats > totalRepeats)
+            clearInterval(timerRefresher)
+        currentElement = list
 
-
-        firstChild.firstElementChild!.textContent = "" + (parseInt(firstChild.firstElementChild!.textContent!) + 1)
-
-        if (parseInt(firstChild.firstElementChild!.textContent!) >= parseInt(firstChild.lastElementChild!.textContent!)) {
-            currentElement = list
-            list = list.parentElement!
-        }
-        else 
-            currentElement = list.firstElementChild
-
-        subtimerFinished()
+        list = list.parentElement!
+    } else {
+        currentElement = list.firstElementChild
+        resetChildren(list)
     }
+    subtimerFinished()
+}
+
+function resetChildren(repeater:Element): void {
+    for (let i:number = 1; i < repeater.children.length; i++) {
+        let child = repeater.children[i]
+
+        if(child.className.includes("sub-timer"))
+            child.firstElementChild!.textContent = child.lastElementChild!.textContent //TODO doesnt work because subtimerFinished() is called afterwards
+        else {
+            child.firstElementChild!.firstElementChild!.textContent = "0"
+            resetChildren(child)
+        }
+    }
+}
+
+function findFirstSubTimer(repeater:Element): boolean {
+    for (let i:number = 0; i < repeater.children.length; i++) {
+        let child = repeater.children[i]
+
+        if(child.className.includes("sub-timer")) {
+            list = child.parentElement!
+            return true
+        }
+        
+        if(findFirstSubTimer(child))
+            return true
+    }
+    return false
 }
