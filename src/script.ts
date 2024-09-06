@@ -2,6 +2,7 @@ import { Subtimer } from './subtimer.js'
 import { Utils } from './utils.js'
 
 const refreshDelay: number = 100;
+let miliseconds: number;
 
 let timerRefresher: NodeJS.Timeout
 let bigTimerDisplay: HTMLElement
@@ -9,10 +10,7 @@ let progress_bar: HTMLElement
 let list: Element
 let currentElement:Element | null
 
-let firstSubtimer: Subtimer
 let currentSubtimer: Subtimer
-
-let miliseconds: number;
 
 window.addEventListener('load', () => {
     bigTimerDisplay = document.getElementById('big-timer-time')!
@@ -20,47 +18,39 @@ window.addEventListener('load', () => {
     list = document.getElementById('list-content')!
     currentElement = list.firstElementChild!
 
-    loadFirstSubtimer()
+    currentSubtimer = new Subtimer(currentElement!)
+    miliseconds = currentSubtimer.miliseconds
 
     timerRefresher = setInterval(updateTime, refreshDelay)
 });
 
-function loadFirstSubtimer(): void {
-    firstSubtimer = new Subtimer(currentElement!)
-    currentSubtimer = firstSubtimer
-    miliseconds = currentSubtimer.miliseconds
-}
-
 function updateTime(): void {
-    let percent = 100 - miliseconds / currentSubtimer.miliseconds * 100
-    progress_bar.style.setProperty('--value', percent + '')
-
-    miliseconds -= refreshDelay
-
-    if (miliseconds >= 0) {
-        currentSubtimer.element!.firstElementChild!.textContent = Utils.milisecondsToTime(miliseconds)
-        bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds)
-    }
-    else
+    if (miliseconds <= 0)
         subtimerFinished()
-}
+    
+    let percent = miliseconds / currentSubtimer.miliseconds * 100
+    progress_bar.style.setProperty('--value', percent + '')
+    bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds)
 
+    currentSubtimer.element!.firstElementChild!.textContent = Utils.milisecondsToTime(miliseconds)
+    
+    miliseconds -= refreshDelay
+}
 
 function subtimerFinished(): void {
-    // Utils.playSubtimerFinish()
-    currentSubtimer.element!.firstElementChild!.textContent = 'finished'
-
-    //maybe make a repeater class
+    Utils.playSubtimerFinish()
+    
     currentElement = currentElement!.nextElementSibling
-    console.log(currentElement)
-
+    
     if (currentElement != null) {
         if (currentElement.className.includes('repeat')) {
             list = currentElement
-
+            
             currentElement = list.children[1]
         }
-        
+    
+        currentSubtimer.element!.firstElementChild!.textContent = 'finished'
+
         currentSubtimer = new Subtimer(currentElement)
         miliseconds = currentSubtimer.miliseconds
         return
@@ -68,8 +58,6 @@ function subtimerFinished(): void {
 
     if (list.className.includes('repeat')) {
         let firstChild = list.firstElementChild!
-        console.log("this - ")
-        console.log(firstChild)
 
         firstChild.firstElementChild!.textContent = "" + (parseInt(firstChild.firstElementChild!.textContent!) + 1)
 
@@ -80,10 +68,10 @@ function subtimerFinished(): void {
         else 
             currentElement = list.children[0]
 
+        subtimerFinished()
         return
     }
 
-    console.log("gata fra")
     bigTimerDisplay!.textContent = 'done'
     clearInterval(timerRefresher)
 }
