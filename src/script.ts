@@ -33,8 +33,14 @@ function updateTime(): void {
     bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds)
 
     currentSubtimer.element!.firstElementChild!.textContent = Utils.milisecondsToTime(miliseconds)
-    
     miliseconds -= refreshDelay
+    
+    if(miliseconds < 0) {
+        clearInterval(timerRefresher)
+        bigTimerDisplay.textContent = "DONE"
+    currentSubtimer.element!.firstElementChild!.textContent = 'finished'
+
+    }
 }
 
 function subtimerFinished(): void {
@@ -45,13 +51,12 @@ function subtimerFinished(): void {
     if (currentElement != null) {
         if (currentElement.className.includes('repeat')) {
             list = currentElement
-            
             currentElement = list.children[1]
         }
-    
-        currentSubtimer.element!.firstElementChild!.textContent = 'finished'
 
+        currentSubtimer.element!.firstElementChild!.textContent = 'finished'
         currentSubtimer = new Subtimer(currentElement)
+
         miliseconds = currentSubtimer.miliseconds
         return
     }
@@ -69,9 +74,5 @@ function subtimerFinished(): void {
             currentElement = list.children[0]
 
         subtimerFinished()
-        return
     }
-
-    bigTimerDisplay!.textContent = 'done'
-    clearInterval(timerRefresher)
 }

@@ -25,6 +25,11 @@ function updateTime() {
     bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds);
     currentSubtimer.element.firstElementChild.textContent = Utils.milisecondsToTime(miliseconds);
     miliseconds -= refreshDelay;
+    if (miliseconds < 0) {
+        clearInterval(timerRefresher);
+        bigTimerDisplay.textContent = "DONE";
+        currentSubtimer.element.firstElementChild.textContent = 'finished';
+    }
 }
 function subtimerFinished() {
     Utils.playSubtimerFinish();
@@ -49,9 +54,6 @@ function subtimerFinished() {
         else
             currentElement = list.children[0];
         subtimerFinished();
-        return;
     }
-    bigTimerDisplay.textContent = 'done';
-    clearInterval(timerRefresher);
 }
 //# sourceMappingURL=script.js.map
