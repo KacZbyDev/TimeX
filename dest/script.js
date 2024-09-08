@@ -1,6 +1,6 @@
 import { Subtimer } from './subtimer.js';
 import { Utils } from './utils.js';
-const refreshDelay = 100;
+const refreshDelay = 10;
 let miliseconds;
 let timerRefresher;
 let bigTimerDisplay;

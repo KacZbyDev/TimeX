@@ -1,0 +1,31 @@
+export class Repeater {
+
+    static resetChildren(repeater:Element): void {
+    for (let i:number = 1; i < repeater.children.length; i++) {
+        let child = repeater.children[i]
+
+        if(child.className.includes("sub-timer"))
+            child.firstElementChild!.textContent = child.lastElementChild!.textContent //TODO doesnt work for the last element maybe because subtimerFinished() is called afterwards 
+        else {
+            child.firstElementChild!.firstElementChild!.textContent = "0"
+            this.resetChildren(child)
+        }
+    }
+}
+
+static setListToFirstSubtimerParent(list:Element): boolean {
+    for (let i:number = 0; i < list.children.length; i++) {
+        let child = list.children[i]
+
+        if(child.className.includes("sub-timer")) {
+            list = child.parentElement!
+            return true
+        }
+        
+        if(this.setListToFirstSubtimerParent(child))
+            return true
+    }
+
+    return false
+}
+}

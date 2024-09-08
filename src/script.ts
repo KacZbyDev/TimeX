@@ -1,7 +1,8 @@
 import { Subtimer } from './subtimer.js'
 import { Utils } from './utils.js'
+import { Repeater } from './repeater.js'
 
-const refreshDelay: number = 100;
+const refreshDelay: number = 10;
 let miliseconds: number;
 
 let timerRefresher: NodeJS.Timeout
@@ -43,22 +44,13 @@ function updateTime(): void {
 }
 
 function subtimerFinished(): void {
-    // Utils.playSubtimerFinish()
-    // console.log("a fost")
-    // console.log(currentElement)
-
     currentElement = currentElement!.nextElementSibling
-    // console.log("este")
-    // console.log(currentElement)
-
-    // console.log("")
-
 
     if (currentElement) {
         if (currentElement.className.includes('repeater')) {
             list = currentElement
 
-            findFirstSubTimer(list)
+            Repeater.setListToFirstSubtimerParent(list)
 
             currentElement = list.children[1]
         }
@@ -89,35 +81,8 @@ function repeaterReachEnd():void {
         list = list.parentElement!
     } else {
         currentElement = list.firstElementChild
-        resetChildren(list)
+        Repeater.resetChildren(list)
     }
     subtimerFinished()
 }
 
-function resetChildren(repeater:Element): void {
-    for (let i:number = 1; i < repeater.children.length; i++) {
-        let child = repeater.children[i]
-
-        if(child.className.includes("sub-timer"))
-            child.firstElementChild!.textContent = child.lastElementChild!.textContent //TODO doesnt work because subtimerFinished() is called afterwards
-        else {
-            child.firstElementChild!.firstElementChild!.textContent = "0"
-            resetChildren(child)
-        }
-    }
-}
-
-function findFirstSubTimer(repeater:Element): boolean {
-    for (let i:number = 0; i < repeater.children.length; i++) {
-        let child = repeater.children[i]
-
-        if(child.className.includes("sub-timer")) {
-            list = child.parentElement!
-            return true
-        }
-        
-        if(findFirstSubTimer(child))
-            return true
-    }
-    return false
-}
