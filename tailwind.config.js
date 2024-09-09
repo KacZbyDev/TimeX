@@ -2,11 +2,7 @@
 module.exports = {
   content: ['./html/*.html'],
   theme: {
-    //Do we put the colors here so they are the only ones we use?
-
     extend: {
-
-      
       boxShadow: {
         'custom-amber': '0px 0px 12px 2px'
       },

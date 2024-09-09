@@ -32,18 +32,23 @@
             <div id="list-header" class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b">*TIMER NAME*</div>
             <div id="list-content" class="overflow-x-hidden">
                 <!-- subtimer Model, Can't be deleted -->
-                <div class="sub-timer 1">
+                <div class="sub-timer">
                     <p class="w-full text-center">squat</p>
                     <p class="absolute right-4">2</p>
                 </div>
 
-                <div class="repeater 1">
+                <div class="repeater">
                     <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
                         <p class="w-full text-center">0</p>
                         <p class="absolute right-4">2</p>
                     </div>
                     
-                    <div class="repeater 2">
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">2</p>
+                    </div>
+
+                    <div class="repeater">
                         <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
                             <p class="w-full text-center">0</p>
                             <p class="absolute right-4">2</p>
@@ -53,7 +58,7 @@
                             <p class="w-full text-center">jump</p>
                             <p class="absolute right-4">2</p>
                         </div>
-                        <div class="sub-timer 2">
+                        <div class="sub-timer">
                             <p class="w-full text-center">jump</p>
                             <p class="absolute right-4">2</p>
                         </div>
@@ -82,10 +87,14 @@
                 
             </div>
             <!--TODO Fix buttons growing weird-->
-            <div id="list-footer" class="flex justify-between pt-2 p-2">
-                <button class="size-10 bg-orange-secondary rounded-xl text-center pb-1 text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:size-12 transition-all duration-500">Tbd</button>
+            <div id="list-footer" class="flex justify-between pt-2 ">
+                <div class="group p-3 hover:pl-2 hover:pt-2 transition-all duration-500">
+                    <button class="size-10 bg-orange-secondary rounded-xl text-center pb-1 text-white group-hover:shadow-custom-amber group-hover:shadow-amber-600 group-hover:size-12 transition-all duration-500">Tbd</button>
+                </div>
                 <!--TODO Center the "+"-->
-                <button class="size-10 bg-blue-secondary rounded-xl text-center pb-1 text-white font-bold text-4xl flex justify-center items-center hover:shadow-custom-amber hover:shadow-blue-600 hover:size-12 transition-all duration-500">+</button>
+                <div class="group p-3 hover:pr-2 hover:pt-2 transition-all duration-500">
+                    <button class="size-10  bg-blue-secondary rounded-xl text-center pb-1 text-white font-bold text-4xl flex justify-center items-center group-hover:shadow-custom-amber group-hover:shadow-blue-600 group-hover:size-12 transition-all duration-500">+</button>
+                </div>
             </div>
     </ol>
          
