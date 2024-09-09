@@ -2,13 +2,13 @@ import { Subtimer } from './subtimer.js'
 import { Utils } from './utils.js'
 import { Repeater } from './repeater.js'
 
-const refreshDelay: number = 10;
+const refreshDelay: number = 10;//how many miliseconds it takes for the time to update
 let miliseconds: number;
 
 let timerRefresher: NodeJS.Timeout
 let bigTimerDisplay: HTMLElement
 let progress_bar: HTMLElement
-let list: Element
+let list: Element//the main interval-list is a list but also repeaters
 let currentElement:Element | null
 
 let currentSubtimer: Subtimer
@@ -19,9 +19,13 @@ window.addEventListener('load', () => {
     list = document.getElementById('list-content')!
     currentElement = list.firstElementChild!
 
+    //create a subtimer object by passing the currentElement
     currentSubtimer = new Subtimer(currentElement!)
+
+    //the time displayed by bigTimer
     miliseconds = currentSubtimer.miliseconds
 
+    //called to refresh the timer and calculate the time passed
     timerRefresher = setInterval(updateTime, refreshDelay)
 });
 
@@ -29,13 +33,16 @@ function updateTime(): void {
     if (miliseconds <= 0)
         subtimerFinished()
     
+    //update bigTimer
     let percent = miliseconds / currentSubtimer.miliseconds * 100
     progress_bar.style.setProperty('--value', percent + '')
     bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds)
 
+    //updates the subtimer - the list element
     currentSubtimer.time.textContent = Utils.milisecondsToTime(miliseconds)
     miliseconds -= refreshDelay
     
+    //stops everything
     if(miliseconds < 0) {
         clearInterval(timerRefresher)
         bigTimerDisplay.textContent = "DONE"
@@ -44,14 +51,17 @@ function updateTime(): void {
 }
 
 function subtimerFinished(): void {
+    //iterates throught the next element in the list
     currentElement = currentElement!.nextElementSibling
 
+    //if element was found (it s not found when there are no more siblings in the repeater, or main list)
     if (currentElement) {
         if (currentElement.className.includes('repeater')) {
             list = currentElement
 
             Repeater.setListToFirstSubtimerParent(list)
 
+            //starts with the second children fromt the repeater because the first one is for the repeater to look nice
             currentElement = list.children[1]
         }
 
@@ -62,19 +72,22 @@ function subtimerFinished(): void {
         return
     }
 
+    //if there we re no more siblings in the list
     if (list.className.includes('repeater'))
         repeaterReachEnd()
 }
 
 function repeaterReachEnd():void {
+    //gets the values stored in the repeaters
     let repeatValues = list.firstElementChild!
     let currentRepeats = parseInt(repeatValues.firstElementChild!.textContent!) + 1
     let totalRepeats = parseInt(repeatValues.lastElementChild!.textContent!)
     
     repeatValues.firstElementChild!.textContent = currentRepeats + ""
     
-    if (currentRepeats >= totalRepeats) {//repeater is done
-        if(currentRepeats > totalRepeats)
+    //if repeater repeated enough times
+    if (currentRepeats >= totalRepeats) {
+        if(currentRepeats > totalRepeats)//maybe we dont need this
             clearInterval(timerRefresher)
         currentElement = list
 
@@ -83,6 +96,7 @@ function repeaterReachEnd():void {
         currentElement = list.firstElementChild
         Repeater.resetChildren(list)
     }
+
     subtimerFinished()
 }
 

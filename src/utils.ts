@@ -7,6 +7,7 @@ export class Utils {
         this.subtimerFinish.play()
     }
 
+    //takes a string of format: 12:34:56 and transforms it into miliseconds
     static timeToMiliseconds(time:string): number {
         if (time.length > 2)
             return this.timeToMiliseconds(time.substring(time.length - 2, time.length)) +
@@ -15,6 +16,7 @@ export class Utils {
         return parseInt(time) * 1000
     }
 
+    //does the opposite of timeToMiliseconds
     static milisecondsToTime(miliseconds:number):string {
         let seconds:number = (miliseconds / 1000)
         let minutes:number = Math.floor(seconds / 60)

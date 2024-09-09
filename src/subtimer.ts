@@ -7,6 +7,7 @@ export class Subtimer {
     public name:string
     public readonly miliseconds:number
 
+    //get the time and name from the variables stored in the html
     constructor(element:Element) {
         this.element = element
         this.time = element.firstElementChild!
