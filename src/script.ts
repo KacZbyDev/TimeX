@@ -3,8 +3,10 @@ import { Utils } from './utils.js'
 import { Repeater } from './repeater.js'
 
 const refreshDelay: number = 10;//how many miliseconds it takes for the time to update
-let miliseconds: number;
+let currentMiliseconds: number;
+var startTime:number
 
+let timerRefresherStopped:boolean = false
 let timerRefresher: NodeJS.Timeout
 let bigTimerDisplay: HTMLElement
 let progress_bar: HTMLElement
@@ -21,40 +23,45 @@ window.addEventListener('load', () => {
 
     //create a subtimer object by passing the currentElement
     currentSubtimer = new Subtimer(currentElement!)
-
+    
     //the time displayed by bigTimer
-    miliseconds = currentSubtimer.miliseconds
+    currentMiliseconds = currentSubtimer.miliseconds
+    
+    //the time before the timer updated
+    startTime = Date.now()
 
     //called to refresh the timer and calculate the time passed
     timerRefresher = setInterval(updateTime, refreshDelay)
 });
 
 function updateTime(): void {
-    if (miliseconds <= 0)
+    if (currentMiliseconds <= 0)
         subtimerFinished()
-    
+
+    if(timerRefresherStopped)
+        return;
+
     //update bigTimer
-    let percent = miliseconds / currentSubtimer.miliseconds * 100
+    let percent = currentMiliseconds / currentSubtimer.miliseconds * 100
     progress_bar.style.setProperty('--value', percent + '')
-    bigTimerDisplay.textContent = Utils.milisecondsToTime(miliseconds)
+    bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds)
+
 
     //updates the subtimer - the list element
-    currentSubtimer.time.textContent = Utils.milisecondsToTime(miliseconds)
-    miliseconds -= refreshDelay
-    
-    //stops everything
-    if(miliseconds < 0) {
-        clearInterval(timerRefresher)
-        bigTimerDisplay.textContent = "DONE"
-        currentSubtimer.time.textContent = 'finished'
-    }
+    currentSubtimer.time.textContent = Utils.milisecondsToTime(currentMiliseconds)
+
+    //the time elapsed after the last call
+    currentMiliseconds -= Date.now() - startTime
+    startTime = Date.now()
 }
 
 function subtimerFinished(): void {
+    Utils.playSubtimerFinish()
+
     //iterates throught the next element in the list
     currentElement = currentElement!.nextElementSibling
 
-    //if element was found (it s not found when there are no more siblings in the repeater, or main list)
+    //if the element had more siblings in the repeater, or main list
     if (currentElement) {
         if (currentElement.className.includes('repeater')) {
             list = currentElement
@@ -67,14 +74,21 @@ function subtimerFinished(): void {
 
         currentSubtimer.time.textContent = 'finished'
         currentSubtimer = new Subtimer(currentElement)
+        startTime = Date.now()
 
-        miliseconds = currentSubtimer.miliseconds
+        currentMiliseconds = currentSubtimer.miliseconds
         return
     }
 
-    //if there we re no more siblings in the list
     if (list.className.includes('repeater'))
         repeaterReachEnd()
+    else {
+        timerRefresherStopped = true
+        clearInterval(timerRefresher)
+        bigTimerDisplay.textContent = "DONE"
+        currentSubtimer.time.textContent = 'finished'
+        progress_bar.style.setProperty('--value', '0')
+    }
 }
 
 function repeaterReachEnd():void {

@@ -1,8 +1,8 @@
 export class Utils {
     private static readonly decimals:number = 1
     private static readonly subtimerFinish:HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
-    
 
+    //TODO make it overlap and change the sound
     static playSubtimerFinish():void{
         this.subtimerFinish.play()
     }

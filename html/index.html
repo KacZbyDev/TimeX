@@ -38,7 +38,7 @@
         </div>
     </div>
     
-<div id="navbar" class="flex items-center p-4 bg-gradient-to-r from-white via-gray-100 to-white shadow-lg h-16">
+<div id="navbar" class="flex items-center p-4 border-b-8 border-b-gray-900 bg-gradient-to-r from-white via-gray-100 to-white  h-16">
     <button class="inline-flex items-center border border-cyan-500 px-3 py-1.5 rounded-md text-cyan-600 hover:bg-cyan-50">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18">
@@ -47,14 +47,15 @@
         <span class="ml-1 font-bold text-lg">Back</span>
     </button>
     <div class="flex justify-center items-center space-x-4 w-full text-5xl  group">
-        <div id="Tim" class="text-blue-primary font-extrabold tracking-wide group-hover:text-orange-secondary transition duration-300">MANU</div>
-        <div id="Tix" class="text-orange-primary font-extrabold tracking-wide group-hover:text-blue-secondary transition duration-300 ">HUB</div>
+        <div id="Tim" class="text-blue-primary font-extrabold tracking-wide group-hover:text-orange-secondary transition duration-300">TIME</div>
+        <div id="Tix" class="text-orange-primary font-extrabold tracking-wide group-hover:text-blue-secondary transition duration-300 ">TIX</div>
     </div>
 
     <img src="../res/img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
 </div>
 
 <div id="user-interface-wrapper" class="h-full flex justify-between ">
+    <!-- TODO fix timer being centered to the center of the list, if few elements timer go up :( -->
     <!--TODO maybe make this panel more visible, like adding a top border and a white bg -->
     <ol id="list-of-intervals" class="flex-none rounded-r-3xl z-20 w-1/4 border-r-gray-300 border-r-[1px] border-b-[1px]">
             <div id="list-header" class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b">*TIMER NAME*</div>
@@ -62,7 +63,7 @@
                 <!-- subtimer Model, Can't be deleted -->
                 <div class="sub-timer">
                     <p class="w-full text-center">squat</p>
-                    <p class="absolute right-4">2</p>
+                    <p class="absolute right-4">1</p>
                 </div>
 
                 <div class="repeater">
@@ -73,51 +74,13 @@
                     
                     <div class="sub-timer">
                         <p class="w-full text-center">jump</p>
-                        <p class="absolute right-4">2</p>
-                    </div>
-
-                    <div class="repeater">
-                        <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
-                            <p class="w-full text-center">0</p>
-                            <p class="absolute right-4">2</p>
-                        </div>
-                        
-                        <div class="sub-timer">
-                            <p class="w-full text-center">jump</p>
-                            <p class="absolute right-4">2</p>
-                        </div>
-                        <div class="sub-timer">
-                            <p class="w-full text-center">jump</p>
-                            <p class="absolute right-4">2</p>
-                        </div>
-                    </div>
-
-                    <div class="repeater">
-                        <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
-                            <p class="w-full text-center">0</p>
-                            <p class="absolute right-4">2</p>
-                        </div>
-                        
-                        <div class="sub-timer">
-                            <p class="w-full text-center">jump</p>
-                            <p class="absolute right-4">2</p>
-                        </div>
-                        <div class="sub-timer">
-                            <p class="w-full text-center">pause</p>
-                            <p class="absolute right-4">2</p>
-                        </div>
-                    </div>
-                    <div class="sub-timer">
-                        <p class="w-full text-center">pause</p>
-                        <p class="absolute right-4">2</p>
+                        <p class="absolute right-4">1</p>
                     </div>
                 </div>
                 
             </div>
-            <!--TODO Fix buttons growing weird-->
             <div id="list-footer" class="flex justify-between pt-2 p-4">
                 <button class="size-10 bg-orange-secondary rounded-xl text-center text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Tbd</button>
-
                 <button id="add-button" class="size-10 bg-blue-secondary rounded-xl text-center text-white font-bold text-4xl flex justify-center items-center pb-1 hover:shadow-custom-amber hover:shadow-blue-600 hover:scale-125 transition-all duration-500">+</button>
             </div>
     </ol>
