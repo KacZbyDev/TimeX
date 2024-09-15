@@ -8,7 +8,7 @@ export class Utils {
     }
 
     //takes a string of format: 12:34:56 and transforms it into miliseconds
-    static timeToMiliseconds(time:string): number {
+    static timeToMiliseconds(time:string):number {
         if (time.length > 2)
             return this.timeToMiliseconds(time.substring(time.length - 2, time.length)) +
                 this.timeToMiliseconds(time.substring(0, time.length - 3)) * 60
@@ -36,5 +36,9 @@ export class Utils {
                 res += '0'
         }
         return res + seconds.toFixed(this.decimals) 
+    }
+
+    static timeToCorrectTime(time:string):string {
+        return this.milisecondsToTime(this.timeToMiliseconds(time))
     }
 }
