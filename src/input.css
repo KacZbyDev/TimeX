@@ -12,8 +12,12 @@
         -webkit-mask-mode: alpha
     }
 
-    .sub-timer {
+    .subtimer {
         @apply relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center
+    }
+
+    .subtimer-active {
+        @apply relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center bg-green-400 
     }
 
     .repeater {

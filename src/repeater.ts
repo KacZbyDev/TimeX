@@ -5,11 +5,10 @@ export class Repeater {
     for (let i:number = 1; i < repeater.children.length; i++) {
         let child = repeater.children[i]
 
-        if(child.className.includes("sub-timer"))
-            //TODO reset stuff
-            continue;
+        if(child.className.includes('subtimer'))
+            child.className = 'subtimer'
         else {
-            child.firstElementChild!.firstElementChild!.textContent = "0"
+            child.firstElementChild!.firstElementChild!.textContent = '0'
             this.resetChildren(child)
         }
     }
@@ -20,7 +19,7 @@ export class Repeater {
         for (let i:number = 0; i < list.children.length; i++) {
             let child = list.children[i]
 
-            if(child.className.includes("sub-timer")) {
+            if(child.className.includes('subtimer')) {
                 list = child.parentElement!
                 return true
             }

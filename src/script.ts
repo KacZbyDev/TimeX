@@ -10,7 +10,7 @@ let timerRefresherStopped:boolean = false
 let timerRefresher: NodeJS.Timeout
 let bigTimerDisplay: HTMLElement
 let progress_bar: HTMLElement
-let list: Element//the main interval-list is a list but also repeaters
+let list: Element//the main subtimer-list is a list but also repeaters
 let currentElement:Element | null
 
 let currentSubtimer: Subtimer
@@ -23,7 +23,8 @@ window.addEventListener('load', () => {
 
     //create a subtimer object by passing the currentElement
     currentSubtimer = new Subtimer(currentElement!)
-    
+    currentSubtimer.element.className += ' bg-green-400'    
+
     //the time displayed by bigTimer
     currentMiliseconds = currentSubtimer.duration
     
@@ -48,8 +49,9 @@ function updateTime(): void {
 
     //updates the subtimer / the list element
 
-    //TODO improve timer updater with actual updates
-    currentSubtimer.element.className += ' bg-green-400'
+    //TODO ADD timer updater with actual updates
+    currentSubtimer.element.className = 'subtimer-active'    
+    console.log(currentSubtimer)
 
     //the time elapsed after the last call
     currentMiliseconds -= Date.now() - startTime
@@ -73,8 +75,8 @@ function subtimerFinished(): void {
             currentElement = list.children[1]
         }
 
-        //TODO reset timer appeareance finish
-        currentSubtimer.element.className = 'sub-timer'
+        //Reset timer appearance
+        currentSubtimer.element.className = 'subtimer'
         currentSubtimer = new Subtimer(currentElement)
 
         startTime = Date.now()
@@ -87,8 +89,9 @@ function subtimerFinished(): void {
     else {
         timerRefresherStopped = true
         clearInterval(timerRefresher)
-        bigTimerDisplay.textContent = "DONE"
-        //replace timer visual finish
+
+        bigTimerDisplay.textContent = 'DONE'
+        currentSubtimer.element.className = 'subtimer'
         progress_bar.style.setProperty('--value', '0')
     }
 }
@@ -99,7 +102,7 @@ function repeaterReachEnd():void {
     let currentRepeats = parseInt(repeatValues.firstElementChild!.textContent!) + 1
     let totalRepeats = parseInt(repeatValues.lastElementChild!.textContent!)
     
-    repeatValues.firstElementChild!.textContent = currentRepeats + ""
+    repeatValues.firstElementChild!.textContent = currentRepeats + ''
     
     //if repeater repeated enough times
     if (currentRepeats >= totalRepeats) {
