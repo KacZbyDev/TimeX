@@ -8,7 +8,7 @@
     <script type="module" src="../dest/script.js"></script>
 </head>
 
-<body class="flex flex-col h-auto">
+<body class="flex flex-col min-h-screen">
 
     <!-- TODO fix shadow -->
     <div id="navbar"
@@ -34,13 +34,13 @@
         <img src="../res/img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
     </div>
 
-    <div id="user-interface-wrapper" class="h-[calc(100dvh-64px)] flex justify-between ">
+    <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
         <ol id="list-of-intervals"
-            class="flex-shrink-0 overflow-y-auto z-20 w-1/4 rounded-r-3xl border-r-gray-300 border-r-[1px] border-b-[1px]">
+            class="flex flex-col w-1/4 rounded-r-3xl border-r border-r-gray-300 border-b h-[calc(100vh-64px)]">
             <div id="list-header"
                 class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b">
                 *TIMER NAME*</div>
-            <div id="list-content" class="overflow-x-hidden">
+            <div id="list-content" class="overflow-y-auto h-fit max-h-full">
                 <div class="sub-timer">
                     <p class="w-full text-center">squat</p>
                     <p class="absolute right-4">1</p>
@@ -57,6 +57,60 @@
                         <p class="absolute right-4">1</p>
                     </div>
                 </div>
+                <div class="repeater">
+                    <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
+                        <p class="w-full text-center">0</p>
+                        <p class="absolute right-4">2</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                </div>
+                <div class="repeater">
+                    <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
+                        <p class="w-full text-center">0</p>
+                        <p class="absolute right-4">2</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                </div>
+                <div class="repeater">
+                    <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
+                        <p class="w-full text-center">0</p>
+                        <p class="absolute right-4">2</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                    <div class="sub-timer">
+                        <p class="w-full text-center">jump</p>
+                        <p class="absolute right-4">1</p>
+                    </div>
+                </div>
 
             </div>
             <div id="list-footer" class="flex justify-between pt-2 p-4">
@@ -67,7 +121,7 @@
             </div>
         </ol>
 
-        <div id="timer-interface-wrapper" class="flex flex-grow flex-col pt-4 items-center">
+        <div id="timer-interface-wrapper" class="flex-grow overflow-y-auto flex flex-col pt-4 items-center">
             <div class="flex-none text-3xl underline-offset-2 underline font-semibold">*Subtimer name*</div>
             <div id="timer" class="flex flex-grow justify-center items-center">
                 <div class="flex justify-center items-center  bg-dark-blue-primary rounded-full size-96">
