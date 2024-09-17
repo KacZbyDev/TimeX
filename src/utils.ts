@@ -2,7 +2,6 @@ export class Utils {
     private static readonly decimals:number = 1
     private static readonly subtimerFinish:HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
 
-    //TODO make it overlap and change the sound
     static playSubtimerFinish():void{
         this.subtimerFinish.play()
     }
@@ -39,6 +38,6 @@ export class Utils {
     }
 
     static timeToCorrectTime(time:string):string {
-        return this.milisecondsToTime(this.timeToMiliseconds(time))
+        return this.milisecondsToTime(this.timeToMiliseconds(time) / 1000)
     }
 }
