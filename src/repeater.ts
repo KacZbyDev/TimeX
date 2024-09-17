@@ -6,7 +6,8 @@ export class Repeater {
         let child = repeater.children[i]
 
         if(child.className.includes("sub-timer"))
-            child.firstElementChild!.textContent = child.lastElementChild!.textContent //TODO doesnt work for the last element maybe because subtimerFinished() is called afterwards 
+            //TODO reset stuff
+            continue;
         else {
             child.firstElementChild!.firstElementChild!.textContent = "0"
             this.resetChildren(child)

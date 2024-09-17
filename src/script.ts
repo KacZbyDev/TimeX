@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
     currentSubtimer = new Subtimer(currentElement!)
     
     //the time displayed by bigTimer
-    currentMiliseconds = currentSubtimer.miliseconds
+    currentMiliseconds = currentSubtimer.duration
     
     //the time before the timer updated
     startTime = Date.now()
@@ -42,13 +42,14 @@ function updateTime(): void {
         return;
 
     //update bigTimer
-    let percent = currentMiliseconds / currentSubtimer.miliseconds * 100
+    let percent = currentMiliseconds / currentSubtimer.duration * 100
     progress_bar.style.setProperty('--value', percent + '')
     bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds)
 
+    //updates the subtimer / the list element
 
-    //updates the subtimer - the list element
-    currentSubtimer.time.textContent = Utils.milisecondsToTime(currentMiliseconds)
+    //TODO improve timer updater with actual updates
+    currentSubtimer.element.className += ' bg-green-400'
 
     //the time elapsed after the last call
     currentMiliseconds -= Date.now() - startTime
@@ -72,11 +73,12 @@ function subtimerFinished(): void {
             currentElement = list.children[1]
         }
 
-        currentSubtimer.time.textContent = 'finished'
+        //TODO reset timer appeareance finish
+        currentSubtimer.element.className = 'sub-timer'
         currentSubtimer = new Subtimer(currentElement)
-        startTime = Date.now()
 
-        currentMiliseconds = currentSubtimer.miliseconds
+        startTime = Date.now()
+        currentMiliseconds = currentSubtimer.duration
         return
     }
 
@@ -86,7 +88,7 @@ function subtimerFinished(): void {
         timerRefresherStopped = true
         clearInterval(timerRefresher)
         bigTimerDisplay.textContent = "DONE"
-        currentSubtimer.time.textContent = 'finished'
+        //replace timer visual finish
         progress_bar.style.setProperty('--value', '0')
     }
 }

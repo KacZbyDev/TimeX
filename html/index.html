@@ -12,7 +12,7 @@
 
     <!-- TODO fix shadow -->
     <div id="navbar"
-        class="flex items-center p-4 border-b-[1px] border-b-gray-300 bg-gradient-to-r from-white via-gray-100 to-white h-16">
+        class="flex items-center shadow-lg p-4 border-b-[1px] border-b-gray-300 bg-gradient-to-r from-white via-gray-100 to-white h-16">
         <button
             class="inline-flex items-center border border-cyan-500 px-3 py-1.5 rounded-md text-cyan-600 hover:bg-cyan-50">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -31,12 +31,13 @@
                 TIX</div>
         </div>
 
-        <img src="../res/img/no-backround-no-text-logo.png" alt="Logo" class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
+        <img src="../res/img/no-backround-no-text-logo.png" alt="Logo"
+            class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
     </div>
 
-    <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
+    <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]"> 
         <ol id="list-of-intervals"
-            class="flex flex-col w-1/4 rounded-r-3xl border-r border-r-gray-300 border-b h-[calc(100vh-64px)]">
+            class="flex flex-col w-1/4 rounded-r-3xl border-r border-r-gray-300 border-b h-[calc(100vh-72px)] shadow-md">
             <div id="list-header"
                 class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b">
                 *TIMER NAME*</div>
@@ -52,24 +53,6 @@
                         <p class="absolute right-4">2</p>
                     </div>
 
-                    <div class="sub-timer">
-                        <p class="w-full text-center">jump</p>
-                        <p class="absolute right-4">1</p>
-                    </div>
-                </div>
-                <div class="repeater">
-                    <div class="relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg">
-                        <p class="w-full text-center">0</p>
-                        <p class="absolute right-4">2</p>
-                    </div>
-                    <div class="sub-timer">
-                        <p class="w-full text-center">jump</p>
-                        <p class="absolute right-4">1</p>
-                    </div>
-                    <div class="sub-timer">
-                        <p class="w-full text-center">jump</p>
-                        <p class="absolute right-4">1</p>
-                    </div>
                     <div class="sub-timer">
                         <p class="w-full text-center">jump</p>
                         <p class="absolute right-4">1</p>
@@ -144,7 +127,7 @@
     <div id="modal" class="absolute h-dvh w-screen hidden">
         <div id="modal-background" class="fixed h-dvh w-screen bg-black opacity-45 z-40"></div>
         <div id="modal-interface"
-            class="pb-2 pl-3 pr-3 fixed h-3/4 w-1/3 bg-white m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50">
+            class="shadow-xl shadow-gray-500 pb-2 pl-3 pr-3 fixed h-3/4 w-1/3 bg-white m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50">
             <div id="modal-header-container"
                 class="h-1/6 flex justify-center items-center space-x-4 font-bold text-2xl">
                 <div class="text-blue-600">ADD</div>
