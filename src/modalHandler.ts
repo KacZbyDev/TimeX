@@ -32,7 +32,7 @@ function hideAndClearModal():void {
 
 function addTimer (name:string, time:string) : void {
     let parentList:HTMLElement = document.getElementById('list-content')!
-    let newElement:Node = document.getElementById('timer-example')!.cloneNode(true)
+    let newElement:Node = document.getElementById('subtimer-example')!.cloneNode(true)
     
     newElement.childNodes[1].textContent = name
 

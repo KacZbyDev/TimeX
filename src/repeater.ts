@@ -5,12 +5,11 @@ export class Repeater {
     for (let i:number = 1; i < repeater.children.length; i++) {
         let child = repeater.children[i]
 
-        if(child.className.includes('subtimer'))
-            child.className = 'subtimer'
-        else {
-            child.firstElementChild!.firstElementChild!.textContent = '0'
+        if(child.className.includes('repeater')) {//
+            child.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent = '0'
             this.resetChildren(child)
-        }
+        } else
+            child.className = 'subtimer'
     }
     }
 

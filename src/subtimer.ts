@@ -9,7 +9,7 @@ export class Subtimer {
     //get the time and name from the variables stored in the html
     constructor(element:Element) {
         this.element = element
-        this.name = element!.firstElementChild!.textContent!
-        this.duration = Utils.timeToMiliseconds(element!.lastElementChild!.textContent!)
+        this.name = (<HTMLElement>element!.querySelector('.name')!).textContent!
+        this.duration = Utils.timeToMiliseconds(element!.querySelector('.duration')!.textContent!)
     }
 }

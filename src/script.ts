@@ -98,18 +98,15 @@ function subtimerFinished(): void {
 
 function repeaterReachEnd():void {
     //gets the values stored in the repeaters
-    let repeatValues = list.firstElementChild!
-    let currentRepeats = parseInt(repeatValues.firstElementChild!.textContent!) + 1
-    let totalRepeats = parseInt(repeatValues.lastElementChild!.textContent!)
+    let repeaterValues = list.querySelector('.repeater-values')!
+    let currentRepeats = parseInt(repeaterValues.querySelector('.current-repeats')!.textContent!) + 1
+    let totalRepeats = parseInt(repeaterValues.querySelector('.total-repeats')!.textContent!)
     
-    repeatValues.firstElementChild!.textContent = currentRepeats + ''
-    
-    //if repeater repeated enough times
-    if (currentRepeats >= totalRepeats) {
-        if(currentRepeats > totalRepeats)//maybe we dont need this
-            clearInterval(timerRefresher)
-        currentElement = list
+    repeaterValues.firstElementChild!.textContent = currentRepeats + ''
 
+    //if repeater repeated enough times
+    if (currentRepeats >= totalRepeats) {  
+        currentElement = list
         list = list.parentElement!
     } else {
         currentElement = list.firstElementChild

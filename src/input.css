@@ -13,13 +13,13 @@
     }
 
     .subtimer {
-        @apply relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center
+        @apply relative m-1 mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center
     }
 
     .subtimer-active {
         background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
 
-        @apply relative mt-2 mb-2 p-1 rounded-full flex bg-gray-100 items-center
+        @apply subtimer
     }
 
     .repeater {

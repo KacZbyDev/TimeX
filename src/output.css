@@ -564,6 +564,7 @@ video {
 
 .subtimer {
   position: relative;
+  margin: 0.25rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   display: flex;
@@ -577,6 +578,7 @@ video {
 .subtimer-active {
   background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
   position: relative;
+  margin: 0.25rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   display: flex;
