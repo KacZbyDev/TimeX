@@ -30,13 +30,13 @@ function hideAndClearModal():void {
     durationInput.value = '';
 }
 
-function addTimer (name:string, time:string) : void {
+function addTimer (name:string, duration:string) : void {
     let parentList:HTMLElement = document.getElementById('list-content')!
-    let newElement:Node = document.getElementById('subtimer-example')!.cloneNode(true)
+    let newElement:HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
     
-    newElement.childNodes[1].textContent = name
+    newElement.querySelector('.name')!.textContent = name
 
-    newElement.childNodes[3].textContent = Utils.timeToCorrectTime(time)
+    newElement.querySelector('.duration')!.textContent = Utils.timeToCorrectTime(duration)
     
     parentList.appendChild(newElement)
 }
