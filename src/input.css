@@ -7,7 +7,7 @@
     .timer-progress {
         border-radius: 50%;
         background: conic-gradient(#2C599D calc(var(--value) * 1%), #193A6F 0);
-        /* background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); */
+        /*background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); - another variant*/
         -webkit-mask: radial-gradient(transparent 60%, #000 0);
         -webkit-mask-mode: alpha
     }
@@ -17,7 +17,9 @@
     }
 
     .subtimer-active {
-        @apply relative mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center bg-green-400 
+        background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
+
+        @apply relative mt-2 mb-2 p-1 rounded-full flex bg-gray-100 items-center
     }
 
     .repeater {

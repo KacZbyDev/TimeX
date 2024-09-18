@@ -23,7 +23,7 @@ window.addEventListener('load', () => {
 
     //create a subtimer object by passing the currentElement
     currentSubtimer = new Subtimer(currentElement!)
-    currentSubtimer.element.className += ' bg-green-400'    
+    currentSubtimer.element.className = 'subtimer-active'
 
     //the time displayed by bigTimer
     currentMiliseconds = currentSubtimer.duration
@@ -46,12 +46,12 @@ function updateTime(): void {
     let percent = currentMiliseconds / currentSubtimer.duration * 100
     progress_bar.style.setProperty('--value', percent + '')
     bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds)
-
     //updates the subtimer / the list element
 
     //TODO ADD timer updater with actual updates
-    currentSubtimer.element.className = 'subtimer-active'    
-    console.log(currentSubtimer)
+    currentSubtimer.element.className = 'subtimer-active';
+
+    (<HTMLElement> currentSubtimer.element).style.setProperty('--value', percent + '')
 
     //the time elapsed after the last call
     currentMiliseconds -= Date.now() - startTime

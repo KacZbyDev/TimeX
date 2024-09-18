@@ -557,7 +557,7 @@ video {
 .timer-progress {
   border-radius: 50%;
   background: conic-gradient(#2C599D calc(var(--value) * 1%), #193A6F 0);
-  /* background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); */
+  /*background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); - another variant*/
   -webkit-mask: radial-gradient(transparent 60%, #000 0);
   -webkit-mask-mode: alpha
 }
@@ -575,16 +575,16 @@ video {
 }
 
 .subtimer-active {
+  background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
   position: relative;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   border-radius: 9999px;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   --tw-bg-opacity: 1;
-  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
-  padding: 0.25rem;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+  padding: 0.25rem
 }
 
 .repeater {
@@ -892,11 +892,6 @@ video {
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.bg-green-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
 
 .bg-orange-secondary {
