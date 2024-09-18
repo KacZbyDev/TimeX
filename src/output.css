@@ -559,7 +559,8 @@ video {
   background: conic-gradient(#2C599D calc(var(--value) * 1%), #193A6F 0);
   /*background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); - another variant*/
   -webkit-mask: radial-gradient(transparent 60%, #000 0);
-  -webkit-mask-mode: alpha
+          mask: radial-gradient(transparent 60%, #000 0);
+  mask-mode: alpha
 }
 
 .subtimer {
@@ -568,11 +569,12 @@ video {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   display: flex;
+  height: 2rem;
   align-items: center;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-  padding: 0.25rem;
+  padding: 1rem;
 }
 
 .subtimer-active {
@@ -582,21 +584,22 @@ video {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   display: flex;
+  height: 2rem;
   align-items: center;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-  padding: 0.25rem
+  padding: 1rem
 }
 
-.repeater {
-  margin: 0.25rem;
-  border-radius: 0.75rem;
-  border-left-width: 8px;
-  border-bottom-width: 16px;
-  border-top-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgb(251 155 80 / var(--tw-border-opacity));
+.options {
+  --tw-rotate: 90deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  cursor: pointer;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
 .fixed {
@@ -818,11 +821,6 @@ video {
 .rounded-r-3xl {
   border-top-right-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
-}
-
-.rounded-r-lg {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
 }
 
 .border {
@@ -1137,6 +1135,28 @@ video {
   transition-duration: 500ms;
 }
 
+.repeater {
+  margin: 0.25rem;
+  border-radius: 0.75rem;
+  border-left-width: 8px;
+  border-bottom-width: 16px;
+  border-top-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(251 155 80 / var(--tw-border-opacity));
+}
+
+.repeater-values {
+  position: relative;
+  display: flex;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 155 80 / var(--tw-bg-opacity));
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(25 58 111 / var(--tw-text-opacity));
+}
+
 .hover\:-rotate-180:hover {
   --tw-rotate: -180deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1193,3 +1213,4 @@ video {
   --tw-text-opacity: 1;
   color: rgb(251 155 80 / var(--tw-text-opacity));
 }
+    

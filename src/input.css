@@ -8,21 +8,29 @@
         border-radius: 50%;
         background: conic-gradient(#2C599D calc(var(--value) * 1%), #193A6F 0);
         /*background: conic-gradient(#11224D calc(var(--value) * 1%), #2C599D 0); - another variant*/
-        -webkit-mask: radial-gradient(transparent 60%, #000 0);
-        -webkit-mask-mode: alpha
+        mask: radial-gradient(transparent 60%, #000 0);
+        mask-mode: alpha
     }
 
     .subtimer {
-        @apply relative m-1 mt-2 mb-2 p-1 bg-gray-100 rounded-full flex items-center
+        @apply relative m-1 mt-2 mb-2 p-4 bg-gray-100 rounded-full h-8 flex items-center
     }
 
     .subtimer-active {
         background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
-
+        
         @apply subtimer
     }
 
+    .options {
+        @apply rotate-90 text-gray-700 text-3xl cursor-pointer
+    }
+}
     .repeater {
         @apply m-1 border-l-8 border-b-[16px] border-t-2 border-orange-secondary rounded-xl
     }
-}
+
+    .repeater-values {
+        @apply  relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg
+    }
+    

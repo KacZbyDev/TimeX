@@ -10,7 +10,7 @@ let timerRefresherStopped:boolean = false
 let timerRefresher: NodeJS.Timeout
 let bigTimerDisplay: HTMLElement
 let progress_bar: HTMLElement
-let list: Element//the main subtimer-list is a list but also repeaters
+let list: Element//the list in which the current subtimer is 
 let currentElement:Element | null
 
 let currentSubtimer: Subtimer
