@@ -11,5 +11,7 @@ export class Subtimer {
         this.element = element
         this.name = (<HTMLElement>element!.querySelector('.name')!).textContent!
         this.duration = Utils.timeToMiliseconds(element!.querySelector('.duration')!.textContent!)
+
+        element.className = 'subtimer-active';
     }
 }

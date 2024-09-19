@@ -35,7 +35,7 @@
             class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
     </div>
 
-    <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]"> 
+    <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
         <!-- TODO fix the list scrolling horizontally when adding new subtimer -->
         <ol id="list-of-subtimer"
             class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h-[calc(100vh-72px)] border-b border-r shadow-md relative before:absolute before:-right-2 before:top-0 before:bottom-0 before:w-[1px] before:pr-5 hover:before:cursor-ew-resize">
@@ -46,10 +46,10 @@
             <div id="list-content" class="overflow-y-auto overflow-x-hidden h-fit max-h-full">
                 <div class="subtimer">
                     <p class="options">...</p>
-                    <p class="name absolute w-full text-center"></p>
-                    <p class="duration absolute right-4">1</p>
+                    <p class="name absolute w-full text-center">Start</p>
+                    <p class="duration absolute right-4">2</p>
                 </div>
-                
+
                 <div class="repeater">
                     <div class="repeater-values">
                         <p class="current-repeats w-full text-center">0</p>
@@ -57,8 +57,8 @@
                     </div>
                     <div class="subtimer">
                         <p class="options">...</p>
-                        <p class="name absolute w-full text-center"></p>
-                        <p class="duration absolute right-4">1</p>
+                        <p class="name absolute w-full text-center">Sari coarda</p>
+                        <p class="duration absolute right-4">2</p>
                     </div>
                 </div>
             </div>
@@ -71,10 +71,11 @@
             </div>
         </ol>
 
-        <div id="timer-interface-wrapper" class="flex-grow overflow-y-auto flex flex-col pt-4 items-center">
-            <div class="flex-none text-3xl underline-offset-2 underline font-semibold">*Subtimer name*</div>
-            <div id="timer" class="flex flex-grow justify-center items-center">
-                <div class="flex justify-center items-center  bg-dark-blue-primary rounded-full size-96">
+        <div id="timer-interface-wrapper" class="relativ flex-grow overflow-y-auto flex flex-col items-center">
+            <div id="current-subtimer-name" class="flex-none text-3xl underline-offset-2 underline font-semibold pt-4"></div>
+
+            <div id="timer" class="h-full absolute flex flex-grow justify-center items-center">
+                <div class="flex justify-center items-center bg-dark-blue-primary rounded-full size-96">
                     <div id="big-timer-time"
                         class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10">
                     </div>

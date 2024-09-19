@@ -21,12 +21,7 @@ window.addEventListener('load', () => {
     list = document.getElementById('list-content')!
     currentElement = list.firstElementChild!
 
-    //create a subtimer object by passing the currentElement
-    currentSubtimer = new Subtimer(currentElement!)
-    currentSubtimer.element.className = 'subtimer-active'
-
-    //the time displayed by bigTimer
-    currentMiliseconds = currentSubtimer.duration
+    startNewSubtimer()
     
     //the time before the timer updated
     startTime = Date.now()
@@ -45,10 +40,9 @@ function updateTime(): void {
     //update bigTimer
     let percent = currentMiliseconds / currentSubtimer.duration * 100
     progress_bar.style.setProperty('--value', percent + '')
-    bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds)
-    //updates the subtimer / the list element
+    bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds);
 
-    currentSubtimer.element.className = 'subtimer-active';
+    // currentSubtimer.element.className = 'subtimer-active';
     (<HTMLElement> currentSubtimer.element).style.setProperty('--value', percent + '')
 
     //the time elapsed after the last call
@@ -75,10 +69,10 @@ function subtimerFinished(): void {
 
         //Reset timer appearance
         currentSubtimer.element.className = 'subtimer'
-        currentSubtimer = new Subtimer(currentElement)
+
+        startNewSubtimer()
 
         startTime = Date.now()
-        currentMiliseconds = currentSubtimer.duration
         return
     }
 
@@ -92,6 +86,16 @@ function subtimerFinished(): void {
         currentSubtimer.element.className = 'subtimer'
         progress_bar.style.setProperty('--value', '0')
     }
+}
+
+function startNewSubtimer():void {
+    //create a subtimer object by passing the currentElement
+    currentSubtimer = new Subtimer(currentElement!)
+
+    //the time displayed by bigTimer
+    currentMiliseconds = currentSubtimer.duration
+
+    document.getElementById('current-subtimer-name')!.textContent! = currentSubtimer.name
 }
 
 function repeaterReachEnd():void {
