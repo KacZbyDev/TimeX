@@ -117,3 +117,19 @@ function repeaterReachEnd():void {
 
     subtimerFinished()
 }
+
+$(document).ready(function () {
+    $("#reset-button").on("click", () => {
+        list = document.getElementById('list-content')!
+        Repeater.resetChildren(list)
+        currentElement = list.firstElementChild!
+        startNewSubtimer()
+        
+        startTime = Date.now()
+
+        if(timerRefresherStopped) {
+            timerRefresherStopped = false
+            timerRefresher = setInterval(updateTime, refreshDelay)
+        }
+    });
+});
