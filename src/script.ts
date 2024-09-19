@@ -48,9 +48,7 @@ function updateTime(): void {
     bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds)
     //updates the subtimer / the list element
 
-    //TODO ADD timer updater with actual updates
     currentSubtimer.element.className = 'subtimer-active';
-
     (<HTMLElement> currentSubtimer.element).style.setProperty('--value', percent + '')
 
     //the time elapsed after the last call
@@ -115,4 +113,3 @@ function repeaterReachEnd():void {
 
     subtimerFinished()
 }
-

@@ -38,12 +38,12 @@
     <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]"> 
         <!-- TODO fix the list scrolling horizontally when adding new subtimer -->
         <ol id="list-of-subtimer"
-            class="flex flex-col w-1/4 rounded-r-3xl border-r border-r-gray-300 border-b h-[calc(100vh-72px)] shadow-md">
+            class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h-[calc(100vh-72px)] border-b border-r shadow-md relative before:absolute before:-right-2 before:top-0 before:bottom-0 before:w-[1px] before:pr-5 hover:before:cursor-ew-resize">
             <div id="list-header"
-                class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b">
+                class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">
                 *TIMER NAME*</div>
 
-            <div id="list-content" class="overflow-y-auto h-fit max-h-full">
+            <div id="list-content" class="overflow-y-auto overflow-x-hidden h-fit max-h-full">
                 <div class="subtimer">
                     <p class="options">...</p>
                     <p class="name absolute w-full text-center"></p>
@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <div id="list-footer" class="flex justify-between pt-2 p-4">
+            <div id="list-footer" class="flex justify-between pt-7 p-4">
                 <button
                     class="size-10 bg-orange-secondary rounded-xl text-center text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Tbd</button>
                 <button id="add-button"
