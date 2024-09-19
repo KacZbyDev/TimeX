@@ -1,13 +1,32 @@
 import { Utils } from "./utils.js";
+import { Timer } from './script.js'
+import { Repeater } from './repeater.js'
+
 
 let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
 let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
 $(document).ready(function () {
     $("#add-button").on("click", () => {
+        Timer.timerRefresherStopped = true
+        clearInterval(Timer.timerRefresher)
+
         $('#modal').removeClass('hidden');
     });
+    $('#reset-button').on('click', () => {
+        Timer.list = document.getElementById('list-content')!
+        Repeater.resetChildren(Timer.list)
+        
+        Timer.startTimer()
+
+        hideAndClearModal()
+    })
     $('#modal-delete-button').on('click', () => {
+        if(Timer.timerRefresherStopped) {//if the timerRefresher is not started
+            Timer.elapsedTime = Date.now()
+            Timer.timerRefresherStopped = false
+            Timer.timerRefresher = setInterval(() => Timer.updateTime(), Utils.REFRESH_DELAY)
+        }
         hideAndClearModal()
     })
     $('#modal-add-button').on('click', () => {
@@ -18,6 +37,7 @@ $(document).ready(function () {
         hideAndClearModal()
     })
 });
+    
 //Stops the page from reloading
 $("#modal").submit(function(e) {
     e.preventDefault();

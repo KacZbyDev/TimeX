@@ -2,113 +2,108 @@ import { Subtimer } from './subtimer.js'
 import { Utils } from './utils.js'
 import { Repeater } from './repeater.js'
 
-const refreshDelay: number = 10;//how many miliseconds it takes for the time to update
-let currentMiliseconds: number;
-var elapsedTime:number
-
-let timerRefresherStopped:boolean = true
-let timerRefresher: NodeJS.Timeout
-let bigTimerDisplay: HTMLElement
-let progress_bar: HTMLElement
-let list: Element//the list in which the current subtimer is 
-let currentElement:Element | null
-
-let currentSubtimer: Subtimer
-
 window.addEventListener('load', () => {
-    bigTimerDisplay = document.getElementById('big-timer-time')!
-    progress_bar = document.getElementById('progress-bar')!
-    list = document.getElementById('list-content')!
-    
-    startTimer()
+    Timer.initialize()
 });
 
-function startTimer():void {
-    currentElement = list.firstElementChild!
+export class Timer {
+    public static currentMiliseconds: number
+    public static elapsedTime:number
 
-    startNewSubtimer()
-    
-    //the time before the timer updated
-    elapsedTime = Date.now()
+    public static timerRefresherStopped:boolean = true
+    public static timerRefresher: NodeJS.Timeout
 
-    if(timerRefresherStopped) {//if the timerRefresher is not started
-        timerRefresherStopped = false
-        timerRefresher = setInterval(updateTime, refreshDelay)
+    public static bigTimerDisplay: HTMLElement
+    public static progress_bar: HTMLElement
+
+    public static list: Element//the list in which the current subtimer is 
+    public static currentElement:Element | null
+
+    private static currentSubtimer: Subtimer
+
+    static initialize():void {
+        this.bigTimerDisplay = document.getElementById('big-timer-time')!
+        this.progress_bar = document.getElementById('progress-bar')!
+        this.list = document.getElementById('list-content')!
+        
+        this.startTimer()
     }
-}
+    
+    static startTimer():void {
+        this.currentElement = this.list.firstElementChild!
+        
+        this.startNewSubtimer()
+        
+        //the time before the timer updated
+        this.elapsedTime = Date.now()
+        
+        if(this.timerRefresherStopped) {//if the timerRefresher is not started
+            this.timerRefresherStopped = false
+            this.timerRefresher = setInterval(() => this.updateTime(), Utils.REFRESH_DELAY)
+        }
+    }
+    
+    static updateTime(): void {
+        if (this.currentMiliseconds <= 0)
+            this.subtimerFinished()
 
+        if(this.timerRefresherStopped)
+            return;
 
-function updateTime(): void {
-    if (currentMiliseconds <= 0)
-        subtimerFinished()
+        //update bigTimer
+        let percent = this.currentMiliseconds / this.currentSubtimer.duration * 100
+        this.progress_bar.style.setProperty('--value', percent + '')
+        this.bigTimerDisplay.textContent = Utils.milisecondsToTime(this.currentMiliseconds);
 
-    if(timerRefresherStopped)
-        return;
+        // currentSubtimer.element.className = 'subtimer-active';
+        (<HTMLElement> this.currentSubtimer.element).style.setProperty('--value', percent + '')
 
-    //update bigTimer
-    let percent = currentMiliseconds / currentSubtimer.duration * 100
-    progress_bar.style.setProperty('--value', percent + '')
-    bigTimerDisplay.textContent = Utils.milisecondsToTime(currentMiliseconds);
+        //the time elapsed after the last call
+        this.currentMiliseconds -= Date.now() - this.elapsedTime
+        this.elapsedTime = Date.now()
+    }
 
-    // currentSubtimer.element.className = 'subtimer-active';
-    (<HTMLElement> currentSubtimer.element).style.setProperty('--value', percent + '')
+    static subtimerFinished(): void {
+        Utils.playSubtimerFinish()
 
-    //the time elapsed after the last call
-    currentMiliseconds -= Date.now() - elapsedTime
-    elapsedTime = Date.now()
-}
+        //get the next element in the list
+        this.currentElement = this.currentElement!.nextElementSibling
 
-function subtimerFinished(): void {
-    Utils.playSubtimerFinish()
+        //if it finds the next element
+        if (this.currentElement) {
+            if (this.currentElement.className.includes('repeater')) {
+                this.list = this.currentElement
 
-    //get the next element in the list
-    currentElement = currentElement!.nextElementSibling
+                Repeater.setListToFirstSubtimerParent(this.list)
 
-    //if it finds the next element
-    if (currentElement) {
-        if (currentElement.className.includes('repeater')) {
-            list = currentElement
+                //starts with the second child because the first one is for repeater configuration
+                this.currentElement = this.list.children[1]
+            }
 
-            Repeater.setListToFirstSubtimerParent(list)
+            //reset subtimer progress
+            this.currentSubtimer.element.className = 'subtimer'
 
-            //starts with the second child because the first one is for repeater configuration
-            currentElement = list.children[1]
+            this.startNewSubtimer()
+
+            this.elapsedTime = Date.now()
+            return
         }
 
-        //reset subtimer progress
-        currentSubtimer.element.className = 'subtimer'
+        if (this.list.className.includes('repeater'))
+            this.repeaterReachEnd()
+        else {
+            this.timerRefresherStopped = true
+            clearInterval(this.timerRefresher)
 
-        startNewSubtimer()
-
-        elapsedTime = Date.now()
-        return
+            this.bigTimerDisplay.textContent = 'DONE'
+            this.currentSubtimer.element.className = 'subtimer'
+            this.progress_bar.style.setProperty('--value', '0')
+        }
     }
 
-    if (list.className.includes('repeater'))
-        repeaterReachEnd()
-    else {
-        timerRefresherStopped = true
-        clearInterval(timerRefresher)
-
-        bigTimerDisplay.textContent = 'DONE'
-        currentSubtimer.element.className = 'subtimer'
-        progress_bar.style.setProperty('--value', '0')
-    }
-}
-
-function startNewSubtimer():void {
-    //create a subtimer object by passing the currentElement
-    currentSubtimer = new Subtimer(currentElement!)
-
-    //the time displayed by bigTimer
-    currentMiliseconds = currentSubtimer.duration
-
-    document.getElementById('current-subtimer-name')!.textContent! = currentSubtimer.name
-}
-
-function repeaterReachEnd():void {
+    static repeaterReachEnd():void {
     //gets the values stored in the repeaters
-    let repeaterValues = list.querySelector('.repeater-values')!
+    let repeaterValues = this.list.querySelector('.repeater-values')!
     let currentRepeats = parseInt(repeaterValues.querySelector('.current-repeats')!.textContent!) + 1
     let totalRepeats = parseInt(repeaterValues.querySelector('.total-repeats')!.textContent!)
     
@@ -116,34 +111,23 @@ function repeaterReachEnd():void {
 
     //if repeater repeated enough times
     if (currentRepeats >= totalRepeats) {  
-        currentElement = list
-        list = list.parentElement!
+        this.currentElement = this.list
+        this.list = this.list.parentElement!
     } else {
-        currentElement = list.firstElementChild
-        Repeater.resetChildren(list)
+        this.currentElement = this.list.firstElementChild
+        Repeater.resetChildren(this.list)
     }
 
-    subtimerFinished()
+    this.subtimerFinished()
+    }
+
+    static startNewSubtimer():void {
+        //create a subtimer object by passing the currentElement
+        this.currentSubtimer = new Subtimer(this.currentElement!)
+
+        //the time displayed by bigTimer
+        this.currentMiliseconds = this.currentSubtimer.duration
+
+        document.getElementById('current-subtimer-name')!.textContent! = this.currentSubtimer.name
+    }
 }
-
-$(document).ready(function () {
-    $("#reset-button").on("click", () => {
-        list = document.getElementById('list-content')!
-        Repeater.resetChildren(list)
-        
-        startTimer()
-    });
-
-    $("#add-button").on("click", () => {
-        timerRefresherStopped = true
-        clearInterval(timerRefresher)
-    });
-
-    $('#modal-delete-button').on('click', () => {
-        if(timerRefresherStopped) {//if the timerRefresher is not started
-            elapsedTime = Date.now()
-            timerRefresherStopped = false
-            timerRefresher = setInterval(updateTime, refreshDelay)
-        }
-    })
-});

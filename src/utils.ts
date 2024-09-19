@@ -1,9 +1,12 @@
 export class Utils {
-    private static readonly decimals:number = 1
-    private static readonly subtimerFinish:HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
+
+    private static readonly DECIMALS:number = 1
+    public static readonly REFRESH_DELAY: number = 10 //how many miliseconds it takes for the time to update
+
+    private static readonly SUBTIMER_FINISH:HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
 
     static playSubtimerFinish():void{
-        this.subtimerFinish.play()
+        this.SUBTIMER_FINISH.play()
     }
 
     //takes a string of format: 12:34:56 and transforms it into seconds
@@ -34,6 +37,6 @@ export class Utils {
             if(seconds < 10)
                 res += '0'
         }
-        return res + seconds.toFixed(this.decimals) 
+        return res + seconds.toFixed(this.DECIMALS) 
     }
 }
