@@ -1,3 +1,5 @@
+import { Utils } from "./utils.js";
+
 let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
 let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
@@ -9,7 +11,7 @@ $(document).ready(function () {
         hideAndClearModal()
     })
     $('#modal-add-button').on('click', () => {
-        if(!nameInput.value || !durationInput.value)//empty fields
+        if(!areInputsValid())//empty fields
             return
 
         addTimer(nameInput.value, durationInput.value)
@@ -20,6 +22,16 @@ $(document).ready(function () {
 $("#modal").submit(function(e) {
     e.preventDefault();
 });
+
+function areInputsValid():boolean {
+    if(!nameInput.value)
+        return false
+
+    if(!Utils.timeToSeconds(durationInput.value))
+        return false
+
+    return true
+}
 
 function hideAndClearModal():void {
     $('#modal').addClass('hidden');
