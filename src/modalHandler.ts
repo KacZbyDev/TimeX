@@ -1,5 +1,5 @@
 import { Utils } from "./utils.js";
-import { Timer } from './script.js'
+import { Timer } from './timer.js'
 import { Repeater } from './repeater.js'
 
 

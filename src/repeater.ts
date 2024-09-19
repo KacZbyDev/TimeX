@@ -1,3 +1,6 @@
+import { Subtimer } from './subtimer.js'
+import { Timer } from './timer.js'
+
 export class Repeater {
 
     //resets every child of the repeater through iteration
@@ -28,5 +31,25 @@ export class Repeater {
         }
 
         return false
+    }
+
+    static repeaterReachEnd():void {
+        //gets the values stored in the repeaters
+        let repeaterValues = Timer.list.querySelector('.repeater-values')!
+        let currentRepeats = parseInt(repeaterValues.querySelector('.current-repeats')!.textContent!) + 1
+        let totalRepeats = parseInt(repeaterValues.querySelector('.total-repeats')!.textContent!)
+        
+        repeaterValues.firstElementChild!.textContent = currentRepeats + ''
+    
+        //if repeater repeated enough times
+        if (currentRepeats >= totalRepeats) {  
+            Timer.currentElement = Timer.list
+            Timer.list = Timer.list.parentElement!
+        } else {
+            Timer.currentElement = Timer.list.firstElementChild
+            Repeater.resetChildren(Timer.list)
+        }
+    
+        Subtimer.subtimerFinished()
     }
 }
