@@ -38,7 +38,7 @@
     <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
         <!-- TODO fix the list scrolling horizontally when adding new subtimer -->
         <ol id="list-of-subtimer"
-            class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h-[calc(100vh-72px)] border-b border-r shadow-md relative before:absolute before:-right-2 before:top-0 before:bottom-0 before:w-[1px] before:pr-5 hover:before:cursor-ew-resize">
+            class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative before:absolute before:-right-2 before:top-0 before:bottom-0 before:w-[1px] before:pr-5 hover:before:cursor-ew-resize">
             <div id="list-header"
                 class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">
                 *TIMER NAME*</div>
@@ -71,17 +71,15 @@
             </div>
         </ol>
 
-        <div id="timer-interface-wrapper" class="relativ flex-grow overflow-y-auto flex flex-col items-center">
+        <div id="timer-interface-wrapper" class="relative flex-grow overflow-y-auto flex flex-col items-center">
             <div id="current-subtimer-name" class="flex-none text-3xl underline-offset-2 underline font-semibold pt-4"></div>
 
             <div id="timer" class="h-full absolute flex flex-grow justify-center items-center">
                 <div class="flex justify-center items-center bg-dark-blue-primary rounded-full size-96">
-                    <div id="big-timer-time"
-                        class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10">
-                    </div>
+                    <div id="big-timer-time"    
+                        class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10"></div>
                     <div id="progress-bar" role="progressbar" aria-valuemax="100" aria-valuemin="0" style="--value:0"
-                        class="timer-progress relative flex justify-center items-center size-[90%] text-5xl text-white">
-                    </div>
+                        class="timer-progress relative flex justify-center items-center size-[90%]"></div>
                 </div>
             </div>
             <!-- another variant

@@ -6,16 +6,16 @@ export class Utils {
         this.subtimerFinish.play()
     }
 
-    //takes a string of format: 12:34:56 and transforms it into miliseconds
-    static timeToMiliseconds(time:string):number {
+    //takes a string of format: 12:34:56 and transforms it into seconds
+    static timeToSeconds(time:string):number {
         if (time.length > 2)
-            return this.timeToMiliseconds(time.substring(time.length - 2, time.length)) +
-                this.timeToMiliseconds(time.substring(0, time.length - 3)) * 60
+            return this.timeToSeconds(time.substring(time.length - 2, time.length)) +
+                this.timeToSeconds(time.substring(0, time.length - 3)) * 60
 
         return parseInt(time) * 1000
     }
 
-    //does the opposite of timeToMiliseconds
+    //converts miliseconds into 12:34:56.7 format
     static milisecondsToTime(miliseconds:number):string {
         let seconds:number = (miliseconds / 1000)
         let minutes:number = Math.floor(seconds / 60)
@@ -35,9 +35,5 @@ export class Utils {
                 res += '0'
         }
         return res + seconds.toFixed(this.decimals) 
-    }
-
-    static timeToCorrectTime(time:string):string {
-        return this.milisecondsToTime(this.timeToMiliseconds(time) / 1000)
     }
 }

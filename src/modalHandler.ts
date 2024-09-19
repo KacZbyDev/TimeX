@@ -1,5 +1,3 @@
-import { Utils } from "./utils.js";
-
 let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
 let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
@@ -35,8 +33,8 @@ function addTimer (name:string, duration:string) : void {
     let newElement:HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
     
     newElement.querySelector('.name')!.textContent = name
-
-    newElement.querySelector('.duration')!.textContent = Utils.timeToCorrectTime(duration)
+    
+    newElement.querySelector('.duration')!.textContent = duration
     
     parentList.appendChild(newElement)
 }
