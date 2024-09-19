@@ -4,9 +4,9 @@ import { Repeater } from './repeater.js'
 
 const refreshDelay: number = 10;//how many miliseconds it takes for the time to update
 let currentMiliseconds: number;
-var startTime:number
+var elapsedTime:number
 
-let timerRefresherStopped:boolean = false
+let timerRefresherStopped:boolean = true
 let timerRefresher: NodeJS.Timeout
 let bigTimerDisplay: HTMLElement
 let progress_bar: HTMLElement
@@ -19,16 +19,24 @@ window.addEventListener('load', () => {
     bigTimerDisplay = document.getElementById('big-timer-time')!
     progress_bar = document.getElementById('progress-bar')!
     list = document.getElementById('list-content')!
+    
+    startTimer()
+});
+
+function startTimer():void {
     currentElement = list.firstElementChild!
 
     startNewSubtimer()
     
     //the time before the timer updated
-    startTime = Date.now()
+    elapsedTime = Date.now()
 
-    //called to refresh the timer and calculate the time passed
-    timerRefresher = setInterval(updateTime, refreshDelay)
-});
+    if(timerRefresherStopped) {//if the timerRefresher is not started
+        timerRefresherStopped = false
+        timerRefresher = setInterval(updateTime, refreshDelay)
+    }
+}
+
 
 function updateTime(): void {
     if (currentMiliseconds <= 0)
@@ -46,33 +54,33 @@ function updateTime(): void {
     (<HTMLElement> currentSubtimer.element).style.setProperty('--value', percent + '')
 
     //the time elapsed after the last call
-    currentMiliseconds -= Date.now() - startTime
-    startTime = Date.now()
+    currentMiliseconds -= Date.now() - elapsedTime
+    elapsedTime = Date.now()
 }
 
 function subtimerFinished(): void {
     Utils.playSubtimerFinish()
 
-    //iterates throught the next element in the list
+    //get the next element in the list
     currentElement = currentElement!.nextElementSibling
 
-    //if the element had more siblings in the repeater, or main list
+    //if it finds the next element
     if (currentElement) {
         if (currentElement.className.includes('repeater')) {
             list = currentElement
 
             Repeater.setListToFirstSubtimerParent(list)
 
-            //starts with the second children fromt the repeater because the first one is for the repeater to look nice
+            //starts with the second child because the first one is for repeater configuration
             currentElement = list.children[1]
         }
 
-        //Reset timer appearance
+        //reset subtimer progress
         currentSubtimer.element.className = 'subtimer'
 
         startNewSubtimer()
 
-        startTime = Date.now()
+        elapsedTime = Date.now()
         return
     }
 
@@ -122,14 +130,20 @@ $(document).ready(function () {
     $("#reset-button").on("click", () => {
         list = document.getElementById('list-content')!
         Repeater.resetChildren(list)
-        currentElement = list.firstElementChild!
-        startNewSubtimer()
         
-        startTime = Date.now()
+        startTimer()
+    });
 
-        if(timerRefresherStopped) {
+    $("#add-button").on("click", () => {
+        timerRefresherStopped = true
+        clearInterval(timerRefresher)
+    });
+
+    $('#modal-delete-button').on('click', () => {
+        if(timerRefresherStopped) {//if the timerRefresher is not started
+            elapsedTime = Date.now()
             timerRefresherStopped = false
             timerRefresher = setInterval(updateTime, refreshDelay)
         }
-    });
+    })
 });
