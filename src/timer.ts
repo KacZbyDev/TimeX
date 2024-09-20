@@ -33,13 +33,7 @@ export class Timer {
         
         Subtimer.startNewSubtimer()
         
-        //the time before the timer updated
-        this.elapsedTime = Date.now()
-        
-        if(this.timerRefresherStopped) {//if the timerRefresher is not started
-            this.timerRefresherStopped = false
-            this.timerRefresher = setInterval(() => this.updateTime(), Utils.REFRESH_DELAY)
-        }
+        this.resumeTimer()
     }
     
     static updateTime(): void {
@@ -60,5 +54,15 @@ export class Timer {
         //the time elapsed after the last call
         this.currentMiliseconds -= Date.now() - this.elapsedTime
         this.elapsedTime = Date.now()
+    }
+
+    static resumeTimer():void {
+        //the time before the timer updated
+        this.elapsedTime = Date.now()
+
+        if(this.timerRefresherStopped) {//if the timerRefresher is not started
+            this.timerRefresherStopped = false
+            this.timerRefresher = setInterval(() => this.updateTime(), Utils.REFRESH_DELAY)
+        }
     }
 }

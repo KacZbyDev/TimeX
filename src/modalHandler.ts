@@ -34,20 +34,18 @@ $(document).ready(function () {
             return
 
         addTimer(nameInput.value, durationInput.value)
-        hideAndClearModal()
+        Timer.resumeTimer()
     })
 });
     
 //Stops the page from reloading
 $("#modal").submit(function(e) {
     e.preventDefault();
+    hideAndClearModal()
 });
 
 function areInputsValid():boolean {
-    if(!nameInput.value)
-        return false
-
-    if(!Utils.timeToSeconds(durationInput.value))
+    if(!nameInput.value || !Utils.timeToSeconds(durationInput.value))
         return false
 
     return true
