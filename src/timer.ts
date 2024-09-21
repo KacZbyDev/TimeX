@@ -6,25 +6,34 @@ window.addEventListener('load', () => {
 });
 
 export class Timer {
+    public static bigTimerDisplay: HTMLElement = document.getElementById('big-timer-time')!
+    public static progress_bar: HTMLElement = document.getElementById('progress-bar')!
+
+    private static resizable: HTMLElement = document.getElementById('list-of-subtimer')!;
+    private static resizer: HTMLElement= document.getElementById('resizer')!;
+    private static isResizing = false;
+    private static sizeBeforeResize: number;
+
     public static currentMiliseconds: number
     public static elapsedTime:number
 
     public static timerRefresherStopped:boolean = true
     public static timerRefresher: NodeJS.Timeout
 
-    public static bigTimerDisplay: HTMLElement
-    public static progress_bar: HTMLElement
-
-    public static list: Element//the list in which the current subtimer is 
+    public static list: Element = document.getElementById('list-content')!//the list in which the current subtimer is 
     public static currentElement:Element | null
 
     public static currentSubtimer: Subtimer
 
     static initialize():void {
-        this.bigTimerDisplay = document.getElementById('big-timer-time')!
-        this.progress_bar = document.getElementById('progress-bar')!
-        this.list = document.getElementById('list-content')!
-        
+        Timer.sizeBeforeResize = Timer.resizable.getBoundingClientRect().right 
+        this.resizer.addEventListener('mousedown', () => {
+            this.isResizing = true;
+            
+            window.addEventListener('mousemove', this.resize);
+            window.addEventListener('mouseup', this.stopResize);
+        });
+
         this.startTimer()
     }
     
@@ -64,5 +73,20 @@ export class Timer {
             this.timerRefresherStopped = false
             this.timerRefresher = setInterval(() => this.updateTime(), Utils.REFRESH_DELAY)
         }
+    }
+
+    static resize(e: MouseEvent) {
+        if (Timer.isResizing) {
+            
+            const newWidth = Math.max(e.clientX - Timer.resizable.getBoundingClientRect().left + 10, Timer.sizeBeforeResize);
+            Timer.resizable.style.width = `${newWidth}px`;
+        }
+    }
+
+    static stopResize():void {
+        this.isResizing = false;
+
+        window.removeEventListener('mousemove', Timer.resize);
+        window.removeEventListener('mouseup', Timer.stopResize);
     }
 }
