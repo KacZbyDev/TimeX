@@ -8,9 +8,7 @@ let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById(
 
 $(document).ready(function () {
     $("#add-button").on("click", () => {
-        Timer.timerRefresherStopped = true
-        clearInterval(Timer.timerRefresher)
-
+        Timer.pauseTimer()
         $('#modal').removeClass('hidden');
     });
     $('#reset-button').on('click', () => {
@@ -22,18 +20,15 @@ $(document).ready(function () {
         hideAndClearModal()
     })
     $('#modal-delete-button').on('click', () => {
-        if(Timer.timerRefresherStopped) {//if the timerRefresher is not started
-            Timer.elapsedTime = Date.now()
-            Timer.timerRefresherStopped = false
-            Timer.timerRefresher = setInterval(() => Timer.updateTime(), Utils.REFRESH_DELAY)
-        }
+        Timer.resumeTimer()
+
         hideAndClearModal()
     })
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
             return
 
-        addTimer(nameInput.value, durationInput.value)
+        Timer.addTimer(nameInput.value, durationInput.value)
         Timer.resumeTimer()
     })
 });
@@ -56,15 +51,4 @@ function hideAndClearModal():void {
 
     nameInput.value = '';
     durationInput.value = '';
-}
-
-function addTimer (name:string, duration:string) : void {
-    let parentList:HTMLElement = document.getElementById('list-content')!
-    let newElement:HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
-    
-    newElement.querySelector('.name')!.textContent = name
-    
-    newElement.querySelector('.duration')!.textContent = duration
-    
-    parentList.appendChild(newElement)
 }

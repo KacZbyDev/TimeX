@@ -9,10 +9,10 @@ export class Timer {
     public static bigTimerDisplay: HTMLElement = document.getElementById('big-timer-time')!
     public static progress_bar: HTMLElement = document.getElementById('progress-bar')!
 
-    private static listOfSubtimers: HTMLElement = document.getElementById('list-of-subtimer')!;
-    private static resizer: HTMLElement= document.getElementById('resizer')!;
-    private static isResizing = false;
-    private static sizeBeforeResize: number;
+    public static listOfSubtimers: HTMLElement = document.getElementById('list-of-subtimer')!;
+    public static resizer: HTMLElement= document.getElementById('resizer')!;
+    public static isResizing = false;
+    public static listInitialSize: number;
 
     public static currentMiliseconds: number
     public static elapsedTime:number
@@ -26,12 +26,12 @@ export class Timer {
     public static currentSubtimer: Subtimer
 
     static initialize():void {
-        Timer.sizeBeforeResize = Timer.listOfSubtimers.getBoundingClientRect().right 
+        Timer.listInitialSize = Timer.listOfSubtimers.getBoundingClientRect().right 
         this.resizer.addEventListener('mousedown', () => {
             this.isResizing = true;
             
-            window.addEventListener('mousemove', this.resize);
-            window.addEventListener('mouseup', this.stopResize);
+            window.addEventListener('mousemove', Utils.resize);
+            window.addEventListener('mouseup', Utils.stopResize);
         });
 
         this.startTimer()
@@ -65,6 +65,11 @@ export class Timer {
         this.elapsedTime = Date.now()
     }
 
+    static pauseTimer() {
+        Timer.timerRefresherStopped = true
+        clearInterval(Timer.timerRefresher)
+    }
+
     static resumeTimer():void {
         //the time before the timer updated
         this.elapsedTime = Date.now()
@@ -73,43 +78,5 @@ export class Timer {
             this.timerRefresherStopped = false
             this.timerRefresher = setInterval(() => this.updateTime(), Utils.REFRESH_DELAY)
         }
-    }
-
-    static resize(e: MouseEvent) {
-        const maxSize = window.innerWidth - document.getElementById('timer')!.getBoundingClientRect().width// - 10
-        const startingEffectAtX = maxSize - 100
-        
-        if (Timer.isResizing) {
-            let desiredX = e.clientX // - Timer.listOfSubtimers.getBoundingClientRect().left
-            let newWidth = e.clientX// = desiredX 
-            let remainingSize = maxSize - Timer.listOfSubtimers.getBoundingClientRect().width
-
-            console.log(maxSize)
-            console.log(newWidth)
-            console.log(remainingSize)
-
-            if(newWidth > startingEffectAtX) {
-                // let val = (newWidth - Timer.listOfSubtimers.getBoundingClientRect().width) * 5
-                // letval = (100 - remainingSize) / 2
-                let val = (desiredX - Timer.listOfSubtimers.getBoundingClientRect().width) / 5
-
-                // val = Math.min(val, desiredX - Timer.listOfSubtimers.getBoundingClientRect().width)
-                //val /= remainingSize
-
-                newWidth = startingEffectAtX + val
-            }
-
-            newWidth = Math.max(newWidth, Timer.sizeBeforeResize);
-            newWidth = Math.min(newWidth, maxSize)
-
-            Timer.listOfSubtimers.style.width = `${newWidth}px`;
-         }
-    }
-
-    static stopResize():void {
-        this.isResizing = false;
-
-        window.removeEventListener('mousemove', Timer.resize);
-        window.removeEventListener('mouseup', Timer.stopResize);
     }
 }
