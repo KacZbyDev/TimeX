@@ -9,7 +9,7 @@ export class Timer {
     public static bigTimerDisplay: HTMLElement = document.getElementById('big-timer-time')!
     public static progress_bar: HTMLElement = document.getElementById('progress-bar')!
 
-    private static resizable: HTMLElement = document.getElementById('list-of-subtimer')!;
+    private static listOfSubtimers: HTMLElement = document.getElementById('list-of-subtimer')!;
     private static resizer: HTMLElement= document.getElementById('resizer')!;
     private static isResizing = false;
     private static sizeBeforeResize: number;
@@ -26,7 +26,7 @@ export class Timer {
     public static currentSubtimer: Subtimer
 
     static initialize():void {
-        Timer.sizeBeforeResize = Timer.resizable.getBoundingClientRect().right 
+        Timer.sizeBeforeResize = Timer.listOfSubtimers.getBoundingClientRect().right 
         this.resizer.addEventListener('mousedown', () => {
             this.isResizing = true;
             
@@ -76,11 +76,34 @@ export class Timer {
     }
 
     static resize(e: MouseEvent) {
+        const maxSize = window.innerWidth - document.getElementById('timer')!.getBoundingClientRect().width// - 10
+        const startingEffectAtX = maxSize - 100
+        
         if (Timer.isResizing) {
-            
-            const newWidth = Math.max(e.clientX - Timer.resizable.getBoundingClientRect().left + 10, Timer.sizeBeforeResize);
-            Timer.resizable.style.width = `${newWidth}px`;
-        }
+            let desiredX = e.clientX // - Timer.listOfSubtimers.getBoundingClientRect().left
+            let newWidth = e.clientX// = desiredX 
+            let remainingSize = maxSize - Timer.listOfSubtimers.getBoundingClientRect().width
+
+            console.log(maxSize)
+            console.log(newWidth)
+            console.log(remainingSize)
+
+            if(newWidth > startingEffectAtX) {
+                // let val = (newWidth - Timer.listOfSubtimers.getBoundingClientRect().width) * 5
+                // letval = (100 - remainingSize) / 2
+                let val = (desiredX - Timer.listOfSubtimers.getBoundingClientRect().width) / 5
+
+                // val = Math.min(val, desiredX - Timer.listOfSubtimers.getBoundingClientRect().width)
+                //val /= remainingSize
+
+                newWidth = startingEffectAtX + val
+            }
+
+            newWidth = Math.max(newWidth, Timer.sizeBeforeResize);
+            newWidth = Math.min(newWidth, maxSize)
+
+            Timer.listOfSubtimers.style.width = `${newWidth}px`;
+         }
     }
 
     static stopResize():void {

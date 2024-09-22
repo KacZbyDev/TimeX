@@ -39,7 +39,7 @@
         <!-- TODO fix the list scrolling horizontally when adding new subtimer -->
         <ol id="list-of-subtimer"
             class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative">
-            <div id="resizer" class="z-50 w-3 h-full absolute top-0 right-0 cursor-ew-resize"></div>
+            <div id="resizer" class="z-50 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
             <div id="list-header"
                 class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">
                 *TIMER NAME*</div>
@@ -72,10 +72,10 @@
             </div>
         </ol>
 
-        <div id="timer-interface-wrapper" class="relative flex-grow overflow-y-auto flex flex-col items-center">
+        <div id="timer-interface-wrapper" class="relative flex flex-col flex-grow overflow-y-auto items-center">
             <div id="current-subtimer-name" class="flex-none text-3xl underline-offset-2 underline font-semibold pt-4"></div>
 
-            <div id="timer" class="h-full absolute flex flex-grow justify-center items-center">
+            <div id="timer" class="h-full flex absolute justify-center items-center">
                 <div class="flex justify-center items-center bg-dark-blue-primary rounded-full size-96">
                     <div id="big-timer-time"    
                         class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10"></div>
