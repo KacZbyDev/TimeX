@@ -16,12 +16,15 @@ export class Utils {
         const startingEffectAtX = maxSize - 100;
 
         if (Timer.isResizing) {
-            let newWidth = e.clientX - Timer.listOfSubtimers.getBoundingClientRect().left;
-
+            let newWidth = Timer.listOfSubtimers.getBoundingClientRect().width;
+            let offset = e.movementX
+            
             //If it is in the effect zone it moves slower
             if (newWidth > startingEffectAtX) {
-                newWidth = startingEffectAtX + (newWidth - startingEffectAtX) / 5;
+                offset /= 5;
             }
+
+            newWidth += offset
 
             //Apply limits
             newWidth = Math.max(newWidth, Timer.listInitialSize);

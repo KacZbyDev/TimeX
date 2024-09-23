@@ -1,3 +1,4 @@
+import { event } from 'jquery';
 import { Subtimer } from './subtimer.js'
 import { Utils } from './utils.js'
 
@@ -35,8 +36,22 @@ export class Timer {
         });
 
         this.startTimer()
+
+       //TODO switch window to list instead
+       window.addEventListener('click', (event: MouseEvent) => {
+            let elementClicked = <Element> event.target
+
+            if(!elementClicked.className.includes('subtimer') && !elementClicked.parentElement!.className.includes('subtimer'))
+                return
+            if(elementClicked.parentElement!.className.includes('subtimer'))
+                elementClicked = elementClicked.parentElement!
+
+            let percentage = (event.clientX - elementClicked.clientLeft) / elementClicked.clientWidth * 100
+
+            console.log(percentage)    
+        })
     }
-    
+
     static startTimer():void {
         this.currentElement = this.list.firstElementChild!
         

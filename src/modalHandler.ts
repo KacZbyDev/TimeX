@@ -2,7 +2,6 @@ import { Utils } from "./utils.js";
 import { Timer } from './timer.js'
 import { Repeater } from './repeater.js'
 
-
 let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
 let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
@@ -28,7 +27,7 @@ $(document).ready(function () {
         if(!areInputsValid())//empty fields
             return
 
-        Timer.addTimer(nameInput.value, durationInput.value)
+        Utils.addTimer(nameInput.value, durationInput.value)
         Timer.resumeTimer()
     })
 });
