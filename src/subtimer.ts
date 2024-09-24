@@ -26,7 +26,7 @@ export class Subtimer {
         //if it finds the next element
         if (Timer.currentElement) {
             if (Timer.currentElement.className.includes('repeater')) {
-                Timer.list =Timer.currentElement
+                Timer.list = Timer.currentElement
 
                 Repeater.setListToFirstSubtimerParent(Timer.list)
 
@@ -45,14 +45,8 @@ export class Subtimer {
 
         if (Timer.list.className.includes('repeater'))
             Repeater.repeaterReachEnd()
-        else {
-            Timer.timerRefresherStopped = true
-            clearInterval(Timer.timerRefresher)
-
-            Timer.bigTimerDisplay.textContent = 'DONE'
-            Timer.currentSubtimer.element.className = 'subtimer'
-            Timer.progress_bar.style.setProperty('--value', '0')
-        }
+        else
+            Timer.killTimer()
     }
 
     static startNewSubtimer():void {
