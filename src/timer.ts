@@ -42,24 +42,30 @@ export class Timer {
 
     static changeTime(event: MouseEvent): void {
         let elementClicked = <HTMLElement>event.target
-
+        
         if (!elementClicked.className.includes('subtimer') && !elementClicked.parentElement!.className.includes('subtimer'))
             return
         if (elementClicked.parentElement!.className.includes('subtimer'))
             elementClicked = elementClicked.parentElement!
+        
+        Timer.currentElement = elementClicked
+        Timer.list = Timer.currentSubtimer.element!.parentElement!
 
         let percentage = (event.clientX - elementClicked.clientLeft) / elementClicked.clientWidth * 100
-
+        
         if (elementClicked != Timer.currentSubtimer.element) {
             Timer.currentSubtimer.element.className = 'subtimer';
             Timer.currentSubtimer = new Subtimer(elementClicked)
         }
 
+        Repeater.resetChildren(Timer.list)
+        
         Timer.currentMiliseconds = percentage * Timer.currentSubtimer.duration / 100
         elementClicked.style.setProperty('--value', percentage + '')
         Timer.progress_bar.style.setProperty('--value', percentage + '')
         Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
-
+        
+        console.log(Timer.currentSubtimer)
         Timer.pauseTimer()
     }
 
@@ -67,17 +73,7 @@ export class Timer {
         window.removeEventListener('mousemove', Timer.changeTime);
         window.removeEventListener('mouseup', this.stopChangingTime);
 
-        Repeater.resetChildren(Timer.list)
-
         Timer.resumeTimer()
-    }
-
-    static startTimer(): void {
-        this.currentElement = this.list.firstElementChild!
-
-        Subtimer.startNewSubtimer()
-
-        this.resumeTimer()
     }
 
     static updateTime(): void {
@@ -98,6 +94,14 @@ export class Timer {
         //the time elapsed after the last call
         this.currentMiliseconds -= Date.now() - this.elapsedTime
         this.elapsedTime = Date.now()
+    }
+
+    static startTimer(): void {
+            this.currentElement = this.list.firstElementChild!
+
+            Subtimer.startNewSubtimer()
+
+            this.resumeTimer()
     }
 
     static killTimer(): void {

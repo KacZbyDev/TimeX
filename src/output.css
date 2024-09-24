@@ -570,6 +570,9 @@ video {
   margin-bottom: 0.5rem;
   display: flex;
   height: 2rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   align-items: center;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
@@ -585,6 +588,9 @@ video {
   margin-bottom: 0.5rem;
   display: flex;
   height: 2rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   align-items: center;
   border-radius: 9999px;
   --tw-bg-opacity: 1;

@@ -13,7 +13,7 @@
     }
 
     .subtimer {
-        @apply relative m-1 mt-2 mb-2 p-4 bg-gray-100 rounded-full h-8 flex items-center
+        @apply relative m-1 mt-2 mb-2 p-4 bg-gray-100 rounded-full h-8 flex items-center select-none
     }
 
     .subtimer-active {
