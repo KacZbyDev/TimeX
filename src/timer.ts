@@ -24,6 +24,7 @@ export class Timer {
     public static currentElement: Element | null
 
     public static currentSubtimer: Subtimer
+    public static elementClicked: HTMLElement
 
     static initialize(): void {
         Timer.listInitialSize = Timer.listOfSubtimers.getBoundingClientRect().right
@@ -32,7 +33,12 @@ export class Timer {
             window.addEventListener('mouseup', Utils.stopResize);
         });
 
-        this.list.addEventListener('mousedown', () => {
+        (this.list as HTMLElement).addEventListener('mousedown', (event: MouseEvent) => {
+            Timer.elementClicked = <HTMLElement>event.target
+        
+            if (!Timer.elementClicked.className.includes('subtimer') && !Timer.elementClicked.parentElement!.className.includes('subtimer'))
+                return
+
             window.addEventListener('mousemove', this.changeTime);
             window.addEventListener('mouseup', this.stopChangingTime);
         });
@@ -40,39 +46,10 @@ export class Timer {
         this.startTimer()
     }
 
-    static changeTime(event: MouseEvent): void {
-        let elementClicked = <HTMLElement>event.target
-        
-        if (!elementClicked.className.includes('subtimer') && !elementClicked.parentElement!.className.includes('subtimer'))
-            return
-
-        if (elementClicked.parentElement!.className.includes('subtimer'))
-            elementClicked = elementClicked.parentElement!
-        
-        Timer.currentElement = elementClicked
-        Timer.list = Timer.currentSubtimer.element!.parentElement!
-        Repeater.resetChildren(Timer.list)
-
-        let percentage = (event.clientX - elementClicked.clientLeft) / elementClicked.clientWidth * 100
-        
-        if (elementClicked != Timer.currentSubtimer.element) {
-            Timer.currentSubtimer.element.className = 'subtimer';
-        }
-        Timer.currentSubtimer = new Subtimer(elementClicked)
-        
-        Timer.currentMiliseconds = percentage * Timer.currentSubtimer.duration / 100
-        elementClicked.style.setProperty('--value', percentage + '')
-        Timer.progress_bar.style.setProperty('--value', percentage + '')
-        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
-        
-        Timer.pauseTimer()
-    }
-
-    static stopChangingTime(): void {
-        window.removeEventListener('mousemove', Timer.changeTime);
-        window.removeEventListener('mouseup', Timer.stopChangingTime);
-
-        Timer.resumeTimer()
+    static startTimer(): void {
+        this.currentElement = this.list.firstElementChild!
+        Subtimer.startNewSubtimer()
+        this.resumeTimer()
     }
 
     static updateTime(): void {
@@ -95,12 +72,38 @@ export class Timer {
         Timer.elapsedTime = Date.now()
     }
 
-    static startTimer(): void {
-            this.currentElement = this.list.firstElementChild!
+    static changeTime(event: MouseEvent): void {
+        let elementClicked = Timer.elementClicked
+        if (elementClicked.parentElement!.className.includes('subtimer'))
+            elementClicked = elementClicked.parentElement!
+        
+        Timer.currentElement = elementClicked
+        Timer.list = Timer.currentSubtimer.element!.parentElement!
+        Repeater.resetChildren(Timer.list)
 
-            Subtimer.startNewSubtimer()
+        let percentage = (event.clientX - elementClicked.offsetLeft + 2) / elementClicked.clientWidth * 100
+        percentage = Math.min(percentage, 100)
+        percentage = Math.max(percentage, 0)
+        if (elementClicked != Timer.currentSubtimer.element) {
+            Timer.currentSubtimer.element.className = 'subtimer';
+        }
+        Timer.currentSubtimer = new Subtimer(elementClicked)
 
-            this.resumeTimer()
+        document.getElementById('current-subtimer-name')!.textContent! = Timer.currentSubtimer.name
+        
+        Timer.currentMiliseconds = percentage * Timer.currentSubtimer.duration / 100
+        elementClicked.style.setProperty('--value', percentage + '')
+        Timer.progress_bar.style.setProperty('--value', percentage + '')
+        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
+        
+        Timer.pauseTimer()
+    }
+
+    static stopChangingTime(): void {
+        window.removeEventListener('mousemove', Timer.changeTime);
+        window.removeEventListener('mouseup', Timer.stopChangingTime);
+
+        Timer.resumeTimer()
     }
 
     static killTimer(): void {
