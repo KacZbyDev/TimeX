@@ -45,55 +45,54 @@ export class Timer {
         
         if (!elementClicked.className.includes('subtimer') && !elementClicked.parentElement!.className.includes('subtimer'))
             return
+
         if (elementClicked.parentElement!.className.includes('subtimer'))
             elementClicked = elementClicked.parentElement!
         
         Timer.currentElement = elementClicked
         Timer.list = Timer.currentSubtimer.element!.parentElement!
+        Repeater.resetChildren(Timer.list)
 
         let percentage = (event.clientX - elementClicked.clientLeft) / elementClicked.clientWidth * 100
         
         if (elementClicked != Timer.currentSubtimer.element) {
             Timer.currentSubtimer.element.className = 'subtimer';
-            Timer.currentSubtimer = new Subtimer(elementClicked)
         }
-
-        Repeater.resetChildren(Timer.list)
+        Timer.currentSubtimer = new Subtimer(elementClicked)
         
         Timer.currentMiliseconds = percentage * Timer.currentSubtimer.duration / 100
         elementClicked.style.setProperty('--value', percentage + '')
         Timer.progress_bar.style.setProperty('--value', percentage + '')
         Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
         
-        console.log(Timer.currentSubtimer)
         Timer.pauseTimer()
     }
 
     static stopChangingTime(): void {
         window.removeEventListener('mousemove', Timer.changeTime);
-        window.removeEventListener('mouseup', this.stopChangingTime);
+        window.removeEventListener('mouseup', Timer.stopChangingTime);
 
         Timer.resumeTimer()
     }
 
     static updateTime(): void {
-        if (this.currentMiliseconds <= 0)
+        if (Timer.currentMiliseconds <= 0)
             Subtimer.subtimerFinished()
 
-        if (this.timerRefresherStopped)
+        if (Timer.timerRefresherStopped)
             return;
 
         //update bigTimer
-        let percent = this.currentMiliseconds / this.currentSubtimer.duration * 100
-        this.progress_bar.style.setProperty('--value', percent + '')
-        this.bigTimerDisplay.textContent = Utils.milisecondsToTime(this.currentMiliseconds);
+        let percent = Timer.currentMiliseconds / Timer.currentSubtimer.duration * 100
+        Timer.progress_bar.style.setProperty('--value', percent + '')
+        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
 
         // currentSubtimer.element.className = 'subtimer-active';
-        (<HTMLElement>this.currentSubtimer.element).style.setProperty('--value', percent + '')
+        (<HTMLElement>Timer.currentSubtimer.element).style.setProperty('--value', percent + '')
 
         //the time elapsed after the last call
-        this.currentMiliseconds -= Date.now() - this.elapsedTime
-        this.elapsedTime = Date.now()
+        Timer.currentMiliseconds -= Date.now() - Timer.elapsedTime
+        Timer.elapsedTime = Date.now()
     }
 
     static startTimer(): void {
@@ -105,9 +104,7 @@ export class Timer {
     }
 
     static killTimer(): void {
-        Timer.timerRefresherStopped = true
-        clearInterval(Timer.timerRefresher)
-        this.list.addEventListener('mousedown', () => {})
+        this.pauseTimer()
 
         Timer.bigTimerDisplay.textContent = 'DONE'
         Timer.currentSubtimer.element.className = 'subtimer'
@@ -120,12 +117,15 @@ export class Timer {
     }
 
     static resumeTimer(): void {
+        if(Timer.bigTimerDisplay.textContent == 'DONE')
+            return
+
         //the time before the timer updated
         this.elapsedTime = Date.now()
 
         if (this.timerRefresherStopped) {//if the timerRefresher is not started
             this.timerRefresherStopped = false
-            this.timerRefresher = setInterval(() => this.updateTime(), Utils.REFRESH_DELAY)
+            this.timerRefresher = setInterval(this.updateTime, Utils.REFRESH_DELAY)
         }
     }
 }
