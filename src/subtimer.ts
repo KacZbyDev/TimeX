@@ -3,13 +3,14 @@ import { Timer } from './timer.js'
 import { Repeater } from './repeater.js'
 
 export class Subtimer {
-    public element:Element
+    public element:HTMLElement
 
     public name:string
     public duration:number
 
+    //TODO remove constructor
     //get the time and name from the variables stored in the html
-    constructor(element:Element) {
+    constructor(element:HTMLElement) {
         this.element = element
         this.name = (<HTMLElement>element!.querySelector('.name')!).textContent!
         this.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
@@ -21,17 +22,17 @@ export class Subtimer {
         Utils.playSubtimerFinish()
 
         //get the next element in the list
-        Timer.currentElement = Timer.currentElement!.nextElementSibling
+        Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
 
         //if it finds the next element
         if (Timer.currentElement) {
             if (Timer.currentElement.className.includes('repeater')) {
-                Timer.list = Timer.currentElement
+                Timer.list = Timer.currentElement as HTMLElement
 
                 Repeater.setListToFirstSubtimerParent(Timer.list)
 
                 //starts with the second child because the first one is for repeater configuration
-                Timer.currentElement = Timer.list.children[1]
+                Timer.currentElement = Timer.list.children[1] as HTMLElement
             }
 
             //reset subtimer progress

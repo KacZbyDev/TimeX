@@ -1,7 +1,12 @@
 import { Timer } from './timer.js'
 
-export class Utils {
+export enum TimerState {
+    Active,
+    Paused,
+    Finished,
+};
 
+export class Utils {
     private static readonly DECIMALS: number = 1
     public static readonly REFRESH_DELAY: number = 10 //how many miliseconds it takes for the time to update
 

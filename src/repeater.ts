@@ -46,7 +46,7 @@ export class Repeater {
             Timer.currentElement = Timer.list
             Timer.list = Timer.list.parentElement!
         } else {
-            Timer.currentElement = Timer.list.firstElementChild
+            Timer.currentElement = Timer.list.firstElementChild as HTMLElement
             Repeater.resetChildren(Timer.list)
         }
     
