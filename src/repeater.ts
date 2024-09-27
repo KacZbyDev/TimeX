@@ -22,7 +22,7 @@ export class Repeater {
             let child:Element = list.children[i]
 
             if(child.className.includes('subtimer')) {
-                list = child.parentElement!
+                Timer.list = child.parentElement!
                 return true
             }
 

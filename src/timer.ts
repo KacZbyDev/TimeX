@@ -22,7 +22,6 @@ export class Timer {
     public static list: HTMLElement = document.getElementById('list-content')!
     public static currentElement: HTMLElement
 
-    public static currentSubtimer: Subtimer//TODO remove this
     public static elementClicked: HTMLElement
 
     public static timerState:TimerState = TimerState.Paused
@@ -50,7 +49,13 @@ export class Timer {
     }
 
     static startTimer(): void {
-        this.currentElement = this.list.firstElementChild! as HTMLElement//TODO check if the first child can be a repeater
+        if(this.list.id.includes('list')) {
+            Repeater.setListToFirstSubtimerParent(Timer.list)
+            this.currentElement = Timer.list.children[1]! as HTMLElement
+        }
+        else 
+            this.currentElement = this.list.firstElementChild! as HTMLElement
+        
         Subtimer.startNewSubtimer(this.currentElement)
         this.resumeTimer()
     }
