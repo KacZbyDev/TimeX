@@ -51,7 +51,7 @@ export class Timer {
 
     static startTimer(): void {
         this.currentElement = this.list.firstElementChild! as HTMLElement//TODO check if the first child can be a repeater
-        Subtimer.startNewSubtimer()
+        Subtimer.startNewSubtimer(this.currentElement)
         this.resumeTimer()
     }
 
@@ -63,11 +63,11 @@ export class Timer {
             return;
 
         //update bigTimer
-        let percent = Timer.currentMiliseconds / Timer.currentSubtimer.duration * 100
+        let percent = Timer.currentMiliseconds / Subtimer.duration * 100
         Timer.progress_bar.style.setProperty('--value', percent + '')
         Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
 
-        Timer.currentSubtimer.element.style.setProperty('--value', percent + '')
+        Subtimer.element.style.setProperty('--value', percent + '')
 
         //the time elapsed after the last call
         Timer.currentMiliseconds -= Date.now() - Timer.elapsedTime
@@ -80,20 +80,20 @@ export class Timer {
             elementClicked = elementClicked.parentElement!
          
         Timer.currentElement = elementClicked
-        Timer.list = Timer.currentSubtimer.element!.parentElement!
+        Timer.list = Subtimer.element!.parentElement!
         Repeater.resetChildren(Timer.list)
 
         let percentage = (event.clientX - elementClicked.offsetLeft + 2) / Timer.currentElement.clientWidth * 100
         percentage = Math.min(percentage, 100)
         percentage = Math.max(percentage, 0)
         
-        if (elementClicked != Timer.currentSubtimer.element) {
-            Timer.currentSubtimer.element.className = 'subtimer';
+        if (elementClicked != Subtimer.element) {
+            Subtimer.element.className = 'subtimer';
         }
 
-        Subtimer.startNewSubtimer()
+        Subtimer.startNewSubtimer(Timer.currentElement)
         
-        Timer.currentMiliseconds = percentage * Timer.currentSubtimer.duration / 100
+        Timer.currentMiliseconds = percentage * Subtimer.duration / 100
         Timer.currentElement.style.setProperty('--value', percentage + '')
         Timer.progress_bar.style.setProperty('--value', percentage + '')
         Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
@@ -131,7 +131,7 @@ export class Timer {
 
         Timer.timerState = TimerState.Finished
         Timer.bigTimerDisplay.textContent = 'DONE'
-        Timer.currentSubtimer.element.className = 'subtimer'
+        Subtimer.element.className = 'subtimer'
         Timer.progress_bar.style.setProperty('--value', '0')
     }
 }

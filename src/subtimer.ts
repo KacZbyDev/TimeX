@@ -3,20 +3,10 @@ import { Timer } from './timer.js'
 import { Repeater } from './repeater.js'
 
 export class Subtimer {
-    public element:HTMLElement
+    public static element:HTMLElement
 
-    public name:string
-    public duration:number
-
-    //TODO remove constructor
-    //get the time and name from the variables stored in the html
-    constructor(element:HTMLElement) {
-        this.element = element
-        this.name = (<HTMLElement>element!.querySelector('.name')!).textContent!
-        this.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
-
-        element.className = 'subtimer-active';
-    }
+    public static actionName:string
+    public static duration:number
 
     static subtimerFinished(): void {
         Utils.playSubtimerFinish()
@@ -36,9 +26,9 @@ export class Subtimer {
             }
 
             //reset subtimer progress
-            Timer.currentSubtimer.element.className = 'subtimer'
+            this.element.className = 'subtimer'
 
-            this.startNewSubtimer()
+            this.startNewSubtimer(Timer.currentElement)
 
             Timer.elapsedTime = Date.now()
             return
@@ -50,13 +40,17 @@ export class Subtimer {
             Timer.killTimer()
     }
 
-    static startNewSubtimer():void {
-        //create a subtimer object by passing the currentElement
-        Timer.currentSubtimer = new Subtimer(Timer.currentElement!)
+    static startNewSubtimer(element: HTMLElement):void {
+        //get the time and name from the variables stored in the html
+        this.element = element
+        this.actionName = (<HTMLElement>element!.querySelector('.name')!).textContent!
+        this.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
+
+        element.className = 'subtimer-active';
 
         //the time displayed by bigTimer
-        Timer.currentMiliseconds = Timer.currentSubtimer.duration
+        Timer.currentMiliseconds = this.duration
 
-        document.getElementById('current-subtimer-name')!.textContent! = Timer.currentSubtimer.name
+        document.getElementById('current-subtimer-name')!.textContent! = this.actionName
     }
 }
