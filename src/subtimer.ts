@@ -10,7 +10,7 @@ export class Subtimer {
 
     static subtimerFinished(): void {
         Utils.playSubtimerFinish()
-
+        
         //get the next element in the list
         Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
 

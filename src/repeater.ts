@@ -3,9 +3,11 @@ import { Timer } from './timer.js'
 
 export class Repeater {
 
-    //resets every child of the repeater through iteration
+    //resets every child of the repeater
     static resetChildren(repeater:Element): void {
-        for (let i:number = 1; i < repeater.children.length; i++) {
+        let i = repeater.id.includes('list') ? 0 : 1;
+
+        for (i; i < repeater.children.length; i++) {
             let child:Element = repeater.children[i]
 
             if(child.className.includes('repeater')) {//

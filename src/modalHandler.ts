@@ -1,4 +1,4 @@
-import { Utils } from "./utils.js";
+import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js'
 import { Repeater } from './repeater.js'
 
@@ -14,6 +14,8 @@ $(document).ready(function () {
         Timer.list = document.getElementById('list-content')!
         Repeater.resetChildren(Timer.list)
         
+        if(Timer.timerState == TimerState.Finished)
+            Timer.timerState = TimerState.Paused
         Timer.startTimer()
 
         hideAndClearModal()
