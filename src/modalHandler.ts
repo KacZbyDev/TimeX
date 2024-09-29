@@ -14,8 +14,8 @@ $(document).ready(function () {
         Timer.list = document.getElementById('list-content')!
         Repeater.resetChildren(Timer.list)
         
-        if(Timer.timerState == TimerState.Finished)
-            Timer.timerState = TimerState.Paused
+        // if(Timer.currentState == TimerState.Finished)
+            Timer.currentState = TimerState.Paused
         Timer.startTimer()
 
         hideAndClearModal()

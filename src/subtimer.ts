@@ -9,6 +9,9 @@ export class Subtimer {
     public static duration:number
 
     static subtimerFinished(): void {
+        if(Timer.currentElement == null)
+            return
+        
         Utils.playSubtimerFinish()
         
         //get the next element in the list

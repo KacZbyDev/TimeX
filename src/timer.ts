@@ -24,7 +24,8 @@
 
         public static elementClicked: HTMLElement
 
-        public static timerState:TimerState = TimerState.Paused
+        public static currentState:TimerState = TimerState.Paused
+        private static isChangingTime = false
 
         static initialize(): void {
             Timer.listInitialSize = Timer.listOfSubtimers.getBoundingClientRect().right
@@ -49,7 +50,6 @@
         }
 
         static startTimer(): void {
-            
             Repeater.setListToFirstSubtimerParent(Timer.list)
 
             if(!Timer.list.id.includes('list'))
@@ -65,7 +65,7 @@
             if (Timer.currentMiliseconds <= 0)
                 Subtimer.subtimerFinished()
             
-            if (Timer.timerState != TimerState.Active)
+            if (Timer.currentState != TimerState.Active)
                 return;
 
             //update bigTimer
@@ -81,52 +81,58 @@
         }
 
         static changeTime(event: MouseEvent): void {
-            let elementClicked = Timer.elementClicked
-            if (elementClicked.parentElement!.className.includes('subtimer'))
-                elementClicked = elementClicked.parentElement!
-            
-            Timer.currentElement = elementClicked
-            Timer.list = Subtimer.element!.parentElement!
-            Repeater.resetChildren(Timer.list)
+            if(Timer.isChangingTime == false) {//Runs only the first time
+                Timer.currentState = TimerState.Paused
+                Timer.isChangingTime = true
+                
+                if (Timer.elementClicked.parentElement!.className.includes('subtimer'))
+                    Timer.elementClicked = Timer.elementClicked.parentElement!
+                
+                Subtimer.element.className = 'subtimer'
+                Timer.currentElement = Timer.elementClicked
 
-            let percentage = (event.clientX - elementClicked.offsetLeft + 2) / Timer.currentElement.clientWidth * 100
+                Timer.list = Timer.currentElement.parentElement!
+                Repeater.resetChildren(Timer.list)
+
+                if(Timer.list.className.includes('repeater') && 
+                    Timer.list.firstElementChild!.firstElementChild!.textContent! == Timer.list.firstElementChild!.children[1]!.textContent!)
+                        Timer.list.firstElementChild!.firstElementChild!.textContent! = (parseInt(Timer.list.firstElementChild!.children[1]!.textContent!) - 1).toString()
+                    
+                Subtimer.startNewSubtimer(Timer.elementClicked)
+            }
+            
+            let percentage = (event.clientX - Timer.currentElement.offsetLeft + 2) / Timer.currentElement.clientWidth * 100
             percentage = Math.min(percentage, 100)
             percentage = Math.max(percentage, 0)
-            
-            if (elementClicked != Subtimer.element) {
-                Subtimer.element.className = 'subtimer';
-            }
-
-            Subtimer.startNewSubtimer(Timer.currentElement)
             
             Timer.currentMiliseconds = percentage * Subtimer.duration / 100
             Timer.currentElement.style.setProperty('--value', percentage + '')
             Timer.progress_bar.style.setProperty('--value', percentage + '')
             Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
-
-            Timer.timerState = TimerState.Paused
         }
         
         static pauseTimer() {
-            if(Timer.timerState == TimerState.Active)
-                Timer.timerState = TimerState.Paused
+            if(Timer.currentState == TimerState.Active)
+                Timer.currentState = TimerState.Paused
             clearInterval(Timer.timerRefresher)
         }
 
         static resumeTimer(): void {
-            if(Timer.timerState == TimerState.Finished)
+            if(Timer.currentState == TimerState.Finished)
                 return
 
             //the time before the timer updated
             Timer.elapsedTime = Date.now()
 
-            if (Timer.timerState == TimerState.Paused) {
-                Timer.timerState = TimerState.Active
+            if (Timer.currentState == TimerState.Paused) {
+                Timer.currentState = TimerState.Active
                 Timer.timerRefresher = setInterval(Timer.updateTime, Utils.REFRESH_DELAY)
             }
         }
 
         static stopChangingTime(): void {
+            Timer.isChangingTime = false
+
             window.removeEventListener('mousemove', Timer.changeTime);
             window.removeEventListener('mouseup', Timer.stopChangingTime);
 
@@ -136,7 +142,7 @@
         static killTimer(): void {
             Timer.pauseTimer()
 
-            Timer.timerState = TimerState.Finished
+            Timer.currentState = TimerState.Finished
             Timer.bigTimerDisplay.textContent = 'DONE'
             Subtimer.element.className = 'subtimer'
             Timer.progress_bar.style.setProperty('--value', '0')

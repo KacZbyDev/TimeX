@@ -18,7 +18,7 @@ export class Repeater {
         }
     }
 
-    //iterates through every single repeater until it finds the first subtimer (iterates through nested repeaters)
+    //finds the first subtimer (iterates through nested repeaters)
     static setListToFirstSubtimerParent(list:Element): boolean {
         for (let i:number = 0; i < list.children.length; i++) {
             let child:Element = list.children[i]
