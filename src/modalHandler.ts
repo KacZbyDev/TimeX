@@ -14,14 +14,8 @@ $(document).ready(function () {
         Timer.list = document.getElementById('list-content')!
         Repeater.resetChildren(Timer.list)
         
-        // if(Timer.currentState == TimerState.Finished)
-            Timer.currentState = TimerState.Paused
+        Timer.currentState = TimerState.Paused
         Timer.startTimer()
-
-        hideAndClearModal()
-    })
-    $('#modal-delete-button').on('click', () => {
-        Timer.resumeTimer()
 
         hideAndClearModal()
     })
@@ -31,6 +25,14 @@ $(document).ready(function () {
 
         Utils.addTimer(nameInput.value, durationInput.value)
         Timer.resumeTimer()
+    })
+    $('#modal-cancel-button').on('click', () => {
+        Timer.resumeTimer()
+        hideAndClearModal()
+    })
+    $('#modal-background').on('click', () => {
+        Timer.resumeTimer()
+        hideAndClearModal()
     })
 });
     

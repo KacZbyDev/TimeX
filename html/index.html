@@ -14,7 +14,7 @@
     <div id="navbar"
         class="flex items-center shadow-lg p-4 border-b-[1px] border-b-gray-300 bg-gradient-to-r from-white via-gray-100 to-white h-16">
         <button
-            class="inline-flex items-center border border-cyan-500 px-3 py-1.5 rounded-md text-cyan-600 hover:bg-cyan-50">
+            class="inline-flex items-center border border-blue-secondary px-3 py-1.5 rounded-md text-blue-secondary hover:bg-cyan-50">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                 class="h-6 w-6">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18">
@@ -39,6 +39,7 @@
         <ol id="list-of-subtimer"
             class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative">
             <div id="resizer" class="z-50 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
+            <!-- The shadow is a square while the border is rounded -->
             <div id="list-header"
                 class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">
                 *TIMER NAME*</div>
@@ -71,8 +72,8 @@
         </ol>
 
         <div id="timer-interface-wrapper" class="relative flex flex-col flex-grow overflow-y-auto items-center">
-            <div id="current-subtimer-name" class="flex-none text-3xl underline-offset-2 underline font-semibold pt-4"></div>
-
+            <div id="current-subtimer-name" class="flex-none text-3xl text-blue-primary underline-offset-2 underline font-semibold pt-4"></div>
+            
             <div id="timer" class="h-full flex absolute justify-center items-center">
                 <div class="flex justify-center items-center bg-dark-blue-primary rounded-full size-96">
                     <div id="big-timer-time"    
@@ -114,7 +115,7 @@
 
 
                     <div id="button-container" class="flex justify-between h-1/6">
-                        <button type="button" id="modal-delete-button"
+                        <button type="button" id="modal-cancel-button"
                             class="flex justify-center items-center bg-gray-50 text-red-600 border border-red-600 rounded-xl w-1/4 h-full ml-3 mr-3 hover:text-white hover:bg-red-600 transition duration-300">Cancel</button>
 
                         <button type="submit" id="modal-add-button"
