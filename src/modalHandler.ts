@@ -1,6 +1,5 @@
-import { TimerState, Utils } from "./utils.js";
-import { Timer } from './timer.js'
-import { Repeater } from './repeater.js'
+import { Utils } from "./utils.js";
+import { Timer } from './timer.js';
 
 let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
 let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
@@ -11,13 +10,15 @@ $(document).ready(function () {
         $('#modal').removeClass('hidden');
     });
     $('#reset-button').on('click', () => {
+        
+
+        /*
         Timer.list = document.getElementById('list-content')!
         Repeater.resetChildren(Timer.list)
         
         Timer.currentState = TimerState.Paused
         Timer.startTimer()
-
-        hideAndClearModal()
+        */
     })
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
