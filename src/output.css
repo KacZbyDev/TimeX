@@ -578,6 +578,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
+  width: var(--subtimer-width, auto);
 }
 
 .subtimer-active {
@@ -595,7 +596,12 @@ video {
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-  padding: 1rem
+  padding: 1rem;
+  width: var(--subtimer-width, auto)
+}
+
+.ghost {
+  opacity: 0.2;
 }
 
 .options {
@@ -739,6 +745,10 @@ video {
 
 .h-6 {
   height: 1.5rem;
+}
+
+.h-96 {
+  height: 24rem;
 }
 
 .h-\[calc\(100vh-64px\)\] {

@@ -10,7 +10,6 @@
 
 <body id="all" class="flex flex-col min-h-screen">
 
-    <!-- TODO fix shadow -->
     <div id="navbar"
         class="flex items-center shadow-lg p-4 border-b-[1px] border-b-gray-300 bg-gradient-to-r from-white via-gray-100 to-white h-16">
         <button
@@ -44,22 +43,23 @@
                 class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">
                 *TIMER NAME*</div>
 
-            <div id="list-content" class="overflow-y-auto overflow-x-hidden h-fit max-h-full">
+            <div id="list-content" class="relative overflow-y-auto overflow-x-hidden h-96 h-fit max-h-full">
                 <div class="subtimer">
                     <p class="options">...</p>
                     <p class="name absolute w-full text-center">Start</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
-                <div class="repeater">
-                    <div class="repeater-values">
-                        <p class="current-repeats w-full text-center">0</p>
-                        <p class="total-repeats absolute right-4">2</p>
-                    </div>
-                    <div class="subtimer">
-                        <p class="options">...</p>
-                        <p class="name absolute w-full text-center">Sari coarda</p>
-                        <p class="duration absolute right-4">1</p>
-                    </div>
+                
+                <div class="subtimer">
+                    <p class="options">...</p>
+                    <p class="name absolute w-full text-center">Sari coarda</p>
+                    <p class="duration absolute right-4">1</p>
+                </div>
+                
+                <div class="subtimer">
+                    <p class="options">...</p>
+                    <p class="name absolute w-full text-center">Gata</p>
+                    <p class="duration absolute right-4">1</p>
                 </div>
             </div>
 
@@ -139,6 +139,9 @@
                 <p class="total-repeats absolute right-4">2</p>
             </div>
         </div>
+
+        <!-- TODO remove this class while ghost effect still working -->
+        <div class="ghost"></div>/
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
