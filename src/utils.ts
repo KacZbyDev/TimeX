@@ -7,6 +7,9 @@ export enum TimerState {
 };
 
 export class Utils {
+    public static readonly GRAB_OFFSET_X = 18
+    public static readonly GRAB_OFFSET_Y = 136
+
     private static readonly DECIMALS: number = 1
     public static readonly REFRESH_DELAY: number = 10 //how many miliseconds it takes for the time to update
 

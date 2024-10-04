@@ -23,12 +23,10 @@ export class Timer {
     public static currentElement: HTMLElement
 
     public static elementClicked: HTMLElement
-
+    public static ghostSubtimer: HTMLElement
     public static currentState: TimerState = TimerState.Paused
     // private static isChangingTime = false
     private static isGrabbing = false
-    private static offsetY = 0
-    private static offsetX = 0
 
     static initialize(): void {
         Timer.listInitialSize = Timer.listOfSubtimers.getBoundingClientRect().right
@@ -53,9 +51,10 @@ export class Timer {
     }
 
     static grabbing(event: MouseEvent) {
-        Timer.elementClicked.style.top = `${event.clientY - 130}px`//TODO calculate offsetY properly
-        Timer.elementClicked.style.left = `${event.clientX - Timer.offsetX}px`
-        
+        Timer.elementClicked.style.left = `${event.clientX - Utils.GRAB_OFFSET_X}px`
+        Timer.elementClicked.style.top = `${event.clientY - Utils.GRAB_OFFSET_Y}px`
+
+        //TODO make the ghostElement move
         //
         // Timer.currentElement.parentElement!.removeChild(Timer.currentElement)
         // newParent!.appendChild(Timer.currentElement)
@@ -69,13 +68,9 @@ export class Timer {
 
             if (Timer.elementClicked.parentElement!.className.includes('subtimer'))
                 Timer.elementClicked = Timer.elementClicked.parentElement!
-
-            Timer.offsetY = Timer.elementClicked.getBoundingClientRect().top + 15
-            Timer.offsetX = Timer.elementClicked.getBoundingClientRect().left + 14
-
             
-            let ghostSubtimer = Timer.elementClicked.cloneNode(true) as HTMLElement
-            ghostSubtimer.className += ' ghost'
+            Timer.ghostSubtimer = Timer.elementClicked.cloneNode(true) as HTMLElement
+            Timer.ghostSubtimer.className += ' ghost'
             
             const originalWidth = Timer.elementClicked.getBoundingClientRect().width;
             
@@ -83,10 +78,7 @@ export class Timer {
             Timer.elementClicked.style.setProperty('--subtimer-width', `${originalWidth}px`);
             Timer.elementClicked.style.width = `${originalWidth}px`;
             
-            // Timer.elementClicked.className = 'subtimer absolute'//TODO remove when dropping
-            // Timer.elementClicked.style.setProperty('--subtimer-width', parseInt(Timer.elementClicked.getBoundingClientRect().width.toString()).toString());
-            
-            Timer.elementClicked.replaceWith(ghostSubtimer)
+            Timer.elementClicked.replaceWith(Timer.ghostSubtimer)
             document.getElementById('list-content')!.appendChild(Timer.elementClicked)
         }
 
@@ -175,12 +167,16 @@ export class Timer {
 
     static stopChangingTime(): void {
         document.getElementById("all")!.style.cursor = "auto";
-
+        
         Timer.isGrabbing = false
         // Timer.isChangingTime = false
+        
+        Timer.elementClicked.className = 'subtimer'
+        Timer.elementClicked.removeAttribute('style')
 
-        Timer.elementClicked.style.left = ''
-        Timer.elementClicked.style.top = ''
+        Timer.ghostSubtimer.replaceWith(Timer.elementClicked)
+
+        console.log(document.getElementById('list-content')!.firstElementChild)
 
         window.removeEventListener('mousemove', Timer.changeTime);
         window.removeEventListener('mouseup', Timer.stopChangingTime);
