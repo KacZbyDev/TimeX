@@ -1,4 +1,6 @@
 import { Timer } from './timer.js'
+import { Repeater } from './repeater.js';
+import { Subtimer } from './subtimer.js'
 
 export enum TimerState {
     Active,
@@ -14,6 +16,11 @@ export class Utils {
     public static readonly REFRESH_DELAY: number = 10 //how many miliseconds it takes for the time to update
 
     private static readonly SUBTIMER_FINISH: HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
+    
+    private static isChangingTime = false
+    private static isDragging = false
+    public static elementClicked: HTMLElement
+    public static ghostSubtimer: HTMLElement
 
     static playSubtimerFinish(): void {
         this.SUBTIMER_FINISH.play()
@@ -87,5 +94,111 @@ export class Utils {
         newElement.querySelector('.duration')!.textContent = duration
 
         parentList.appendChild(newElement)
+    }
+
+    static dragSubtimerListener(event: MouseEvent): void {
+        let elementClicked:HTMLElement = <HTMLElement> event.target
+        
+        if (!elementClicked.className.includes('drag-button'))
+            return
+        
+        Utils.elementClicked = elementClicked.parentElement!
+        
+        window.addEventListener('mousemove', Utils.dragSubtimer);
+        window.addEventListener('mouseup', Utils.draggingSubtimerStopped);
+    }
+    
+    static dragSubtimer(event: MouseEvent) {
+        //TODO make the draggedSubtimer have the left blue Time thing still showing if its active
+        if (Utils.isDragging == false) {
+            document.getElementById("all")!.style.cursor = "pointer";
+            Utils.isDragging = true
+
+            Utils.ghostSubtimer = Utils.elementClicked.cloneNode(true) as HTMLElement
+            Utils.ghostSubtimer.className += ' ghost'
+            
+            const originalWidth = Utils.elementClicked.getBoundingClientRect().width;
+            
+            Utils.elementClicked.className = 'subtimer absolute';
+            Utils.elementClicked.style.setProperty('--subtimer-width', `${originalWidth}px`);
+            Utils.elementClicked.style.width = `${originalWidth}px`;
+            
+            Utils.elementClicked.replaceWith(Utils.ghostSubtimer)
+            document.getElementById('list-content')!.appendChild(Utils.elementClicked)
+        }
+
+        Utils.elementClicked.style.left = `${event.clientX - Utils.DRAG_OFFSET_X}px`
+        Utils.elementClicked.style.top = `${event.clientY - Utils.DRAG_OFFSET_Y}px`
+        
+        //TODO make the ghostElement move
+    }
+    
+    static draggingSubtimerStopped() {
+        document.getElementById("all")!.style.cursor = "auto";
+
+        if(Utils.isDragging) {
+            Utils.isDragging = false
+            Utils.elementClicked.removeAttribute('style')
+            Utils.ghostSubtimer.replaceWith(Utils.elementClicked)
+        }
+
+        Utils.elementClicked.className = 'subtimer'
+
+        window.removeEventListener('mousemove', Utils.dragSubtimer);
+        window.removeEventListener('mouseup', Utils.draggingSubtimerStopped);
+    }
+
+    static changeTimeListener(event: MouseEvent): void {
+        let elementClicked:HTMLElement = <HTMLElement> event.target
+
+        if(elementClicked.parentElement!.className.includes('subtimer'))
+            elementClicked = elementClicked.parentElement!
+
+        if (!elementClicked.className.includes('subtimer'))
+            return
+
+        Timer.pauseTimer()
+
+        Utils.elementClicked = elementClicked
+
+        window.addEventListener('mousemove', Utils.changeTime);
+        window.addEventListener('mouseup', Utils.changingTimeStopped);
+    }
+    
+    static changeTime(event: MouseEvent): void {
+        if(Utils.isChangingTime == false) {
+            Utils.isChangingTime = true
+
+            Timer.currentState = TimerState.Paused
+            Subtimer.element.className = 'subtimer'
+
+            Timer.currentElement = Utils.elementClicked
+            Timer.list = Timer.currentElement.parentElement!
+            Repeater.resetChildren(Timer.list)
+
+            if(Timer.list.className.includes('repeater') && 
+                Timer.list.firstElementChild!.firstElementChild!.textContent! == Timer.list.firstElementChild!.children[1]!.textContent!)
+                    Timer.list.firstElementChild!.firstElementChild!.textContent! = (parseInt(Timer.list.firstElementChild!.children[1]!.textContent!) - 1).toString()
+
+            Subtimer.startNewSubtimer(Timer.currentElement)
+        }
+
+        let percentage = (event.clientX - Timer.currentElement.offsetLeft + 2) / Timer.currentElement.clientWidth * 100
+        percentage = Math.min(percentage, 100)
+        percentage = Math.max(percentage, 0)
+
+        Timer.currentMiliseconds = percentage * Subtimer.duration / 100
+        Timer.currentElement.style.setProperty('--value', percentage + '')
+        Timer.progress_bar.style.setProperty('--value', percentage + '')
+        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
+    }
+
+    static changingTimeStopped(): void {
+        Utils.isChangingTime = false
+
+        window.removeEventListener('mousemove', Utils.changeTime);
+        window.removeEventListener('mouseup', Utils.changingTimeStopped);
+
+        Timer.resumeTimer()
     }
 }
