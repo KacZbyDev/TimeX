@@ -27,7 +27,7 @@
         @apply opacity-20
     }
 
-    .options {
+    .drag-button {
         @apply rotate-90 text-gray-700 text-3xl cursor-pointer
     }
     
