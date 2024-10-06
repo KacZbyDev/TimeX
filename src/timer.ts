@@ -55,6 +55,8 @@ export class Timer {
         if (Timer.currentState != TimerState.Active)
             return;
 
+        console.log('okaaa')
+        
         //update bigTimer
         let percent = Timer.currentMiliseconds / Subtimer.duration * 100
         Timer.progress_bar.style.setProperty('--value', percent + '')
@@ -77,7 +79,6 @@ export class Timer {
         if (Timer.currentState == TimerState.Finished)
             return
 
-        //the time before the timer updated
         Timer.elapsedTime = Date.now()
 
         if (Timer.currentState == TimerState.Paused) {

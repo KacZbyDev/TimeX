@@ -99,7 +99,7 @@ export class Utils {
     static dragSubtimerListener(event: MouseEvent): void {
         let elementClicked:HTMLElement = <HTMLElement> event.target
         
-        if (!elementClicked.className.includes('drag-button'))
+        if (!elementClicked.className.includes('drag-button') || Timer.currentState != TimerState.Paused)
             return
         
         Utils.elementClicked = elementClicked.parentElement!
@@ -150,6 +150,9 @@ export class Utils {
 
     static changeTimeListener(event: MouseEvent): void {
         let elementClicked:HTMLElement = <HTMLElement> event.target
+        
+        if(elementClicked.className.includes('drag-button'))
+            return
 
         if(elementClicked.parentElement!.className.includes('subtimer'))
             elementClicked = elementClicked.parentElement!

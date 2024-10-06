@@ -35,7 +35,7 @@
     </div>
 
     <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
-        <ol id="list-of-subtimer"
+        <div id="list-of-subtimer"
             class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative">
             <div id="resizer" class="z-50 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
             <!-- The shadow is a square while the border is rounded -->
@@ -71,23 +71,25 @@
 
             <div id="list-footer" class="flex justify-between pt-7 p-4">
                 <button id="reset-button"
-                    class="size-10 bg-orange-secondary rounded-xl text-center text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Reset</button>
+                    class="size-11 bg-orange-secondary rounded-xl text-center text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Reset</button>
                 <button id="add-button"
-                    class="size-10 bg-blue-secondary rounded-xl text-center text-white font-bold text-4xl flex justify-center items-center pb-1 hover:shadow-custom-amber hover:shadow-blue-600 hover:scale-125 transition-all duration-500">+</button>
+                    class="size-11 bg-blue-secondary rounded-xl text-center text-white font-bold text-4xl flex justify-center items-center pb-1 hover:shadow-custom-amber hover:shadow-blue-600 hover:scale-125 transition-all duration-500">+</button>
             </div>
-        </ol>
+        </div>
 
-        <div id="timer-interface-wrapper" class="relative flex flex-col flex-grow overflow-y-auto items-center">
-            <div id="current-subtimer-name" class="flex-none text-3xl text-blue-primary underline-offset-2 underline font-semibold pt-4"></div>
+        <div id="timer-interface-wrapper" class="relative flex flex-col flex-grow justify-between overflow-y-auto items-center">
+            <p id="current-subtimer-name" class="flex-none text-3xl text-blue-primary underline-offset-2 underline font-semibold pt-4 z-20"></p>
             
             <div id="timer" class="h-full flex absolute justify-center items-center">
                 <div class="flex justify-center items-center bg-dark-blue-primary rounded-full size-96">
                     <div id="big-timer-time"    
-                        class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10"></div>
+                        class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10 select-none"></div>
                     <div id="progress-bar" role="progressbar" aria-valuemax="100" aria-valuemin="0" style="--value:0"
                         class="timer-progress relative flex justify-center items-center size-[90%]"></div>
                 </div>
             </div>
+
+            <button id="pause-button" class="mb-12 rounded-lg size-10 bg-orange-primary font-extrabold text-base text-white z-20 flex justify-center items-center">| |</button>
             <!-- another variant
                     <div class="flex justify-center items-center  bg-dark-blue-secondary rounded-full size-96">
                         <div id="progress-time" class="absolute flex justify-center items-center text-5xl text-dark-blue-secondary z-10">12:00</div>
@@ -145,13 +147,10 @@
                 <p class="total-repeats absolute right-4">2</p>
             </div>
         </div>
-
-        <!-- TODO remove this class while ghost effect still working -->
-        <div class="ghost"></div>/
     </div>
 
     <script src="../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script type="module" src="../dest/modalHandler.js"></script>
+    <script type="module" src="../dest/buttonHandler.js"></script>
 </body>
 
 </html>
