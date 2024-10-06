@@ -1,5 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  purge: {
+    options: {
+      safelist: ['ghost'],
+    },
+  },
   content: ['./html/*.{html,js}'],
   theme: {
     extend: {

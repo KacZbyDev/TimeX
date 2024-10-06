@@ -1,4 +1,4 @@
-import { TimerState, Utils } from "./utils.js";
+import { Utils } from "./utils.js";
 import { Timer } from './timer.js';
 
 let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
@@ -35,14 +35,8 @@ $(document).ready(function () {
         hideAndClearModal()
     })
     $('#pause-button').on('click', () => {//Stops the timer
-        if(Timer.currentState == TimerState.Active) {
-            Timer.currentState = TimerState.Finished
-            document.getElementById('pause-button')!.textContent = '>'
-            return
-        }
-        document.getElementById('pause-button')!.textContent = '| |'
-        Timer.currentState = TimerState.Active
-        Timer.resumeTimer()
+        Utils.toggleSeriousPause()
+        $('#pause-button').blur() //Prevents keyboard focus
     })
 });
     

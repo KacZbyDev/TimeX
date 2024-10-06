@@ -99,7 +99,7 @@ export class Utils {
     static dragSubtimerListener(event: MouseEvent): void {
         let elementClicked:HTMLElement = <HTMLElement> event.target
         
-        if (!elementClicked.className.includes('drag-button') || Timer.currentState != TimerState.Paused)
+        if (!elementClicked.className.includes('drag-button') || Timer.currentState == TimerState.Active)
             return
         
         Utils.elementClicked = elementClicked.parentElement!
@@ -109,7 +109,7 @@ export class Utils {
     }
     
     static dragSubtimer(event: MouseEvent) {
-        //TODO make the draggedSubtimer have the left blue Time thing still showing if its active
+        //TODO make the dragged subtimer have the left blue Time thing still showing if its active
         if (Utils.isDragging == false) {
             document.getElementById("all")!.style.cursor = "pointer";
             Utils.isDragging = true
@@ -130,7 +130,31 @@ export class Utils {
         Utils.elementClicked.style.left = `${event.clientX - Utils.DRAG_OFFSET_X}px`
         Utils.elementClicked.style.top = `${event.clientY - Utils.DRAG_OFFSET_Y}px`
         
-        //TODO make the ghostElement move
+        //TODO clean the code a bit
+
+        if(Utils.ghostSubtimer.nextElementSibling! != null) {
+            if(Utils.elementClicked.offsetTop > (<HTMLElement>Utils.ghostSubtimer.nextElementSibling!).offsetTop) {
+                let placeholder: HTMLElement = document.createElement('div');
+                let nextElement = <HTMLElement>Utils.ghostSubtimer.nextElementSibling!;
+                            
+                Utils.ghostSubtimer.replaceWith(placeholder);
+                nextElement.replaceWith(Utils.ghostSubtimer);
+                placeholder.replaceWith(nextElement);
+            }
+        }
+
+        if(Utils.ghostSubtimer.previousElementSibling! != null) {
+            if(Utils.elementClicked.offsetTop < (<HTMLElement>Utils.ghostSubtimer.previousElementSibling!).offsetTop) {
+                let placeholder: HTMLElement = document.createElement('div');
+                let prevElement = <HTMLElement>Utils.ghostSubtimer.previousElementSibling!;
+                            
+                Utils.ghostSubtimer.replaceWith(placeholder); 
+                prevElement.replaceWith(Utils.ghostSubtimer); 
+                placeholder.replaceWith(prevElement); 
+            }
+        }
+
+        //TODO make them move inside repeaters maybe the code doesnt need to change much just add the ghost subtimer as a child of repeater instead of switching with it
     }
     
     static draggingSubtimerStopped() {
@@ -174,6 +198,7 @@ export class Utils {
 
             Timer.currentState = TimerState.Paused
             Subtimer.element.className = 'subtimer'
+            document.getElementById('pause-button')!.textContent = '| |'
 
             Timer.currentElement = Utils.elementClicked
             Timer.list = Timer.currentElement.parentElement!
@@ -202,6 +227,19 @@ export class Utils {
         window.removeEventListener('mousemove', Utils.changeTime);
         window.removeEventListener('mouseup', Utils.changingTimeStopped);
 
+        Timer.currentState = TimerState.Paused
+        Timer.resumeTimer()
+    }
+
+    static toggleSeriousPause(): void {
+        if(Timer.currentState == TimerState.Active) {
+            Timer.currentState = TimerState.Finished
+            document.getElementById('pause-button')!.textContent = '►'
+            return
+        }
+
+        document.getElementById('pause-button')!.textContent = '| |'
+        Timer.currentState = TimerState.Active
         Timer.resumeTimer()
     }
 }

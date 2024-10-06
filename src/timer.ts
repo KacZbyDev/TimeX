@@ -32,6 +32,11 @@ export class Timer {
         });
         Timer.list.addEventListener('mousedown', Utils.changeTimeListener);
         Timer.list.addEventListener('mousedown', Utils.dragSubtimerListener);
+        addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key != ' ')
+                return
+            Utils.toggleSeriousPause()
+        })
 
         Timer.startTimer()
     }
@@ -55,8 +60,6 @@ export class Timer {
         if (Timer.currentState != TimerState.Active)
             return;
 
-        console.log('okaaa')
-        
         //update bigTimer
         let percent = Timer.currentMiliseconds / Subtimer.duration * 100
         Timer.progress_bar.style.setProperty('--value', percent + '')
@@ -78,7 +81,7 @@ export class Timer {
     static resumeTimer(): void {
         if (Timer.currentState == TimerState.Finished)
             return
-
+        
         Timer.elapsedTime = Date.now()
 
         if (Timer.currentState == TimerState.Paused) {
