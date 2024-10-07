@@ -1,11 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: {
-    options: {
-      safelist: ['ghost'],
-    },
-  },
-  content: ['./html/*.{html,js}'],
+  content: [
+    './html/*.{html,js}',
+    './css/input.css',
+  ],
   theme: {
     extend: {
       boxShadow: {

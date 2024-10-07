@@ -119,7 +119,7 @@ export class Utils {
             
             const originalWidth = Utils.elementClicked.getBoundingClientRect().width;
             
-            Utils.elementClicked.className = 'subtimer absolute';
+            Utils.elementClicked.className += ' absolute';
             Utils.elementClicked.style.setProperty('--subtimer-width', `${originalWidth}px`);
             Utils.elementClicked.style.width = `${originalWidth}px`;
             
@@ -162,12 +162,19 @@ export class Utils {
 
         if(Utils.isDragging) {
             Utils.isDragging = false
+
+            Utils.elementClicked.className = 'subtimer'
             Utils.elementClicked.removeAttribute('style')
+
+            let timePercentage:string = Utils.ghostSubtimer.style.getPropertyValue('--value')
+            Utils.elementClicked.style.setProperty('--value', timePercentage)
+            
+            if(Utils.ghostSubtimer.className.includes('active'))
+                Utils.elementClicked.className += '-active'
+
             Utils.ghostSubtimer.replaceWith(Utils.elementClicked)
         }
-
-        Utils.elementClicked.className = 'subtimer'
-
+        
         window.removeEventListener('mousemove', Utils.dragSubtimer);
         window.removeEventListener('mouseup', Utils.draggingSubtimerStopped);
     }

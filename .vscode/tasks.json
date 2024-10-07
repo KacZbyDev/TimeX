@@ -4,7 +4,7 @@
     {
       "label": "Tailwind and TypeScript Watch",
       "type": "shell",
-      "command": "npx concurrently \"npx tailwindcss -i ./src/input.css -o ./src/output.css --watch\" \"tsc -watch\"",
+      "command": "npx concurrently \"npx tailwindcss -i ./css/input.css -o ./css/output.css --watch\" \"tsc -watch\"",
       "group": "build",
       "problemMatcher": [],
       "detail": "Run Tailwind CSS and TypeScript Watch Tasks Concurrently"
