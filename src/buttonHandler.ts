@@ -35,7 +35,7 @@ $(document).ready(function () {
         hideAndClearModal()
     })
     $('#pause-button').on('click', () => {//Stops the timer
-        Utils.toggleSeriousPause()
+        Utils.toggleStop()
         $('#pause-button').blur() //Prevents keyboard focus
     })
 });

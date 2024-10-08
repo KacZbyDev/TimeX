@@ -50,10 +50,17 @@
                     <p class="duration absolute right-4">1</p>
                 </div>
 
-                <div class="subtimer">
-                    <p class="drag-button">...</p>
-                    <p class="name absolute w-full text-center">Sari coarda</p>
-                    <p class="duration absolute right-4">1</p>
+                <div class="repeater">
+                    <div class="repeater-values">
+                        <p class="current-repeats w-full text-center">0</p>
+                        <p class="total-repeats absolute right-4">2</p>
+                    </div>
+
+                    <div class="subtimer">
+                        <p class="drag-button">...</p>
+                        <p class="name absolute w-full text-center">Gata</p>
+                        <p class="duration absolute right-4">1</p>
+                    </div>
                 </div>
                 
                 <div class="subtimer">
@@ -85,7 +92,7 @@
 
             <!-- TODO maybe add reset button here, prev and next -->
             <div class="mb-12 flex justify-between">
-                <button id="button" onclick="this.blur();" class="mx-4 rounded-lg size-10 bg-orange-primary font-extrabold text-base text-white z-20 flex justify-center items-center select-none">| |</button>
+                <button id="button" onclick="blur()" class="mx-4 rounded-lg size-10 bg-blue-primary font-extrabold text-base text-white z-20 flex justify-center items-center select-none text-">placeholder</button>
                 <button id="pause-button" class="mx-4 rounded-lg size-10 bg-orange-primary font-extrabold text-base text-white z-20 flex justify-center items-center select-none">| |</button>
             </div>
             <!-- another variant
@@ -143,6 +150,12 @@
             <div class="repeater-values">
                 <p class="current-repeats w-full text-center">0</p>
                 <p class="total-repeats absolute right-4">2</p>
+            </div>
+
+            <div class="subtimer">
+                <p class="drag-button">...</p>
+                <p class="name absolute w-full text-center"></p>
+                <p class="duration absolute right-4">1</p>
             </div>
         </div>
     </div>

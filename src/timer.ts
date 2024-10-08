@@ -35,7 +35,7 @@ export class Timer {
         addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key != ' ')
                 return
-            Utils.toggleSeriousPause()
+            Utils.toggleStop()
         })
 
         Timer.startTimer()
@@ -54,6 +54,8 @@ export class Timer {
     }
 
     static updateTime(): void {
+        //TODO remove return
+        return
         if (Timer.currentMiliseconds <= 0)
             Subtimer.subtimerFinished()
 
