@@ -7,6 +7,7 @@ export enum TimerState {
     Paused,
     Stopped,
     Finished,
+    Edit
 };
 
 export class Utils {
@@ -21,7 +22,7 @@ export class Utils {
     private static isChangingTime = false
     private static isDragging = false
     public static elementClicked: HTMLElement
-    public static ghostSubtimer: HTMLElement
+    public static ghostElement: HTMLElement
 
     static playSubtimerFinish(): void {
         this.SUBTIMER_FINISH.play()
@@ -107,128 +108,137 @@ export class Utils {
     }
 
     static dragSubtimerListener(event: MouseEvent): void {
-        let elementClicked:HTMLElement = <HTMLElement> event.target
-        
-        if (!elementClicked.className.includes('drag-button') || Timer.currentState == TimerState.Active)
+        if (Timer.currentState != TimerState.Edit)
             return
         
-        Utils.elementClicked = elementClicked.parentElement!
+        let elementClicked:HTMLElement = <HTMLElement> event.target
         
+        Utils.elementClicked = elementClicked.parentElement!
+        if(Utils.elementClicked.className.includes('repeater'))
+            Utils.elementClicked = Utils.elementClicked.parentElement!
+
         window.addEventListener('mousemove', Utils.dragSubtimer);
         window.addEventListener('mouseup', Utils.draggingSubtimerStopped);
     }
     
+    //TODO drag repeaters as well
     static dragSubtimer(event: MouseEvent) {
         if (Utils.isDragging == false) {
-            document.getElementById("all")!.style.cursor = "pointer";
             Utils.isDragging = true
+            document.getElementById("all")!.style.cursor = "pointer";
 
-            Utils.ghostSubtimer = Utils.elementClicked.cloneNode(true) as HTMLElement
-            Utils.ghostSubtimer.className += ' ghost'
+            Utils.ghostElement = Utils.elementClicked.cloneNode(true) as HTMLElement
+            Utils.ghostElement.className += ' ghost'
             
             const originalWidth = Utils.elementClicked.getBoundingClientRect().width;
             
             Utils.elementClicked.className += ' absolute';
-            Utils.elementClicked.style.setProperty('--subtimer-width', `${originalWidth}px`);
+            Utils.elementClicked.style.setProperty('--width', `${originalWidth}px`);
             Utils.elementClicked.style.width = `${originalWidth}px`;
             
-            Utils.elementClicked.replaceWith(Utils.ghostSubtimer)
+            Utils.elementClicked.replaceWith(Utils.ghostElement)
             document.getElementById('list-content')!.appendChild(Utils.elementClicked)
         }
 
         Utils.elementClicked.style.left = `${event.clientX - Utils.DRAG_OFFSET_X}px`
         Utils.elementClicked.style.top = `${event.clientY - Utils.DRAG_OFFSET_Y}px`
         
-        let prevElement: HTMLElement = <HTMLElement>Utils.ghostSubtimer.previousElementSibling!;
-        let nextElement: HTMLElement = <HTMLElement>Utils.ghostSubtimer.nextElementSibling!;
+        let prevElement: HTMLElement = <HTMLElement>Utils.ghostElement.previousElementSibling!;
+        let nextElement: HTMLElement = <HTMLElement>Utils.ghostElement.nextElementSibling!;
         
         Utils.moveBack(prevElement)
-
         Utils.moveForward(nextElement)
-
-
-        //TODO make them move inside repeaters maybe the code doesnt need to change much just add the ghost subtimer as a child of repeater instead of switching with it
-    }
-    
-    static moveBack(prevElement: HTMLElement): void {
-        if(prevElement == null)  
-            return
-        if(prevElement.className.includes('repeater-values')) {
-            //TODO Could replace this with a function that inserts the element before it's parent, something like while (prevElement != escapedRepeater) switch(preveELement, ghostSubtimer)
-            if(Utils.elementClicked.offsetTop + Utils.elementClicked.offsetHeight > prevElement.parentElement!.offsetTop)
-                return
-            
-            Utils.ghostSubtimer.parentElement!.parentElement!.appendChild(Utils.ghostSubtimer)
-            Utils.switchElements(Utils.ghostSubtimer, Utils.elementClicked)
-            return
-        }
-        
-        if(prevElement.className.includes('repeater')) {
-            if(Utils.elementClicked.offsetTop < prevElement.offsetTop) {
-                Utils.switchElements(Utils.ghostSubtimer, prevElement)
-                return
-            }
-            
-            //consider offset left
-            if(Utils.elementClicked.offsetTop + Utils.elementClicked.offsetHeight < prevElement.offsetTop + prevElement.offsetHeight)
-                prevElement.appendChild(Utils.ghostSubtimer)
-        }
-
-        if(Utils.elementClicked.offsetTop < prevElement.offsetTop)
-            Utils.switchElements(Utils.ghostSubtimer, prevElement)
-    }
-
-    static moveForward(nextElement: HTMLElement): void {
-
-        if(nextElement == null) {
-            if(Utils.ghostSubtimer.parentElement!.className.includes('repeater'))
-                if(Utils.elementClicked.offsetTop + Utils.elementClicked.offsetHeight > Utils.ghostSubtimer.parentElement!.offsetTop + Utils.ghostSubtimer.parentElement!.offsetHeight) {
-                    //TODO try adding it as the first element before the repeater somehow
-                    Utils.ghostSubtimer.parentElement!.parentElement!.append(Utils.ghostSubtimer)
-                    this.switchElements(Utils.ghostSubtimer, Utils.elementClicked)
-                }
-            return
-        }
-        
-        if(nextElement.className.includes('repeater')) {
-            if(Utils.elementClicked.offsetTop > nextElement.offsetTop) {
-                nextElement.appendChild(Utils.ghostSubtimer)
-            }
-        }
-
-        //consider offset left
-        if(Utils.elementClicked.offsetTop + Utils.elementClicked.offsetHeight > nextElement.offsetTop + nextElement.offsetHeight)
-            Utils.switchElements(Utils.ghostSubtimer, nextElement)
     }
 
     static draggingSubtimerStopped() {
         document.getElementById("all")!.style.cursor = "auto";
 
-        if(Utils.isDragging) {
-            Utils.isDragging = false
-
-            Utils.elementClicked.className = 'subtimer'
-            Utils.elementClicked.removeAttribute('style')
-
-            let timePercentage:string = Utils.ghostSubtimer.style.getPropertyValue('--value')
-            Utils.elementClicked.style.setProperty('--value', timePercentage)
-            
-            if(Utils.ghostSubtimer.className.includes('active'))
-                Utils.elementClicked.className += '-active'
-
-            Utils.ghostSubtimer.replaceWith(Utils.elementClicked)
-        }
-        
         window.removeEventListener('mousemove', Utils.dragSubtimer);
         window.removeEventListener('mouseup', Utils.draggingSubtimerStopped);
+
+        if(!Utils.isDragging)
+            return
+        Utils.isDragging = false
+
+        if(Utils.ghostElement.className.includes('repeater')) {
+            Utils.ghostElement.classList.remove('ghost')
+            Utils.elementClicked.remove()
+            // Utils.ghostElement.replaceWith(Utils.elementClicked)
+            return
+        }
+
+        //TODO update what the currentSubtimer is
+        //TODO if it is a repeater dont do much stuff
+        Utils.elementClicked.setAttribute('style', Utils.ghostElement.getAttribute('style')!)
+        Utils.elementClicked.className = Utils.ghostElement.className
+        Utils.elementClicked.classList.remove('ghost')
+
+        Utils.ghostElement.replaceWith(Utils.elementClicked)
+    }
+    
+    //TODO cant exit repeater if it would have no more elements inside if(repeater.children.length == 2)
+    static moveBack(prevElement: HTMLElement): void {
+        if(prevElement == null)  
+            return
+        if(prevElement.className.includes('repeater-values')) {
+            //TODO Could replace this with a function that inserts the element before it's parent, something like while (prevElement != escapedRepeater) switch(preveELement, ghostElement)
+            if(Utils.elementClicked.offsetTop > prevElement.parentElement!.offsetTop)
+                return
+            
+            Utils.ghostElement.parentElement!.parentElement!.appendChild(Utils.ghostElement)
+            if(Utils.ghostElement.parentElement!.id.includes('list'))
+                Utils.switchElements(Utils.ghostElement, Utils.elementClicked)
+
+            return
+        }
+        
+        if(prevElement.className.includes('repeater')) {
+            if(Utils.elementClicked.offsetTop < prevElement.offsetTop) {
+                Utils.switchElements(Utils.ghostElement, prevElement)
+                return
+            }
+            
+            if(Utils.elementClicked.offsetLeft > prevElement.offsetLeft)
+                if(Utils.elementClicked.offsetTop < prevElement.offsetTop + prevElement.offsetHeight) {
+                    prevElement.appendChild(Utils.ghostElement)
+                    return
+                }
+        }
+
+        if(Utils.elementClicked.offsetTop < prevElement.offsetTop)
+            Utils.switchElements(Utils.ghostElement, prevElement)
+    }
+
+    static moveForward(nextElement: HTMLElement): void {
+
+        if(nextElement == null) {
+            if(Utils.ghostElement.parentElement!.className.includes('repeater'))
+                if(Utils.elementClicked.offsetTop > Utils.ghostElement.parentElement!.offsetTop + Utils.ghostElement.parentElement!.offsetHeight) {
+                    //TODO try adding it as the first element before the repeater somehow
+                    Utils.ghostElement.parentElement!.parentElement!.append(Utils.ghostElement)
+                    if(Utils.ghostElement.parentElement!.id.includes('list'))
+                        Utils.switchElements(Utils.ghostElement, Utils.elementClicked)
+                }
+            return
+        }
+        
+        if(nextElement.className.includes('repeater'))
+            if(Utils.elementClicked.offsetTop > nextElement.offsetTop)
+                if(Utils.elementClicked.offsetLeft > nextElement.offsetLeft) {
+                    //TODO make it first in the list somehow
+                    nextElement.appendChild(Utils.ghostElement)
+                    return
+                }
+
+        //consider offset left
+        if(Utils.elementClicked.offsetTop > nextElement.offsetTop + nextElement.offsetHeight)
+            Utils.switchElements(Utils.ghostElement, nextElement)
     }
 
     static changeTimeListener(event: MouseEvent): void {
-        //TODO remove return 
-        return
         let elementClicked:HTMLElement = <HTMLElement> event.target
         
-        if(elementClicked.className.includes('drag-button'))
+        if(Timer.currentState == TimerState.Edit)
             return
 
         if(elementClicked.parentElement!.className.includes('subtimer'))
@@ -257,6 +267,7 @@ export class Utils {
             Timer.list = Timer.currentElement.parentElement!
             Repeater.resetChildren(Timer.list)
 
+            //TODO do this for every parent of the element until you reach list-content, and put it inside repeater class
             if(Timer.list.className.includes('repeater') && 
                 Timer.list.firstElementChild!.firstElementChild!.textContent! == Timer.list.firstElementChild!.children[1]!.textContent!)
                     Timer.list.firstElementChild!.firstElementChild!.textContent! = (parseInt(Timer.list.firstElementChild!.children[1]!.textContent!) - 1).toString()
@@ -284,7 +295,7 @@ export class Utils {
     }
 
     static toggleStop(): void {
-        if(Timer.currentState == TimerState.Finished)
+        if(Timer.currentState >= TimerState.Finished)
             return
 
         if(Timer.currentState == TimerState.Active) {
@@ -297,5 +308,16 @@ export class Utils {
         document.getElementById('pause-button')!.textContent = '| |'
         Timer.currentState = TimerState.Paused
         Timer.resumeTimer()
+    }
+
+    static toggleEditMode(): void {
+        if(Timer.currentState != TimerState.Edit) {
+            //TODO blur the rest maybe like on the modal and make the edit button visible to all subtimers and repeaters
+            Timer.pauseTimer()
+            Timer.currentState = TimerState.Edit
+            return
+        }
+
+        Timer.currentState = TimerState.Paused
     }
 }

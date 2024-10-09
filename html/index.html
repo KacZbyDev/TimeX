@@ -45,7 +45,7 @@
 
             <div id="list-content" class="relative overflow-y-auto overflow-x-hidden h-96 max-h-full">
                 <div class="subtimer">
-                    <p class="drag-button">...</p>
+                    <p class="edit-button">...</p>
                     <p class="name absolute w-full text-center">Start</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
@@ -57,21 +57,33 @@
                     </div>
 
                     <div class="subtimer">
-                        <p class="drag-button">...</p>
+                        <p class="edit-button">...</p>
                         <p class="name absolute w-full text-center">Gata</p>
                         <p class="duration absolute right-4">1</p>
+                    </div>
+                    <div class="repeater">
+                        <div class="repeater-values">
+                            <p class="current-repeats w-full text-center">0</p>
+                            <p class="total-repeats absolute right-4">2</p>
+                        </div>
+    
+                        <div class="subtimer">
+                            <p class="edit-button">...</p>
+                            <p class="name absolute w-full text-center">Gata</p>
+                            <p class="duration absolute right-4">1</p>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="subtimer">
-                    <p class="drag-button">...</p>
+                    <p class="edit-button">...</p>
                     <p class="name absolute w-full text-center">Gata</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
             </div>
 
             <div id="list-footer" class="flex justify-between pt-7 p-4">
-                <button id="reset-button"
+                <button id="edit-mode-button"
                     class="size-11 bg-orange-secondary rounded-xl text-center text-white hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Reset</button>
                 <button id="add-button"
                     class="size-11 bg-blue-secondary rounded-xl text-center text-white font-bold text-4xl flex justify-center items-center pb-1 hover:shadow-custom-amber hover:shadow-blue-600 hover:scale-125 transition-all duration-500">+</button>
@@ -141,7 +153,7 @@
 
     <div id="timer-elements" class="hidden">
         <div id="subtimer-example" class="subtimer-active">
-            <p class="drag-button">...</p>
+            <p class="edit-button">...</p>
             <p class="name absolute w-full text-center"></p>
             <p class="duration absolute right-4">1</p>
         </div>
@@ -153,7 +165,7 @@
             </div>
 
             <div class="subtimer">
-                <p class="drag-button">...</p>
+                <p class="edit-button">...</p>
                 <p class="name absolute w-full text-center"></p>
                 <p class="duration absolute right-4">1</p>
             </div>

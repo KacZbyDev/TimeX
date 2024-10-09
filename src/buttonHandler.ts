@@ -9,15 +9,9 @@ $(document).ready(function () {
         Timer.pauseTimer()
         $('#modal').removeClass('hidden');
     });
-    $('#reset-button').on('click', () => {
-        //TODO kinda useless maybe can replace with something more useful, like edit mode
-        /*
-        Timer.list = document.getElementById('list-content')!
-        Repeater.resetChildren(Timer.list)
-        
-        Timer.currentState = TimerState.Paused
-        Timer.startTimer()
-        */
+    $('#edit-mode-button').on('click', () => {
+        Utils.toggleEditMode()
+        $('#edit-mode-button').blur()
     })
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
@@ -38,6 +32,7 @@ $(document).ready(function () {
         Utils.toggleStop()
         $('#pause-button').blur() //Prevents keyboard focus
     })
+    
 });
     
 //Stops the page from reloading

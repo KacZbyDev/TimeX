@@ -578,7 +578,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
-  width: var(--subtimer-width, auto);
+  width: var(---width, auto);
 }
 
 .subtimer-active {
@@ -597,7 +597,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
-  width: var(--subtimer-width, auto)
+  width: var(---width, auto)
 }
 
 .ghost {
