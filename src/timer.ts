@@ -64,8 +64,6 @@ export class Timer {
         let percent = Timer.currentMiliseconds / Subtimer.duration * 100
         Timer.progress_bar.style.setProperty('--value', percent + '')
         Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
-
-        console.log(Subtimer.element)
         
         Subtimer.element.style.setProperty('--value', percent + '')
 

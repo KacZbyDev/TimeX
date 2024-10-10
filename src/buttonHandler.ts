@@ -1,30 +1,35 @@
-import { Utils } from "./utils.js";
+import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js';
 
-let nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
-let durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
+const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
+const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
 $(document).ready(function () {
-    $("#add-button").on("click", () => {
-        Timer.pauseTimer()
-        $('#modal').removeClass('hidden');
-    });
     $('#edit-mode-button').on('click', () => {
         Utils.toggleEditMode()
         $('#edit-mode-button').blur()
     })
+    $("#add-button").on("click", () => {
+        Timer.pauseTimer()
+        showModal()
+        $('#add-button').blur()
+    });
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
             return
 
         Utils.addTimer(nameInput.value, durationInput.value)
         Timer.resumeTimer()
+        hideAndClearModal()
     })
     $('#modal-cancel-button').on('click', () => {
         Timer.resumeTimer()
         hideAndClearModal()
     })
-    $('#modal-background').on('click', () => {
+    $('#blurred-backround').on('click', () => {
+        if(!Utils.isModalVisible)
+            return
+
         Timer.resumeTimer()
         hideAndClearModal()
     })
@@ -32,24 +37,34 @@ $(document).ready(function () {
         Utils.toggleStop()
         $('#pause-button').blur() //Prevents keyboard focus
     })
-    
 });
     
 //Stops the page from reloading
 $("#modal").submit(function(e) {
     e.preventDefault();
-    hideAndClearModal()
 });
 
 function areInputsValid():boolean {
-    if(!nameInput.value || !Utils.timeToSeconds(durationInput.value))
+    if(!nameInput.value || Number.isNaN(Utils.timeToSeconds(durationInput.value)))
+        //TODO display some error or invalid format idk
         return false
 
     return true
 }
 
+function showModal(): void {
+    Utils.isModalVisible = true
+    
+    $('#modal').removeClass('hidden');
+    $('#blurred-backround').removeClass('hidden');
+}
+ 
 function hideAndClearModal():void {
+    Utils.isModalVisible = false
+
     $('#modal').addClass('hidden');
+    if(Timer.currentState != TimerState.Edit)
+         $('#blurred-backround').addClass('hidden');
 
     nameInput.value = '';
     durationInput.value = '';

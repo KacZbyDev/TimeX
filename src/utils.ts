@@ -14,7 +14,7 @@ export class Utils {
     public static readonly DRAG_OFFSET_X = 18
     public static readonly DRAG_OFFSET_Y = 136
 
-    private static readonly DECIMALS: number = 1
+    private static readonly DECIMALS: number = 1 //how many decimals are displayed by the big timer
     public static readonly REFRESH_DELAY: number = 10 //how many miliseconds it takes for the time to update
 
     private static readonly SUBTIMER_FINISH: HTMLAudioElement = new Audio('../res/timer-ending-sound.mp3')
@@ -23,6 +23,8 @@ export class Utils {
     private static isDragging = false
     public static elementClicked: HTMLElement
     public static ghostElement: HTMLElement
+
+    public static isModalVisible:boolean = false
 
     static playSubtimerFinish(): void {
         this.SUBTIMER_FINISH.play()
@@ -104,8 +106,8 @@ export class Utils {
     }
 
     static stopResize(): void {
-        document.body.style.cursor = 'auto';
-        document.getElementById('resizer')!.style.cursor = 'cursor-ew-resize'
+        document.body.removeAttribute('style');
+        document.getElementById('resizer')!.removeAttribute('style');
 
         window.removeEventListener('mousemove', Utils.resize);
         window.removeEventListener('mouseup', Utils.stopResize);
@@ -118,6 +120,9 @@ export class Utils {
         let elementClicked:HTMLElement = <HTMLElement> event.target
         
         Utils.elementClicked = elementClicked.parentElement!
+
+        if(Utils.elementClicked.id.includes('list'))
+            return
         if(Utils.elementClicked.className.includes('repeater'))
             Utils.elementClicked = Utils.elementClicked.parentElement!
 
@@ -163,22 +168,19 @@ export class Utils {
             return
         Utils.isDragging = false
         
-        if(Utils.ghostElement.className.includes('subtimer'))
-            Utils.elementClicked.setAttribute('style', Utils.ghostElement.getAttribute('style')!)
-
+        Utils.elementClicked.setAttribute('style', Utils.ghostElement.getAttribute('style')!)
         Utils.elementClicked.className = Utils.ghostElement.className
         Utils.elementClicked.classList.remove('ghost')
 
         Utils.ghostElement.replaceWith(Utils.elementClicked)
     }
     
-    //TODO cant exit repeater if it would have no more elements inside if(repeater.children.length == 2)
     static moveBack(prevElement: HTMLElement): void {
         if(prevElement == null)  
             return
         if(prevElement.className.includes('repeater-values')) {
             //TODO Could replace this with a function that inserts the element before it's parent, something like while (prevElement != escapedRepeater) switch(preveELement, ghostElement)
-            if(Utils.elementClicked.offsetTop > prevElement.parentElement!.offsetTop)
+            if(Utils.elementClicked.offsetTop > prevElement.parentElement!.offsetTop || Utils.ghostElement.parentElement!.childElementCount <= 2)
                 return
             
             Utils.ghostElement.parentElement!.parentElement!.appendChild(Utils.ghostElement)
@@ -206,10 +208,9 @@ export class Utils {
     }
 
     static moveForward(nextElement: HTMLElement): void {
-
         if(nextElement == null) {
             if(Utils.ghostElement.parentElement!.className.includes('repeater'))
-                if(Utils.elementClicked.offsetTop > Utils.ghostElement.parentElement!.offsetTop + Utils.ghostElement.parentElement!.offsetHeight) {
+                if(Utils.elementClicked.offsetTop > Utils.ghostElement.parentElement!.offsetTop + Utils.ghostElement.parentElement!.offsetHeight && Utils.ghostElement.parentElement!.childElementCount > 2) {
                     //TODO try adding it as the first element before the repeater somehow
                     Utils.ghostElement.parentElement!.parentElement!.append(Utils.ghostElement)
                     if(Utils.ghostElement.parentElement!.id.includes('list'))
@@ -291,7 +292,7 @@ export class Utils {
     }
 
     static toggleStop(): void {
-        if(Timer.currentState >= TimerState.Finished)
+        if(Timer.currentState >= TimerState.Finished || Utils.isModalVisible)
             return
 
         if(Timer.currentState == TimerState.Active) {
@@ -307,16 +308,18 @@ export class Utils {
     }
 
     static toggleEditMode(): void {
-        console.log("enetered edit")
         if(Timer.currentState != TimerState.Edit) {
-        console.log("enetered edit fr")
-            
-            //TODO blur the rest maybe like on the modal and make the edit button visible to all subtimers and repeaters
+            //TODO make the edit button visible to all subtimers and repeaters
+            $('#blurred-backround').removeClass('hidden');
+            $('#list-of-subtimer').addClass('z-50')
+
             Timer.pauseTimer()
             Timer.currentState = TimerState.Edit
             return
         }
 
+        $('#blurred-backround').addClass('hidden');
+        $('#list-of-subtimer').removeClass('z-50')
         Timer.currentState = TimerState.Paused
     }
 }
