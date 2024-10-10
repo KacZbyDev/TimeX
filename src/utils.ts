@@ -307,19 +307,23 @@ export class Utils {
         Timer.resumeTimer()
     }
 
+    private static lastState:TimerState
     static toggleEditMode(): void {
-        if(Timer.currentState != TimerState.Edit) {
-            //TODO make the edit button visible to all subtimers and repeaters
+        if(Timer.currentState < TimerState.Edit) {
+            //TODO make the edit buttonof all subtimers and repeaters visible
             $('#blurred-backround').removeClass('hidden');
             $('#list-of-subtimer').addClass('z-50')
 
             Timer.pauseTimer()
+            Utils.lastState = Timer.currentState
             Timer.currentState = TimerState.Edit
             return
         }
 
-        $('#blurred-backround').addClass('hidden');
+        $('#blurred-backround').addClass('hidden')
         $('#list-of-subtimer').removeClass('z-50')
-        Timer.currentState = TimerState.Paused
+ 
+        Timer.currentState = Utils.lastState
+        Timer.resumeTimer()
     }
 }

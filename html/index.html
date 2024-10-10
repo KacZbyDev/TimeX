@@ -35,9 +35,9 @@
     </div>
 
     <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
-        <div id="list-of-subtimer" class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative bg-white">
+        <div id="list-of-subtimer" class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative bg-white select-none">
             <div id="resizer" class="z-50 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
-            <!-- The shadow is a square while the border is rounded -->
+             <!-- TODO make the list list header, especially the timer name stand out -->
             <div id="list-header" class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">*TIMER NAME*</div>
 
             <div id="list-content" class="relative overflow-y-auto overflow-x-hidden h-96 max-h-full">
@@ -88,27 +88,27 @@
         </div>
 
         <div id="timer-interface-wrapper" class="relative flex flex-col flex-grow justify-between overflow-y-auto items-center">
-            <p id="current-subtimer-name" class="flex-none text-3xl text-blue-primary underline-offset-2 underline font-semibold pt-4 z-20"></p>
+            <p id="current-subtimer-name" class="flex-none text-3xl text-blue-primary font-semibold pt-4 z-20"></p>
             
             <div id="timer" class="h-full flex absolute justify-center items-center">
                 <div class="flex justify-center items-center bg-dark-blue-primary rounded-full size-96">
-                    <div id="big-timer-time"    
-                        class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10 select-none"></div>
+                    <div id="big-timer-time" class="absolute flex justify-center items-center text-5xl text-light-blue-primary z-10 select-none"></div>
                     <div id="progress-bar" role="progressbar" aria-valuemax="100" aria-valuemin="0" style="--value:0"
                         class="timer-progress relative flex justify-center items-center size-[90%]"></div>
                 </div>
+                <!-- another variant
+                <div class="flex justify-center items-center  bg-dark-blue-secondary rounded-full size-96">
+                    <div id="progress-time" class="absolute flex justify-center items-center text-5xl text-dark-blue-secondary z-10">12:00</div>
+                    <div id="progress-bar"  style="--value: 10" class="timer-progress relative flex justify-center items-center size-[90%] text-5xl text-white"></div>
+                </div> -->
             </div>
-
+                
             <!-- TODO maybe add reset button here, prev and next -->
             <div class="mb-12 flex justify-between z-20">
-                <button id="button" onclick="blur()" class="mx-4 rounded-lg size-10 bg-blue-primary font-extrabold text-base text-white flex justify-center items-center select-none text-">placeholder</button>
+                <button id="button" onclick="this.blur()" class="hidden mx-4 rounded-lg size-10 bg-blue-primary font-extrabold text-base text-white flex justify-center items-center select-none">placeholder</button>
                 <button id="pause-button" class="mx-4 rounded-lg size-10 bg-orange-primary font-extrabold text-base text-white flex justify-center items-center select-none">| |</button>
             </div>
-            <!-- another variant
-                    <div class="flex justify-center items-center  bg-dark-blue-secondary rounded-full size-96">
-                        <div id="progress-time" class="absolute flex justify-center items-center text-5xl text-dark-blue-secondary z-10">12:00</div>
-                        <div id="progress-bar"  style="--value: 10" class="timer-progress relative flex justify-center items-center size-[90%] text-5xl text-white"></div>
-                    </div> -->
+            
         </div>
     </div>
 

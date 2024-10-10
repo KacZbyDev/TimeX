@@ -79,7 +79,7 @@ export class Timer {
     }
 
     static resumeTimer(): void {
-        if (Timer.currentState == TimerState.Finished)
+        if (Timer.currentState >= TimerState.Finished)
             return
         
         Timer.elapsedTime = Date.now()
