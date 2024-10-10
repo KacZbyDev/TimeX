@@ -578,7 +578,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
-  width: var(---width, auto);
+  width: var(--width, auto);
 }
 
 .subtimer-active {
@@ -597,14 +597,14 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
-  width: var(---width, auto)
+  width: var(--width, auto)
 }
 
 .ghost {
   opacity: 0.2;
 }
 
-.drag-button {
+.edit-button {
   --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   cursor: pointer;
@@ -622,6 +622,7 @@ video {
   border-top-width: 2px;
   --tw-border-opacity: 1;
   border-color: rgb(251 155 80 / var(--tw-border-opacity));
+  width: var(--width, auto);
 }
 
 .repeater-values {

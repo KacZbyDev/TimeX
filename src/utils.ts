@@ -79,7 +79,6 @@ export class Utils {
     }
 
     static resize(e: MouseEvent) {
-        //TODO try making cursor stick to the resizer, after the resizer moves (this functions is called) so prbly at the end of the function move the cursor's y to the resizer y (prbly offsetWidth + offsetLeft)
         const maxSize = window.innerWidth - document.getElementById('timer')!.getBoundingClientRect().width - 10;
         const startingEffectAtX = maxSize - 100;
 
@@ -99,15 +98,20 @@ export class Utils {
 
         // Apply new width
         Timer.listOfSubtimers.style.width = `${newWidth}px`;
-
+        
+        document.body.style.cursor = 'none';
+        document.getElementById('resizer')!.style.cursor = 'none'
     }
 
     static stopResize(): void {
+        document.body.style.cursor = 'auto';
+        document.getElementById('resizer')!.style.cursor = 'cursor-ew-resize'
+
         window.removeEventListener('mousemove', Utils.resize);
         window.removeEventListener('mouseup', Utils.stopResize);
     }
 
-    static dragSubtimerListener(event: MouseEvent): void {
+    static dragElementListener(event: MouseEvent): void {
         if (Timer.currentState != TimerState.Edit)
             return
         
@@ -117,15 +121,14 @@ export class Utils {
         if(Utils.elementClicked.className.includes('repeater'))
             Utils.elementClicked = Utils.elementClicked.parentElement!
 
-        window.addEventListener('mousemove', Utils.dragSubtimer);
-        window.addEventListener('mouseup', Utils.draggingSubtimerStopped);
+        window.addEventListener('mousemove', Utils.dragElement);
+        window.addEventListener('mouseup', Utils.draggingElementStopped);
     }
     
-    //TODO drag repeaters as well
-    static dragSubtimer(event: MouseEvent) {
+    static dragElement(event: MouseEvent) {
         if (Utils.isDragging == false) {
             Utils.isDragging = true
-            document.getElementById("all")!.style.cursor = "pointer";
+            document.body.style.cursor = "pointer";
 
             Utils.ghostElement = Utils.elementClicked.cloneNode(true) as HTMLElement
             Utils.ghostElement.className += ' ghost'
@@ -150,26 +153,19 @@ export class Utils {
         Utils.moveForward(nextElement)
     }
 
-    static draggingSubtimerStopped() {
-        document.getElementById("all")!.style.cursor = "auto";
+    static draggingElementStopped() {
+        document.body.style.cursor = "auto";
 
-        window.removeEventListener('mousemove', Utils.dragSubtimer);
-        window.removeEventListener('mouseup', Utils.draggingSubtimerStopped);
+        window.removeEventListener('mousemove', Utils.dragElement);
+        window.removeEventListener('mouseup', Utils.draggingElementStopped);
 
         if(!Utils.isDragging)
             return
         Utils.isDragging = false
+        
+        if(Utils.ghostElement.className.includes('subtimer'))
+            Utils.elementClicked.setAttribute('style', Utils.ghostElement.getAttribute('style')!)
 
-        if(Utils.ghostElement.className.includes('repeater')) {
-            Utils.ghostElement.classList.remove('ghost')
-            Utils.elementClicked.remove()
-            // Utils.ghostElement.replaceWith(Utils.elementClicked)
-            return
-        }
-
-        //TODO update what the currentSubtimer is
-        //TODO if it is a repeater dont do much stuff
-        Utils.elementClicked.setAttribute('style', Utils.ghostElement.getAttribute('style')!)
         Utils.elementClicked.className = Utils.ghostElement.className
         Utils.elementClicked.classList.remove('ghost')
 
@@ -311,7 +307,10 @@ export class Utils {
     }
 
     static toggleEditMode(): void {
+        console.log("enetered edit")
         if(Timer.currentState != TimerState.Edit) {
+        console.log("enetered edit fr")
+            
             //TODO blur the rest maybe like on the modal and make the edit button visible to all subtimers and repeaters
             Timer.pauseTimer()
             Timer.currentState = TimerState.Edit

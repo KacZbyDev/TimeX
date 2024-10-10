@@ -31,13 +31,13 @@ export class Timer {
             window.addEventListener('mouseup', Utils.stopResize);
         });
         Timer.list.addEventListener('mousedown', Utils.changeTimeListener);
-        Timer.list.addEventListener('mousedown', Utils.dragSubtimerListener);
+        Timer.list.addEventListener('mousedown', Utils.dragElementListener);
         addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key != ' ')
                 return
             Utils.toggleStop()
         })
-
+        
         Timer.startTimer()
     }
 
@@ -65,6 +65,8 @@ export class Timer {
         Timer.progress_bar.style.setProperty('--value', percent + '')
         Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
 
+        console.log(Subtimer.element)
+        
         Subtimer.element.style.setProperty('--value', percent + '')
 
         //the time elapsed after the last call
