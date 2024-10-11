@@ -120,16 +120,17 @@ export class Utils {
         let elementClicked:HTMLElement = <HTMLElement> event.target
         
         Utils.elementClicked = elementClicked.parentElement!
-
+        
         if(Utils.elementClicked.id.includes('list'))
             return
-        if(Utils.elementClicked.className.includes('repeater'))
+        if(Utils.elementClicked.className.includes('repeater-values'))
             Utils.elementClicked = Utils.elementClicked.parentElement!
 
         window.addEventListener('mousemove', Utils.dragElement);
         window.addEventListener('mouseup', Utils.draggingElementStopped);
     }
     
+    //TODO when there are multiple repeaters nested dragging goes wild
     static dragElement(event: MouseEvent) {
         if (Utils.isDragging == false) {
             Utils.isDragging = true
@@ -153,7 +154,7 @@ export class Utils {
         
         let prevElement: HTMLElement = <HTMLElement>Utils.ghostElement.previousElementSibling!;
         let nextElement: HTMLElement = <HTMLElement>Utils.ghostElement.nextElementSibling!;
-        
+
         Utils.moveBack(prevElement)
         Utils.moveForward(nextElement)
     }
@@ -179,14 +180,13 @@ export class Utils {
         if(prevElement == null)  
             return
         if(prevElement.className.includes('repeater-values')) {
-            //TODO Could replace this with a function that inserts the element before it's parent, something like while (prevElement != escapedRepeater) switch(preveELement, ghostElement)
             if(Utils.elementClicked.offsetTop > prevElement.parentElement!.offsetTop || Utils.ghostElement.parentElement!.childElementCount <= 2)
                 return
-            
-            Utils.ghostElement.parentElement!.parentElement!.appendChild(Utils.ghostElement)
-            if(Utils.ghostElement.parentElement!.id.includes('list'))
-                Utils.switchElements(Utils.ghostElement, Utils.elementClicked)
 
+            let repeater = Utils.ghostElement.parentElement!
+            
+            this.insertElementBeforeElement(Utils.ghostElement, repeater)
+            
             return
         }
         
@@ -207,29 +207,46 @@ export class Utils {
             Utils.switchElements(Utils.ghostElement, prevElement)
     }
 
+    static testdone = false
     static moveForward(nextElement: HTMLElement): void {
         if(nextElement == null) {
-            if(Utils.ghostElement.parentElement!.className.includes('repeater'))
-                if(Utils.elementClicked.offsetTop > Utils.ghostElement.parentElement!.offsetTop + Utils.ghostElement.parentElement!.offsetHeight && Utils.ghostElement.parentElement!.childElementCount > 2) {
-                    //TODO try adding it as the first element before the repeater somehow
-                    Utils.ghostElement.parentElement!.parentElement!.append(Utils.ghostElement)
-                    if(Utils.ghostElement.parentElement!.id.includes('list'))
-                        Utils.switchElements(Utils.ghostElement, Utils.elementClicked)
-                }
+            if(!Utils.ghostElement.parentElement!.className.includes('repeater'))
+                return
+
+            let repeater = Utils.ghostElement.parentElement!
+            if(Utils.elementClicked.offsetTop <=  repeater.offsetTop + repeater.offsetHeight || repeater.childElementCount <= 2)
+                return
+            
+            Utils.insertElementBeforeElement(Utils.ghostElement, repeater)
+            Utils.switchElements(Utils.ghostElement, repeater)//To insert it after
+
             return
         }
         
         if(nextElement.className.includes('repeater'))
             if(Utils.elementClicked.offsetTop > nextElement.offsetTop)
                 if(Utils.elementClicked.offsetLeft > nextElement.offsetLeft) {
-                    //TODO make it first in the list somehow
                     nextElement.appendChild(Utils.ghostElement)
+                    Utils.insertElementBeforeElement(Utils.ghostElement, <HTMLElement> nextElement.children[1])
+                    
                     return
                 }
 
-        //consider offset left
         if(Utils.elementClicked.offsetTop > nextElement.offsetTop + nextElement.offsetHeight)
             Utils.switchElements(Utils.ghostElement, nextElement)
+    }
+
+    static insertElementBeforeElement(element: HTMLElement, sibling: HTMLElement):void {
+        if(element.parentElement! === sibling) {
+            element.parentElement!.parentElement!.append(element)
+            if(Utils.ghostElement.parentElement!.id.includes('list'))
+                Utils.switchElements(element, Utils.elementClicked)
+        }
+
+        while(element.previousElementSibling! !== sibling) {
+            Utils.switchElements(element, <HTMLElement> element.previousElementSibling!)
+        }
+        Utils.switchElements(element, <HTMLElement> element.previousElementSibling!)
     }
 
     static changeTimeListener(event: MouseEvent): void {
