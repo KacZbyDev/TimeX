@@ -13,36 +13,19 @@ export class Repeater {
         return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent!)
     }
 
-    //Maybe querySelectorAll may be used
-    //resets every child of the repeater
+    //reset every child of the repeater
     static resetChildren(repeater:Element): void {
-        let i = repeater.id.includes('list') ? 0 : 1;
-
-        for (i; i < repeater.children.length; i++) {
-            let child:Element = repeater.children[i]
-
-            if(child.className.includes('repeater')) {//
-                child.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent = '0'
-                Repeater.resetChildren(child)
-            } else
-                child.className = 'subtimer'
-        }
+        repeater.querySelectorAll('.repeater').forEach((element) => {
+            element.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent = '0'
+        })
+        repeater.querySelectorAll('.subtimer').forEach((element) => {
+            element.className = 'subtimer'
+        })
     }
 
-    //finds the first subtimer (iterates through nested repeaters)
-    static setListToFirstSubtimerParent(list:Element): boolean {
-        for (let i:number = 0; i < list.children.length; i++) {
-            let child:Element = list.children[i]
-
-            if(child.className.includes('subtimer')) {
-                Timer.list = child.parentElement!
-                return true
-            }
-            if(Repeater.setListToFirstSubtimerParent(child))
-                return true
-        }
-
-        return false
+    //Find the first subtimer
+    static setListToFirstSubtimerParent(list: Element):void {
+        Timer.list = list.querySelector('.subtimer')!.parentElement!
     }
 
     static repeaterReachEnd():void {

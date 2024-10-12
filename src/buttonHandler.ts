@@ -17,7 +17,8 @@ $(document).ready(function () {
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
             return
-
+            
+        //DOesnt work idk
         Utils.addTimer(nameInput.value, durationInput.value)
         Timer.resumeTimer()
         hideAndClearModal()
@@ -27,27 +28,29 @@ $(document).ready(function () {
         hideAndClearModal()
     })
     $('#blurred-backround').on('click', () => {
-        if(!Utils.isModalVisible)
-            return
-
+        if(Utils.isModalVisible)
+            hideAndClearModal()
+        if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
+            Utils.hideWarningPopUp()
+        
         Timer.resumeTimer()
-        hideAndClearModal()
     })
     $('#pause-button').on('click', () => {//Stops the timer
         Utils.toggleStop()
         $('#pause-button').blur() //Prevents keyboard focus
     })
 });
-    
+
 //Stops the page from reloading
 $("#modal").submit(function(e) {
     e.preventDefault();
 });
 
 function areInputsValid():boolean {
-    if(!nameInput.value || Number.isNaN(Utils.timeToSeconds(durationInput.value)))
-        //TODO display some error or invalid format idk
+    if(!nameInput.value || Number.isNaN(Utils.timeToSeconds(durationInput.value))) {
+        Utils.showWarningPopUp('somethings wrong I can feel it')
         return false
+    }
 
     return true
 }

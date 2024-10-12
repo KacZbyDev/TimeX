@@ -582,6 +582,7 @@ video {
 }
 
 .subtimer-active {
+  background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
   position: relative;
   margin: 0.25rem;
   margin-top: 0.5rem;
@@ -597,7 +598,6 @@ video {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
   width: var(--width, auto);
-  background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
 }
 
 .edit-button {
@@ -1058,11 +1058,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-teal-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r {

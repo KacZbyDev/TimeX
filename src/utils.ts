@@ -132,11 +132,11 @@ export class Utils {
             document.body.style.cursor = "pointer";
             
             Utils.ghostElement = Utils.elementClicked.cloneNode(true) as HTMLElement
-            Utils.ghostElement.className += ' ghost'
+            Utils.ghostElement.classList.add('ghost')
             
             const originalWidth = Utils.elementClicked.getBoundingClientRect().width
             
-            Utils.elementClicked.className += ' absolute'
+            Utils.elementClicked.classList.add('absolute')
             Utils.elementClicked.style.width = `${originalWidth}px`
             
             Utils.elementClicked.replaceWith(Utils.ghostElement)
@@ -206,7 +206,6 @@ export class Utils {
             Utils.switchElements(Utils.ghostElement, prevElement)
     }
 
-    static testdone = false
     static moveForward(nextElement: HTMLElement): void {
         if(nextElement == null) {
             if(!Utils.ghostElement.parentElement!.className.includes('repeater'))
@@ -345,5 +344,14 @@ export class Utils {
  
         Timer.currentState = Utils.lastState
         Timer.resumeTimer()
+    }
+
+    static showWarningPopUp(message: string):void {
+        document.getElementById('warning-message')!.textContent = message
+        document.getElementById('warning-pop-up')!.classList.remove('hidden')
+    }
+
+    static hideWarningPopUp():void {
+        document.getElementById('warning-pop-up')!.classList.add('hidden')
     }
 }

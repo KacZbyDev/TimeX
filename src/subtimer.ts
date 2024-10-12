@@ -29,7 +29,7 @@ export class Subtimer {
             }
 
             //reset subtimer progress
-            this.element.className = 'subtimer'
+            Subtimer.element.className = 'subtimer'
 
             this.startNewSubtimer(Timer.currentElement)
 
