@@ -582,7 +582,6 @@ video {
 }
 
 .subtimer-active {
-  background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
   position: relative;
   margin: 0.25rem;
   margin-top: 0.5rem;
@@ -597,14 +596,12 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   padding: 1rem;
-  width: var(--width, auto)
-}
-
-.ghost {
-  opacity: 0.2;
+  width: var(--width, auto);
+  background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
 }
 
 .edit-button {
+  position: absolute;
   --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   cursor: pointer;
@@ -626,26 +623,34 @@ video {
 }
 
 .repeater-values {
+  line-height: 1.5rem;
   position: relative;
   display: flex;
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(251 155 80 / var(--tw-bg-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   font-weight: 700;
   --tw-text-opacity: 1;
-  color: rgb(25 58 111 / var(--tw-text-opacity));
+  color: rgb(25 58 111 / var(--tw-text-opacity))
 }
 
 .edit-button-repeater {
-  margin-left: 0.25rem;
+  font-size: 1.65rem;
+  position: absolute;
+  margin-left: 0.5rem;
   --tw-rotate: 90deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   cursor: pointer;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+.ghost {
+  opacity: 0.2;
 }
 
 .fixed {
@@ -717,8 +722,16 @@ video {
   margin-left: 0.25rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .ml-3 {
   margin-left: 0.75rem;
+}
+
+.ml-4 {
+  margin-left: 1rem;
 }
 
 .mr-1\.5 {
@@ -865,10 +878,6 @@ video {
 
 .cursor-ew-resize {
   cursor: ew-resize;
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .select-none {
@@ -1051,6 +1060,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-teal-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -1096,8 +1110,16 @@ video {
   padding-bottom: 0.5rem;
 }
 
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .pl-3 {
   padding-left: 0.75rem;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
 }
 
 .pr-3 {

@@ -100,26 +100,21 @@ export class Utils {
 
         // Apply new width
         Timer.listOfSubtimers.style.width = `${newWidth}px`;
-        
-        document.body.style.cursor = 'none';
-        document.getElementById('resizer')!.style.cursor = 'none'
     }
 
     static stopResize(): void {
-        document.body.removeAttribute('style');
-        document.getElementById('resizer')!.removeAttribute('style');
-
         window.removeEventListener('mousemove', Utils.resize);
         window.removeEventListener('mouseup', Utils.stopResize);
     }
 
     static dragElementListener(event: MouseEvent): void {
-        if (Timer.currentState != TimerState.Edit)
-            return
-        
         let elementClicked:HTMLElement = <HTMLElement> event.target
-        
-        Utils.elementClicked = elementClicked.parentElement!
+
+        if (Timer.currentState != TimerState.Edit || elementClicked.className.includes('edit-button'))
+            return
+
+        if(!elementClicked.className.includes('subtimer'))
+            Utils.elementClicked = elementClicked.parentElement!
         
         if(Utils.elementClicked.id.includes('list'))
             return
