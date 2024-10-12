@@ -34,46 +34,88 @@
             class="w-15 h-14 mr-1.5 hover:-rotate-180 trasition duration-200">
     </div>
 
-    <div id="user-interface-wrapper" class="flex h-[calc(100vh-64px)]">
-        <div id="list-of-subtimer" class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative bg-white select-none">
+    <div id="subtimer-timer-wrapper" class="flex h-[calc(100vh-64px)]">
+        <div id="list-of-subtimer" class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative select-none bg-white max-h-full ">
             <div id="resizer" class="z-50 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
              <!-- TODO make the list list header, especially the timer name stand out -->
             <div id="list-header" class="flex justify-center items-center text-orange-primary p-2 text-2xl font-mono font-bold border-b shadow-sm">*TIMER NAME*</div>
 
-            <div id="list-content" class="relative overflow-y-auto overflow-x-hidden h-96 max-h-full">
+            <div id="list-content" class="relative overflow-y-auto overflow-x-hidden ">
                 <div class="subtimer">
-                    <p class="edit-button">...</p>
+                    <p class="edit-button hidden">...</p>
                     <p class="name absolute w-full text-center">Start</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
 
                 <div class="repeater">
                     <div class="repeater-values">
+                        <p class="edit-button-repeater hidden">...</p>
                         <p class="current-repeats w-full text-center">0</p>
                         <p class="total-repeats absolute right-4">2</p>
                     </div>
 
                     <div class="subtimer">
-                        <p class="edit-button">...</p>
+                        <p class="edit-button hidden">...</p>
                         <p class="name absolute w-full text-center">Gata</p>
                         <p class="duration absolute right-4">1</p>
                     </div>
                     <div class="repeater">
                         <div class="repeater-values">
+                            <p class="edit-button-repeater hidden">...</p>
                             <p class="current-repeats w-full text-center">0</p>
                             <p class="total-repeats absolute right-4">2</p>
                         </div>
     
                         <div class="subtimer">
-                            <p class="edit-button">...</p>
+                            <p class="edit-button hidden">...</p>
                             <p class="name absolute w-full text-center">Gata</p>
                             <p class="duration absolute right-4">1</p>
                         </div>
+                        <div class="repeater">
+                            <div class="repeater-values">
+                                <p class="edit-button-repeater hidden">...</p>
+                                <p class="current-repeats w-full text-center">0</p>
+                                <p class="total-repeats absolute right-4">2</p>
+                            </div>
+        
+                            <div class="subtimer">
+                                <p class="edit-button hidden">...</p>
+                                <p class="name absolute w-full text-center">Gata</p>
+                                <p class="duration absolute right-4">1</p>
+                            </div>
+                            <div class="repeater">
+                                <div class="repeater-values">
+                                    <p class="edit-button-repeater hidden">...</p>
+                                    <p class="current-repeats w-full text-center">0</p>
+                                    <p class="total-repeats absolute right-4">2</p>
+                                </div>
+            
+                                <div class="subtimer">
+                                    <p class="edit-button hidden">...</p>
+                                    <p class="name absolute w-full text-center">Gata</p>
+                                    <p class="duration absolute right-4">1</p>
+                                </div>
+                                <div class="repeater">
+                                    <div class="repeater-values">
+                                        <p class="edit-button-repeater hidden">...</p>
+                                        <p class="current-repeats w-full text-center">0</p>
+                                        <p class="total-repeats absolute right-4">2</p>
+                                    </div>
+                
+                                    <div class="subtimer">
+                                        <p class="edit-button hidden">...</p>
+                                        <p class="name absolute w-full text-center">Gata</p>
+                                        <p class="duration absolute right-4">1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
                 
                 <div class="subtimer">
-                    <p class="edit-button">...</p>
+                    <p class="edit-button hidden">...</p>
                     <p class="name absolute w-full text-center">Gata</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
@@ -151,19 +193,20 @@
 
     <div id="timer-elements" class="hidden">
         <div id="subtimer-example" class="subtimer-active">
-            <p class="edit-button">...</p>
+            <p class="edit-button hidden">...</p>
             <p class="name absolute w-full text-center"></p>
             <p class="duration absolute right-4">1</p>
         </div>
 
         <div id="repeater-example" class="repeater">
             <div class="repeater-values">
-                <p class="current-repeats w-full text-center">0</p>
+                <p class="edit-button-repeater hidden">...</p>
+<p class="current-repeats w-full text-center">0</p>
                 <p class="total-repeats absolute right-4">2</p>
             </div>
 
             <div class="subtimer">
-                <p class="edit-button">...</p>
+                <p class="edit-button hidden">...</p>
                 <p class="name absolute w-full text-center"></p>
                 <p class="duration absolute right-4">1</p>
             </div>

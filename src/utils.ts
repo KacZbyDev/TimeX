@@ -30,7 +30,7 @@ export class Utils {
         this.SUBTIMER_FINISH.play()
     }
 
-    //take a string of format: 12:34:56 and transform it into seconds
+    //takes a string of format: 12:34:56 and transform it into seconds
     static timeToSeconds(time: string): number {
         if (time.length > 2)
             return this.timeToSeconds(time.substring(time.length - 2, time.length)) +
@@ -126,34 +126,38 @@ export class Utils {
         if(Utils.elementClicked.className.includes('repeater-values'))
             Utils.elementClicked = Utils.elementClicked.parentElement!
 
+        window.addEventListener('scroll', (event: Event) => {Utils.dragElement(event as MouseEvent)});
         window.addEventListener('mousemove', Utils.dragElement);
         window.addEventListener('mouseup', Utils.draggingElementStopped);
     }
     
-    //TODO when there are multiple repeaters nested dragging goes wild
     static dragElement(event: MouseEvent) {
         if (Utils.isDragging == false) {
             Utils.isDragging = true
             document.body.style.cursor = "pointer";
-
+            
             Utils.ghostElement = Utils.elementClicked.cloneNode(true) as HTMLElement
             Utils.ghostElement.className += ' ghost'
             
-            const originalWidth = Utils.elementClicked.getBoundingClientRect().width;
+            const originalWidth = Utils.elementClicked.getBoundingClientRect().width
             
-            Utils.elementClicked.className += ' absolute';
-            Utils.elementClicked.style.setProperty('--width', `${originalWidth}px`);
-            Utils.elementClicked.style.width = `${originalWidth}px`;
+            Utils.elementClicked.className += ' absolute'
+            Utils.elementClicked.style.width = `${originalWidth}px`
             
             Utils.elementClicked.replaceWith(Utils.ghostElement)
             document.getElementById('list-content')!.appendChild(Utils.elementClicked)
         }
-
-        Utils.elementClicked.style.left = `${event.clientX - Utils.DRAG_OFFSET_X}px`
-        Utils.elementClicked.style.top = `${event.clientY - Utils.DRAG_OFFSET_Y}px`
         
-        let prevElement: HTMLElement = <HTMLElement>Utils.ghostElement.previousElementSibling!;
-        let nextElement: HTMLElement = <HTMLElement>Utils.ghostElement.nextElementSibling!;
+        const scrollTop = document.getElementById("list-content")!.scrollTop
+        Utils.elementClicked.style.left = `${event.clientX - Utils.DRAG_OFFSET_X}px`
+        Utils.elementClicked.style.top = `${event.clientY - Utils.DRAG_OFFSET_Y + scrollTop}px`
+        
+        //TODO scroll down when element is down or up if up
+        //if(Utils.elementClicked.style.top <= 0 || document.getElementById("list-content")!.clientHeight + scrollTop - (parseInt(Utils.elementClicked.style.top.split('px', 1).at(0)!) + Utils.elementClicked.clientHeight < 0)
+        //document.getElementById("list-content")!.scrollTop += value
+
+        const prevElement: HTMLElement = <HTMLElement>Utils.ghostElement.previousElementSibling!
+        const nextElement: HTMLElement = <HTMLElement>Utils.ghostElement.nextElementSibling!
 
         Utils.moveBack(prevElement)
         Utils.moveForward(nextElement)
@@ -280,11 +284,10 @@ export class Utils {
             Timer.currentElement = Utils.elementClicked
             Timer.list = Timer.currentElement.parentElement!
             Repeater.resetChildren(Timer.list)
-
+            
             //TODO do this for every parent of the element until you reach list-content, and put it inside repeater class
-            if(Timer.list.className.includes('repeater') && 
-                Timer.list.firstElementChild!.firstElementChild!.textContent! == Timer.list.firstElementChild!.children[1]!.textContent!)
-                    Timer.list.firstElementChild!.firstElementChild!.textContent! = (parseInt(Timer.list.firstElementChild!.children[1]!.textContent!) - 1).toString()
+            if(Timer.list.className.includes('repeater') && Repeater.getCurrentRepeats(Timer.list) == Repeater.getTotalRepeats(Timer.list))
+                Repeater.setCurrentRepeats(Timer.list, Repeater.getTotalRepeats(Timer.list) - 1)
 
             Subtimer.startNewSubtimer(Timer.currentElement)
         }
@@ -327,7 +330,9 @@ export class Utils {
     private static lastState:TimerState
     static toggleEditMode(): void {
         if(Timer.currentState < TimerState.Edit) {
-            //TODO make the edit buttonof all subtimers and repeaters visible
+            document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
+                element.classList.remove('hidden') 
+            });
             $('#blurred-backround').removeClass('hidden');
             $('#list-of-subtimer').addClass('z-50')
 
@@ -337,6 +342,9 @@ export class Utils {
             return
         }
 
+        document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
+            element.classList.add('hidden')
+        });
         $('#blurred-backround').addClass('hidden')
         $('#list-of-subtimer').removeClass('z-50')
  

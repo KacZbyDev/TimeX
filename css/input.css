@@ -35,8 +35,12 @@
         @apply m-1 border-l-8 border-b-[16px] border-t-2 border-orange-secondary rounded-xl;
         width: var(--width, auto);
     }
-
+    
     .repeater-values {
         @apply  relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg
+    }
+
+    .edit-button-repeater {
+        @apply rotate-90 text-gray-700 text-2xl cursor-pointer ml-1
     }
 }
