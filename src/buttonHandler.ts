@@ -27,12 +27,25 @@ $(document).ready(function () {
         Timer.resumeTimer()
         hideAndClearModal()
     })
+    $('.edit-button-repeater').on('click', () => {
+        let menu: HTMLElement = document.getElementById('repeater-menu')!
+        menu.classList.remove('hidden')
+        menu.querySelector('.repeater-repeats')!.textContent = 'idk how do you get this value'
+    })
+    $('.edit-button').on('click', () => {
+        let menu: HTMLElement = document.getElementById('subtimer-menu')!
+        menu.classList.remove('hidden')
+        menu.querySelector('.subtimer-name')!.textContent = 'idk how do you get this value'
+        menu.querySelector('.subtimer-time')!.textContent = 'idk how do you get this value neither'
+    })
     $('#blurred-backround').on('click', () => {
         if(Utils.isModalVisible)
             hideAndClearModal()
         if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
             Utils.hideWarningPopUp()
-        
+        document.getElementById('subtimer-menu')!.classList.add('hidden')
+        document.getElementById('repeater-menu')!.classList.add('hidden')
+
         Timer.resumeTimer()
     })
     $('#pause-button').on('click', () => {//Stops the timer
