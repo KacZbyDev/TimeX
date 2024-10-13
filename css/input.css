@@ -11,7 +11,6 @@
         mask: radial-gradient(transparent 60%, #000 0);
         mask-mode: alpha
     }
-
     .subtimer {
         @apply relative m-1 mt-2 mb-2 p-4 bg-gray-100 rounded-full h-8 flex items-center select-none;
         width: var(--width, auto);
@@ -33,13 +32,15 @@
 
     .repeater-values {
         line-height: 1.5rem;
-        @apply relative flex bg-orange-secondary text-dark-blue-secondary font-bold rounded-r-lg pl-2 pr-2
+        @apply relative flex bg-orange-secondary text-blue-dark-secondary font-bold rounded-r-lg pl-2 pr-2
     }
 
     .edit-button-repeater {
         font-size: 1.65rem;
         @apply absolute rotate-90 ml-2 text-gray-700 font-medium cursor-pointer;
     }
+
+    /* TODO class for cancel and add buttons */
 
     .ghost {
         @apply opacity-20

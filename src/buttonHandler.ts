@@ -1,7 +1,7 @@
 import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js';
 
-const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('timer-name')
+const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('subtimer-name')
 const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
 $(document).ready(function () {

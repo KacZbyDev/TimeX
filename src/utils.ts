@@ -278,8 +278,8 @@ export class Utils {
             Timer.currentElement = Utils.elementClicked
             Timer.list = Timer.currentElement.parentElement!
             Repeater.resetChildren(Timer.list)
-            
-            //TODO do this for every parent of the element until you reach list-content, and put it inside repeater class
+        
+            //TODO do this for every parent of the element until you reach list-content with queryselectorall prbly and return when you find this object / element, and put it inside repeater class
             if(Timer.list.className.includes('repeater') && Repeater.getCurrentRepeats(Timer.list) == Repeater.getTotalRepeats(Timer.list))
                 Repeater.setCurrentRepeats(Timer.list, Repeater.getTotalRepeats(Timer.list) - 1)
 

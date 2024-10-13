@@ -31,7 +31,7 @@ export class Subtimer {
             //reset subtimer progress
             Subtimer.element.className = 'subtimer'
 
-            this.startNewSubtimer(Timer.currentElement)
+            Subtimer.startNewSubtimer(Timer.currentElement)
 
             Timer.elapsedTime = Date.now()
             return
@@ -45,15 +45,18 @@ export class Subtimer {
 
     static startNewSubtimer(element: HTMLElement):void {
         //get the time and name from the variables stored in the html
-        this.element = element
-        this.actionName = (<HTMLElement>element!.querySelector('.name')!).textContent!
-        this.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
+        Subtimer.element = element
+        Subtimer.actionName = (<HTMLElement>element!.querySelector('.name')!).textContent!
+        Subtimer.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
 
         element.className = 'subtimer-active';
 
         //the time displayed by bigTimer
-        Timer.currentMiliseconds = this.duration
+        Timer.currentMiliseconds = Subtimer.duration
 
-        document.getElementById('current-subtimer-name')!.textContent! = this.actionName
+        console.log(document.getElementById('current-subtimer-name'))
+        console.log(Subtimer.actionName)
+        
+        document.getElementById('current-subtimer-name')!.textContent! = Subtimer.actionName
     }
 }
