@@ -649,7 +649,7 @@ video {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-/* TODO class for cancel and add buttons */
+/* TODO ADD class for cancel and add buttons */
 
 .ghost {
   opacity: 0.2;

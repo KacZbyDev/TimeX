@@ -54,8 +54,9 @@ export class Subtimer {
         //the time displayed by bigTimer
         Timer.currentMiliseconds = Subtimer.duration
 
-        console.log(document.getElementById('current-subtimer-name'))
-        console.log(Subtimer.actionName)
+        //TODO what is this?
+        // console.log(document.getElementById('current-subtimer-name'))
+        // console.log(Subtimer.actionName)
         
         document.getElementById('current-subtimer-name')!.textContent! = Subtimer.actionName
     }

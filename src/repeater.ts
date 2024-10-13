@@ -2,17 +2,6 @@ import { Subtimer } from './subtimer.js'
 import { Timer } from './timer.js'
 
 export class Repeater {
-    static getCurrentRepeats(repeater: Element):number {
-        return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent!)
-    }
-    static setCurrentRepeats(repeater: Element, repeats: number):void {
-        repeater.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent = repeats.toString()
-    }
-
-    static getTotalRepeats(repeater: Element):number {
-        return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent!)
-    }
-
     //reset every child of the repeater
     static resetChildren(repeater:Element): void {
         repeater.querySelectorAll('.repeater').forEach((element) => {
@@ -41,5 +30,34 @@ export class Repeater {
         }
     
         Subtimer.subtimerFinished()
+    }
+
+    static rewindParentsAndSiblings(repeater: HTMLElement): void {
+        if(!repeater.className.includes('repeater'))
+            return
+        if(Repeater.getCurrentRepeats(repeater) < Repeater.getTotalRepeats(repeater))
+            return
+        
+        while(!repeater.id.includes('list')) {
+            Repeater.setCurrentRepeats(repeater, Repeater.getTotalRepeats(repeater) - 1)
+            repeater = repeater.parentElement!
+        }
+        repeater.querySelectorAll('.repeater').forEach((element) => {
+            if(Repeater.getCurrentRepeats(element) < Repeater.getTotalRepeats(element))
+                return
+            Repeater.setCurrentRepeats(element, Repeater.getTotalRepeats(element) - 1)
+        })
+        
+    }
+
+    static getCurrentRepeats(repeater: Element):number {
+        return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent!)
+    }
+    static setCurrentRepeats(repeater: Element, repeats: number):void {
+        repeater.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent = repeats.toString()
+    }
+
+    static getTotalRepeats(repeater: Element):number {
+        return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent!)
     }
 }

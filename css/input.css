@@ -40,7 +40,7 @@
         @apply absolute rotate-90 ml-2 text-gray-700 font-medium cursor-pointer;
     }
 
-    /* TODO class for cancel and add buttons */
+    /* TODO ADD class for cancel and add buttons */
 
     .ghost {
         @apply opacity-20
