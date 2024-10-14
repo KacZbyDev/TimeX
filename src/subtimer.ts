@@ -4,9 +4,23 @@ import { Repeater } from './repeater.js'
 
 export class Subtimer {
     public static element:HTMLElement
-
-    public static actionName:string
+    public static subtimerName:string
     public static duration:number
+
+    static startNewSubtimer(element: HTMLElement):void {
+        //get the time and name from the variables stored in the html
+        Subtimer.element = element
+        Subtimer.subtimerName = (<HTMLElement>element!.querySelector('.name')!).textContent!
+        Subtimer.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
+
+        element.className = 'subtimer-active';
+
+        //the time displayed by bigTimer
+        Timer.currentMiliseconds = Subtimer.duration
+
+        //Change the time on top of the big timer
+        document.getElementById('current-subtimer-name')!.textContent! = Subtimer.subtimerName
+    }
 
     static subtimerFinished(): void {
         if(Timer.currentElement == null)
@@ -41,23 +55,5 @@ export class Subtimer {
             Repeater.repeaterReachEnd()
         else
             Timer.killTimer()
-    }
-
-    static startNewSubtimer(element: HTMLElement):void {
-        //get the time and name from the variables stored in the html
-        Subtimer.element = element
-        Subtimer.actionName = (<HTMLElement>element!.querySelector('.name')!).textContent!
-        Subtimer.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
-
-        element.className = 'subtimer-active';
-
-        //the time displayed by bigTimer
-        Timer.currentMiliseconds = Subtimer.duration
-
-        //TODO what is this?
-        // console.log(document.getElementById('current-subtimer-name'))
-        // console.log(Subtimer.actionName)
-        
-        document.getElementById('current-subtimer-name')!.textContent! = Subtimer.actionName
     }
 }

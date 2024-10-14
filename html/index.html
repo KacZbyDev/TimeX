@@ -43,20 +43,20 @@
             <div id="list-content" class="relative overflow-y-auto overflow-x-hidden">
                 <div class="subtimer">
                     <p class="edit-button hidden">...</p>
-                    <p class="name w-full text-center ml-2 z-10">Start</p>
+                    <p class="name w-full text-center ml-3 z-10">Start</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
 
                 <div class="repeater">
                     <div class="repeater-values">
                         <p class="edit-button-repeater hidden">...</p>
-                        <p class="current-repeats w-full text-center ml-4 z-10">0</p>
+                        <p class="current-repeats w-full text-center ml-5 z-10">0</p>
                         <p class="total-repeats absolute right-4">2</p>
                     </div>
 
                     <div class="subtimer">
                         <p class="edit-button hidden">...</p>
-                        <p class="name absolute w-full text-center">Gata</p>
+                        <p class="name w-full text-center ml-3 z-10">Gata</p>
                         <p class="duration absolute right-4">1</p>
                     </div>
                     <div class="repeater">
@@ -68,7 +68,7 @@
     
                         <div class="subtimer">
                             <p class="edit-button hidden">...</p>
-                            <p class="name absolute w-full text-center ml-2">Gata</p>
+                            <p class="name w-full text-center ml-3 z-10">Gata</p>
                             <p class="duration absolute right-4">1</p>
                         </div>
                         <div class="repeater">
@@ -80,7 +80,7 @@
         
                             <div class="subtimer">
                                 <p class="edit-button hidden">...</p>
-                                <p class="name absolute w-full text-center">Gata</p>
+                                <p class="name w-full text-center ml-3 z-10">Gata</p>
                                 <p class="duration absolute right-4">1</p>
                             </div>
                             <div class="repeater">
@@ -92,7 +92,7 @@
             
                                 <div class="subtimer">
                                     <p class="edit-button hidden">...</p>
-                                    <p class="name absolute w-full text-center">Gata</p>
+                                    <p class="name w-full text-center ml-3 z-10">Gata</p>
                                     <p class="duration absolute right-4">1</p>
                                 </div>
                                 <div class="repeater">
@@ -103,21 +103,21 @@
                                     </div>
                 
                                     <div class="subtimer">
-                                        <p class="edit-button hidden">...</p>
-                                        <p class="name absolute w-full text-center">Gata</p>
-                                        <p class="duration absolute right-4">1</p>
-                                    </div>
+                                    <p class="edit-button hidden">...</p>
+                                    <p class="name w-full text-center ml-3 z-10">Gata</p>
+                                    <p class="duration absolute right-4">1</p>
+                                </div>
                                 </div>
                                 <div class="repeater">
                                     <div class="repeater-values">
                                         <p class="edit-button-repeater hidden">...</p>
-                                        <p class="current-repeats w-full text-center ml-4 z-10">0</p>
+                                        <p class="current-repeats w-full text-center ml-2 z-10">0</p>
                                         <p class="total-repeats absolute right-4">2</p>
                                     </div>
                 
                                     <div class="subtimer">
                                         <p class="edit-button hidden">...</p>
-                                        <p class="name absolute w-full text-center">Gata</p>
+                                        <p class="name w-full text-center ml-3 z-10">Gata</p>
                                         <p class="duration absolute right-4">1</p>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                 
                 <div class="subtimer">
                     <p class="edit-button hidden">...</p>
-                    <p class="name absolute w-full text-center">Gata</p>
+                    <p class="name w-full text-center ml-3 z-10"></p>
                     <p class="duration absolute right-4">1</p>
                 </div>
             </div>
@@ -168,93 +168,90 @@
 
     <div id="blurred-backround" class="absolute h-dvh w-screen bg-black opacity-45 z-40 hidden"></div>
 
-    <!-- TODO make this nicer -->
-    <div id="modal" class="shadow-xl shadow-gray-500 pb-2 pl-3 pr-3 fixed h-3/4 w-1/3 bg-white m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50 hidden">
-        <div id="modal-header-container" class="h-1/6 flex justify-center items-center space-x-4 font-bold text-2xl">
-            <div class="text-orange-primary">ADD</div>
-            <div class="text-blue-primary">TIMER</div>
+    <div id="pop-ups">
+        <!-- TODO make this nicer -->
+        <div id="modal" class="shadow-xl shadow-gray-500 pb-2 pl-3 pr-3 fixed h-3/4 w-1/3 bg-white m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50 hidden">
+            <div id="modal-header-container" class="h-1/6 flex justify-center items-center space-x-4 font-bold text-2xl">
+                <div class="text-orange-primary">ADD</div>
+                <div class="text-blue-primary">TIMER</div>
+            </div>
+
+            <div id="modal-body-wrapper" class="h-5/6">
+                <form id="timer-form" class="h-full flex flex-col justify-between">
+                    <!-- Form Body -->
+                    <div class="h-5/6 flex flex-col justify-center items-center space-y-4">
+                        <label for="subtimer-name" class="font-medium">Subtimer Name:</label>
+                        <input id="subtimer-name" type="text" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Enter timer name">
+
+                         <label for="timer-duration" class="font-medium">Duration (xx:xx:xx format):</label>
+                        <input id="timer-duration" type="text" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Enter duration">
+                    </div>
+
+                    <div id="button-container" class="flex justify-between h-1/6 px-3">
+                        <button id="modal-add-button"
+                           class="ok-button w-1/4">Add</button>
+                        <button type="button" id="modal-cancel-button"
+                            class="cancel-button w-1/4">Cancel</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <div id="modal-body-wrapper" class="h-5/6">
-            <form id="timer-form" class="h-full flex flex-col justify-between">
-                <!-- Form Body -->
-                <div class="h-5/6 flex flex-col justify-center items-center space-y-4">
-                    <label for="subtimer-name" class="font-medium">Subtimer Name:</label>
-                    <input id="subtimer-name" type="text" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Enter timer name">
-
-                     <label for="timer-duration" class="font-medium">Duration (xx:xx:xx format):</label>
-                    <input id="timer-duration" type="text" class="border border-gray-300 rounded-md p-2 w-full" placeholder="Enter duration">
-                </div>
-
-                <div id="button-container" class="flex justify-between h-1/6">
-                    <button id="modal-add-button"
-                       class="flex justify-center items-center bg-gray-50 text-green-600 border border-green-600 rounded-xl w-1/4 h-full ml-3 mr-3 hover:text-white hover:bg-green-600 transition duration-300">Add</button>
-                    <button type="button" id="modal-cancel-button"
-                        class="flex justify-center items-center bg-gray-50 text-red-600 border border-red-600 rounded-xl w-1/4 h-full ml-3 mr-3 hover:text-white hover:bg-red-600 transition duration-300">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <div id="subtimer-menu" class="flex flex-col shadow-lg bg-blue-200 shadow-gray-400 h-fit hover:shadow-xl hover:shadow-gray-400 transition duration-1000 p-3 pt-8 fixed w-1/2 m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50 hidden">
-        <div class="shadow-lg shadow-blue-light-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
+        <div id="subtimer-menu" class="element-menu bg-blue-light-secondary hidden">
+            <div class="shadow-lg shadow-blue-light-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
             <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-blue-dark-secondary to-blue-light-primary">SUBTIMER MENU</div>
-        </div>
-        <div class="name-container pl-4 p-2 py-4 flex justify-start bg-white rounded-xl items-center mt-20 bg-opacity-50">
+            </div>
+            <div class="name-container pl-4 p-2 py-4 flex justify-start bg-white rounded-xl items-center mt-20 bg-opacity-50">
             <label class="subtimer-name text-2xl font-semibold">NAME:</label>
             <input type="text" class="subtimer-name-input flex-grow mx-4 p-2 border border-gray-300 rounded-md">
-        </div>
-        <div class="time-container pl-4 p-2 py-4 mt-10 flex justify-start bg-white rounded-xl items-center bg-opacity-50">
+            </div>
+            <div class="time-container pl-4 p-2 py-4 mt-10 flex justify-start bg-white rounded-xl items-center bg-opacity-50">
             <label class="text-2xl font-semibold">TIME:</label>
             <div class="item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
+            </div>
+            <div class="flex justify-between mt-10 mb-3 mx-3 h-16">
+                <button id="subtimer-menu-ok-button"
+                   class="ok-button">OK</button>
+                <button id="subtimer-menu-cancel-button"
+                    class="cancel-button">Cancel</button>
+            </div>
         </div>
-        <div class="flex justify-between mt-10 mb-3 mx-3 h-16">
-            <button id="subtimer-menu-ok-button"
-               class="flex justify-center items-center bg-white bg-opacity-80 text-green-600 border border-green-600 rounded-xl w-20 h-full hover:text-white hover:bg-green-600 transition duration-300">OK</button>
-            <button id="subtimer-menu-cancel-button"
-                class="flex justify-center items-center bg-white bg-opacity-80 text-red-600 border border-red-600 rounded-xl w-20 h-full hover:text-white hover:bg-red-600 transition duration-300">Cancel</button>
+
+        <div id="repeater-menu" class="element-menu bg-orange-secondary hidden">
+            <div class="shadow-lg shadow-orange-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
+                <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-orange-dark-primary to-orange-light-primary">REPEATER MENU</div>
+            </div>
+            <div class="options-container pl-4 p-2 py-4 mt-20 flex justify-start items-center bg-white rounded-xl bg-opacity-50">
+                <label class="subtimer-name text-2xl font-semibold">TOTAL REPEATS:</label>
+                <div class="item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
+            </div>
+            <div class="flex justify-between mt-10 mb-3 mx-3 h-16">
+                <button id="repeater-menu-ok-button"
+                   class="ok-button">OK</button>
+                <button id="repeater-menu-cancel-button"
+                    class="cancel-button">Cancel</button>
+            </div>
+        </div>
+
+        <div id="warning-pop-up" class="shadow-xl shadow-gray-500 pb-2 pl-3 pr-3 fixed h-3/4 w-1/3 bg-white m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50 hidden">
+            <div id="warning-message"></div>
         </div>
     </div>
     
-    <div id="repeater-menu" class="flex flex-col shadow-lg bg-orange-secondary shadow-gray-400 h-fit hover:shadow-xl hover:shadow-gray-400 transition duration-1000 p-3 pt-8 fixed w-1/2 m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50 hidden">
-        <div class="shadow-lg shadow-orange-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
-            <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-orange-dark-primary to-orange-light-primary">REPEATER MENU</div>
-        </div>
-        <div class="options-container pl-4 p-2 py-4 mt-20 flex justify-start items-center bg-white rounded-xl bg-opacity-50">
-            <label class="subtimer-name text-2xl font-semibold">TOTAL REPEATS:</label>
-            <div class="item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
-        </div>
-        <div class="flex justify-between mt-10 mb-3 mx-3 h-16">
-            <button id="repeater-menu-ok-button"
-               class="flex justify-center items-center bg-white bg-opacity-80 text-green-600 border border-green-600 rounded-xl w-20 h-full hover:text-white hover:bg-green-600 transition duration-300">OK</button>
-            <button id="repeater-menu-cancel-button"
-                class="flex justify-center items-center bg-white bg-opacity-80 text-red-600 border border-red-600 rounded-xl w-20 h-full hover:text-white hover:bg-red-600 transition duration-300">Cancel</button>
-        </div>
-    </div>
-
-    <div id="warning-pop-up" class="shadow-xl shadow-gray-500 pb-2 pl-3 pr-3 fixed h-3/4 w-1/3 bg-white m-auto max-h-[100dvh] max-w-[100vh] inset-0 rounded-2xl z-50 hidden">
-        <div id="warning-message"></div>
-    </div>
-
     <!-- Align the edit buttons, names and the last value(time / total repeats) -->
     <div id="timer-elements" class="hidden">
         <div id="subtimer-example" class="subtimer">
+            <!-- TODO maybe make a child with the 3 dots and the parents just act as the clickable area -->
             <p class="edit-button hidden">...</p>
-            <p class="name w-full text-center ml-2 z-10"></p>
+            <p class="name w-full text-center ml-3 z-10"></p>
             <p class="duration absolute right-4">1</p>
         </div>
 
         <div id="repeater-example" class="repeater">
             <div class="repeater-values">
                 <p class="edit-button-repeater hidden">...</p>
-                <p class="current-repeats w-full text-center ml-4 z-10">0</p>
+                <p class="current-repeats w-full text-center ml-5 z-10">0</p>
                 <p class="total-repeats absolute right-4">2</p>
-            </div>
-
-            <div class="subtimer">
-                <p class="edit-button hidden">...</p>
-                <p class="name w-full text-center ml-2 z-10"></p>
-                <p class="duration absolute right-4">1</p>
             </div>
         </div>
     </div>
