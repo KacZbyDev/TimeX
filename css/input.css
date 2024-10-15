@@ -32,7 +32,11 @@
 
     .repeater-values {
         line-height: 1.5rem;
-        @apply relative flex bg-orange-secondary text-blue-dark-secondary font-bold rounded-r-lg pl-2 pr-2
+        @apply relative flex bg-orange-secondary text-blue-dark-secondary font-bold rounded-r-lg pr-1
+    }
+
+    .ghost {
+        @apply opacity-20
     }
 
     .edit-button-repeater {
@@ -52,7 +56,8 @@
         @apply flex justify-center items-center bg-white bg-opacity-80 text-red-600 border border-red-600 rounded-xl w-20 h-full hover:text-white hover:bg-red-600 transition duration-300
     }
 
-    .ghost {
-        @apply opacity-20
+    .top-shadow {
+        box-shadow: 0 -10px 20px -5px rgba(0, 0, 0, 0.3);
     }
+    
 }
