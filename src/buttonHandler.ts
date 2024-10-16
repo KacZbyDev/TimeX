@@ -1,5 +1,6 @@
 import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js';
+import { Subtimer } from "./subtimer.js";
 
 const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('subtimer-name')
 const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
@@ -50,7 +51,15 @@ $(document).ready(function () {
     })
     $('#pause-button').on('click', () => {//Stops the timer
         Utils.toggleStop()
-        $('#pause-button').blur() //Prevents keyboard focus
+        $('#pause-button').blur()
+    })
+    $('#previous-button').on('click', () => {//Starts the previous timer
+        // TODO implement this
+        $('#pause-button').blur()
+    })
+    $('#next-button').on('click', () => {//Starts the next subtimer
+        Subtimer.subtimerFinished()
+        $('#pause-button').blur()
     })
 });
 
