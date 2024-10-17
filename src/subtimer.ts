@@ -7,7 +7,7 @@ export class Subtimer {
     public static subtimerName:string
     public static duration:number
 
-    static startNewSubtimer(element: HTMLElement):void {
+    static startSubtimer(element: HTMLElement):void {
         //get the time and name from the variables stored in the html
         Subtimer.element = element
         Subtimer.subtimerName = (<HTMLElement>element!.querySelector('.name')!).textContent!
@@ -22,15 +22,12 @@ export class Subtimer {
         document.getElementById('current-subtimer-name')!.textContent! = Subtimer.subtimerName
     }
 
-    static subtimerFinished(): void {
+    static startNextSubtimer(): void {
         if(Timer.currentElement == null)
             return
-        
         Utils.playSubtimerFinish()
-        
-        //get the next element in the list
-        Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
 
+        Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
         //if it finds the next element
         if (Timer.currentElement) {
             if (Timer.currentElement.className.includes('repeater')) {
@@ -45,7 +42,7 @@ export class Subtimer {
             //reset subtimer progress
             Subtimer.element.className = 'subtimer'
 
-            Subtimer.startNewSubtimer(Timer.currentElement)
+            Subtimer.startSubtimer(Timer.currentElement)
 
             Timer.elapsedTime = Date.now()
             return
@@ -55,5 +52,28 @@ export class Subtimer {
             Repeater.repeaterReachEnd()
         else
             Timer.killTimer()
+    }
+
+    static startPreviousSubtimer(): void {
+        if(!Timer.currentElement)
+            return
+        
+        Utils.playSubtimerFinish()
+
+        let prevElement = Timer.currentElement!.previousElementSibling as HTMLElement
+        if(prevElement) {
+            if(prevElement.className.includes('repeater-values'))
+                prevElement = prevElement.parentElement!.previousElementSibling as HTMLElement
+
+            if(prevElement.className.includes('repeater'))
+                prevElement = prevElement.lastElementChild as HTMLElement
+
+            //reset subtimer progress
+            Subtimer.element.className = 'subtimer'
+            Timer.currentElement = prevElement
+        }
+        
+        Subtimer.startSubtimer(Timer.currentElement)
+        Timer.elapsedTime = Date.now()
     }
 }

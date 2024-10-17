@@ -49,13 +49,13 @@ export class Timer {
         else
             Timer.currentElement = Timer.list.firstElementChild! as HTMLElement
 
-        Subtimer.startNewSubtimer(Timer.currentElement)
+        Subtimer.startSubtimer(Timer.currentElement)
         Timer.resumeTimer()
     }
 
     static updateTime(): void {
         if (Timer.currentMiliseconds <= 0)
-            Subtimer.subtimerFinished()
+            Subtimer.startNextSubtimer()
 
         if (Timer.currentState != TimerState.Active)
             return;

@@ -29,7 +29,7 @@ export class Repeater {
             Repeater.resetChildren(Timer.list)
         }
     
-        Subtimer.subtimerFinished()
+        Subtimer.startNextSubtimer()
     }
 
     static rewindParentsAndSiblings(repeater: HTMLElement): void {

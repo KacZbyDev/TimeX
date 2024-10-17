@@ -54,11 +54,11 @@ $(document).ready(function () {
         $('#pause-button').blur()
     })
     $('#previous-button').on('click', () => {//Starts the previous timer
-        // TODO implement this
+        Subtimer.startPreviousSubtimer()
         $('#pause-button').blur()
     })
     $('#next-button').on('click', () => {//Starts the next subtimer
-        Subtimer.subtimerFinished()
+        Subtimer.startNextSubtimer()
         $('#pause-button').blur()
     })
 });

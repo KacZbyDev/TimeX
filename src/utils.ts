@@ -280,7 +280,7 @@ export class Utils {
             Repeater.resetChildren(Timer.list)
             Repeater.rewindParentsAndSiblings(Timer.list)
         
-            Subtimer.startNewSubtimer(Timer.currentElement)
+            Subtimer.startSubtimer(Timer.currentElement)
         }
 
         let percentage = (event.clientX - Timer.currentElement.offsetLeft + 2) / Timer.currentElement.clientWidth * 100
