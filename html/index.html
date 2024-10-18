@@ -35,13 +35,13 @@
 
     <div id="subtimer-timer-wrapper" class="flex h-[calc(100vh-64px)]">
         <div id="list-of-subtimer" class="flex flex-col w-1/4 rounded-r-3xl h-fit max-h border-b border-r shadow-md relative select-none bg-white max-h-full ">
-            <div id="resizer" class="z-50 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
+            <div id="resizer" class="z-40 w-4 h-full absolute right-0 -mr-2 cursor-ew-resize select-none"></div>
              <!-- TODO make the list list header, especially the timer name stand out -->
             <div id="list-header" class="flex justify-center items-center text-orange-primary p-2 text-2xl font-bold border-b shadow-sm">*TIMER NAME*</div>
 
             <div id="list-content" class="relative overflow-y-auto overflow-x-hidden">
                 <div class="subtimer">
-                    <p class="edit-button hidden">...</p>
+                    <p class="edit-button-subtimer hidden">...</p>
                     <p class="name w-full text-center mx-3 z-10">Start</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="subtimer">
-                        <p class="edit-button hidden">...</p>
+                        <p class="edit-button-subtimer hidden">...</p>
                         <p class="name w-full text-center mx-3 z-10">Gata</p>
                         <p class="duration absolute right-4">1</p>
                     </div>
@@ -66,7 +66,7 @@
                         </div>
     
                         <div class="subtimer">
-                            <p class="edit-button hidden">...</p>
+                            <p class="edit-button-subtimer hidden">...</p>
                             <p class="name w-full text-center mx-3 z-10">Gata</p>
                             <p class="duration absolute right-4">1</p>
                         </div>
@@ -78,7 +78,7 @@
                             </div>
         
                             <div class="subtimer">
-                                <p class="edit-button hidden">...</p>
+                                <p class="edit-button-subtimer hidden">...</p>
                                 <p class="name w-full text-center mx-3 z-10">Gata</p>
                                 <p class="duration absolute right-4">1</p>
                             </div>
@@ -90,7 +90,7 @@
                                 </div>
             
                                 <div class="subtimer">
-                                    <p class="edit-button hidden">...</p>
+                                    <p class="edit-button-subtimer hidden">...</p>
                                     <p class="name w-full text-center mx-3 z-10">Gata</p>
                                     <p class="duration absolute right-4">1</p>
                                 </div>
@@ -102,7 +102,7 @@
                                     </div>
                 
                                     <div class="subtimer">
-                                    <p class="edit-button hidden">...</p>
+                                    <p class="edit-button-subtimer hidden">...</p>
                                     <p class="name w-full text-center mx-3 z-10">Gata</p>
                                     <p class="duration absolute right-4">1</p>
                                 </div>
@@ -115,7 +115,7 @@
                                     </div>
                 
                                     <div class="subtimer">
-                                        <p class="edit-button hidden">...</p>
+                                        <p class="edit-button-subtimer hidden">...</p>
                                         <p class="name w-full text-center mx-3 z-10">Gata</p>
                                         <p class="duration absolute right-4">1</p>
                                     </div>
@@ -126,7 +126,7 @@
                 </div>
                 
                 <div class="subtimer">
-                    <p class="edit-button hidden">...</p>
+                    <p class="edit-button-subtimer hidden">...</p>
                     <p class="name w-full text-center mx-3 z-10">a</p>
                     <p class="duration absolute right-4">1</p>
                 </div>
@@ -135,7 +135,7 @@
             <div id="list-footer" class="flex justify-between top-shadow pt-7 p-4 z-40">
                 <button id="edit-mode-button"
                     class="size-11 bg-orange-secondary rounded-xl text-center text-white font-bold hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Edit</button>
-                <button id="add-button"
+                <button id="add-element-button"
                     class="size-11 bg-blue-secondary rounded-xl text-center text-white font-bold text-4xl flex justify-center items-center pb-1 hover:shadow-custom-amber hover:shadow-blue-600 hover:scale-125 transition-all duration-500">+</button>
             </div>
         </div>
@@ -198,16 +198,18 @@
 
         <div id="subtimer-menu" class="element-menu bg-blue-light-secondary hidden">
             <div class="shadow-lg shadow-blue-light-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
-            <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-blue-dark-secondary to-blue-light-primary">SUBTIMER MENU</div>
+                <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-blue-dark-secondary to-blue-light-primary">SUBTIMER MENU</div>
             </div>
+            
             <div class="name-container pl-4 p-2 py-4 flex justify-start bg-white rounded-xl items-center mt-20 bg-opacity-50">
-            <label class="subtimer-name text-2xl font-semibold">NAME:</label>
-            <input type="text" class="subtimer-name-input flex-grow mx-4 p-2 border border-gray-300 rounded-md">
+                <label class="text-2xl font-semibold">NAME:</label>
+                <input type="text" class="subtimer-name flex-grow mx-4 p-2 border border-gray-300 rounded-md">
             </div>
             <div class="time-container pl-4 p-2 py-4 mt-10 flex justify-start bg-white rounded-xl items-center bg-opacity-50">
-            <label class="text-2xl font-semibold">TIME:</label>
-            <div class="item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
+                <label class="text-2xl font-semibold">TIME:</label>
+                <div class="subtimer-time item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
             </div>
+
             <div class="flex justify-between mt-10 mb-3 mx-3 h-16">
                 <button id="subtimer-menu-ok-button"
                    class="ok-button">OK</button>
@@ -221,8 +223,8 @@
                 <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-orange-dark-primary to-orange-light-primary">REPEATER MENU</div>
             </div>
             <div class="options-container pl-4 p-2 py-4 mt-20 flex justify-start items-center bg-white rounded-xl bg-opacity-50">
-                <label class="subtimer-name text-2xl font-semibold">TOTAL REPEATS:</label>
-                <div class="item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
+                <label class="text-2xl font-semibold">TOTAL REPEATS:</label>
+                <div class="repeater-repeats item-picker flex flex-grow justify-center">*ITEM PICKER*</div>
             </div>
             <div class="flex justify-between mt-10 mb-3 mx-3 h-16">
                 <button id="repeater-menu-ok-button"
@@ -240,7 +242,7 @@
     <div id="timer-elements" class="hidden">
         <div id="subtimer-example" class="subtimer">
             <!-- TODO maybe make a child with the 3 dots and the parents just act as the clickable area -->
-            <p class="edit-button hidden">...</p>
+            <p class="edit-button-subtimer hidden">...</p>
             <p class="name w-full text-center mx-3 z-10"></p>
             <p class="duration absolute right-4">1</p>
         </div>

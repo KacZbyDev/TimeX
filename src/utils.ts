@@ -321,15 +321,15 @@ export class Utils {
     private static lastState:TimerState
     static toggleEditMode(): void {
         if(Timer.currentState < TimerState.Edit) {
+            Timer.pauseTimer()
+            Utils.lastState = Timer.currentState
+            Timer.currentState = TimerState.Edit
+
             document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
                 element.classList.remove('hidden') 
             });
             $('#blurred-backround').removeClass('hidden');
             $('#list-of-subtimer').addClass('z-50')
-
-            Timer.pauseTimer()
-            Utils.lastState = Timer.currentState
-            Timer.currentState = TimerState.Edit
             return
         }
 

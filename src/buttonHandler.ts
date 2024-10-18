@@ -6,60 +6,82 @@ const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('su
 const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
 
 $(document).ready(function () {
+    //UI buttons
+    $("#add-element-button").on("click", () => {
+        Timer.pauseTimer()
+
+        showMenu($('#modal')[0])
+        $('#add-button').blur()
+    });
     $('#edit-mode-button').on('click', () => {
         Utils.toggleEditMode()
         $('#edit-mode-button').blur()
     })
-    $("#add-button").on("click", () => {
-        Timer.pauseTimer()
-        showModal()
-        $('#add-button').blur()
-    });
+    $('.edit-button-subtimer').on('click', (event) => {
+        let menu: HTMLElement = document.getElementById('subtimer-menu')!
+
+        menu.querySelector('.subtimer-name')!.setAttribute('placeholder', event.target.parentElement!.querySelector('.name')!.textContent!)  
+        menu.querySelector('.subtimer-time')!.textContent =  event.target.parentElement!.querySelector('.duration')!.textContent
+        showMenu(menu)
+    })
+    $('.edit-button-repeater').on('click', (event) => {
+        let menu: HTMLElement = document.getElementById('repeater-menu')!
+
+        menu.querySelector('.repeater-repeats')!.textContent = event.target.parentElement!.querySelector('.total-repeats')!.textContent
+        showMenu(menu)
+    })
+    $('#repeater-menu-cancel-button').on('click', () => {
+       hideAndClearMenu($('#repeater-menu')[0])
+    })
+    $('#subtimer-menu-cancel-button').on('click', () => {
+        hideAndClearMenu($('#subtimer-menu')[0])
+    })
+    
+    //More buttons
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
             return
             
-        //DOesnt work idk
+        //Doesnt work idk
         Utils.addTimer(nameInput.value, durationInput.value)
         Timer.resumeTimer()
-        hideAndClearModal()
+        hideAndClearMenu($('#modal-add-button')[0])
     })
     $('#modal-cancel-button').on('click', () => {
         Timer.resumeTimer()
-        hideAndClearModal()
+        hideAndClearMenu($("#modal")[0])
     })
-    $('.edit-button-repeater').on('click', () => {
-        let menu: HTMLElement = document.getElementById('repeater-menu')!
-        menu.classList.remove('hidden')
-        menu.querySelector('.repeater-repeats')!.textContent = 'idk how do you get this value'
-    })
-    $('.edit-button').on('click', () => {
-        let menu: HTMLElement = document.getElementById('subtimer-menu')!
-        menu.classList.remove('hidden')
-        menu.querySelector('.subtimer-name')!.textContent = 'idk how do you get this value'
-        menu.querySelector('.subtimer-time')!.textContent = 'idk how do you get this value neither'
-    })
-    $('#blurred-backround').on('click', () => {
-        if(Utils.isModalVisible)
-            hideAndClearModal()
-        if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
-            Utils.hideWarningPopUp()
-        document.getElementById('subtimer-menu')!.classList.add('hidden')
-        document.getElementById('repeater-menu')!.classList.add('hidden')
-
-        Timer.resumeTimer()
-    })
-    $('#pause-button').on('click', () => {//Stops the timer
+    $('#pause-button').on('click', () => {
         Utils.toggleStop()
         $('#pause-button').blur()
     })
-    $('#previous-button').on('click', () => {//Starts the previous timer
+    $('#previous-button').on('click', () => {
         Subtimer.startPreviousSubtimer()
-        $('#pause-button').blur()
+        $('#previous-button').blur()
     })
-    $('#next-button').on('click', () => {//Starts the next subtimer
+    $('#next-button').on('click', () => {
         Subtimer.startNextSubtimer()
-        $('#pause-button').blur()
+        $('#next-button').blur()
+    })
+
+    //Others
+    $('#blurred-backround').on('click', () => {
+        if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
+            Utils.hideWarningPopUp()
+
+        if(Utils.isModalVisible) {
+            if (!document.getElementById('subtimer-menu')!.classList.contains('hidden')) {
+                hideAndClearMenu($('#subtimer-menu')[0])
+            }
+            if (!document.getElementById('repeater-menu')!.classList.contains('hidden')) {
+                hideAndClearMenu($('#repeater-menu')[0])
+            }
+            if (!document.getElementById('modal')!.classList.contains('hidden')) {
+                hideAndClearMenu($('#modal')[0])
+            }
+            
+        }
+        Timer.resumeTimer()
     })
 });
 
@@ -77,20 +99,27 @@ function areInputsValid():boolean {
     return true
 }
 
-function showModal(): void {
+function showMenu(menu: Element): void {
+    if(Utils.isModalVisible)
+        return
     Utils.isModalVisible = true
     
-    $('#modal').removeClass('hidden');
+    menu.classList.remove('hidden');
     $('#blurred-backround').removeClass('hidden');
+    $('#list-of-subtimer').removeClass('z-50')
 }
  
-function hideAndClearModal():void {
+function hideAndClearMenu(menu: Element):void {
     Utils.isModalVisible = false
-
-    $('#modal').addClass('hidden');
     if(Timer.currentState != TimerState.Edit)
          $('#blurred-backround').addClass('hidden');
+     
+    $('#list-of-subtimer').addClass('z-50')
 
-    nameInput.value = '';
-    durationInput.value = '';
+    menu.classList.add('hidden');
+    
+    if (menu == $('#modal')[0]) {
+        nameInput.value = '';
+        durationInput.value = '';
+    }
 }
