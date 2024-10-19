@@ -4,6 +4,12 @@ module.exports = {
     './html/*.{html,js}',
     './css/input.css',
   ],
+  safelist: [
+    'shadow-md',
+    'shadow-gray-300',
+    'border-[1px]',
+    'border-gray-300',
+  ],
   theme: {
     extend: {
       boxShadow: {

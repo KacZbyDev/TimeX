@@ -11,7 +11,6 @@ export enum TimerState {
 };
 
 export class Utils {
-    public static readonly DRAG_OFFSET_X = 18
     public static readonly DRAG_OFFSET_Y = 136
 
     private static readonly DECIMALS: number = 1 //how many decimals are displayed by the big timer
@@ -23,6 +22,7 @@ export class Utils {
     private static isDragging = false
     public static elementClicked: HTMLElement
     public static ghostElement: HTMLElement
+    public static readonly listContent = document.getElementById('list-content')!
 
     public static isModalVisible:boolean = false
 
@@ -70,14 +70,13 @@ export class Utils {
     }
 
     static addTimer(name: string, duration: string): void {
-        let parentList: HTMLElement = document.getElementById('list-content')!
         let newElement: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
 
         newElement.querySelector('.name')!.textContent = name
 
         newElement.querySelector('.duration')!.textContent = duration
 
-        parentList.appendChild(newElement)
+        Utils.listContent.appendChild(newElement)
     }
 
     static resize(e: MouseEvent) {
@@ -109,47 +108,69 @@ export class Utils {
 
     static dragElementListener(event: MouseEvent): void {
         let elementClicked:HTMLElement = <HTMLElement> event.target
-
+        let elementParent = elementClicked.parentElement!
+        
         if (Timer.currentState != TimerState.Edit || elementClicked.className.includes('edit-button'))
             return
 
         if(!elementClicked.className.includes('subtimer'))
-            Utils.elementClicked = elementClicked.parentElement!
+            elementClicked = elementParent
         
-        if(Utils.elementClicked.id.includes('list'))
+        if(elementClicked.id.includes('list'))
             return
-        if(Utils.elementClicked.className.includes('repeater-values'))
-            Utils.elementClicked = Utils.elementClicked.parentElement!
+        
+        if(elementClicked.className.includes('repeater-values'))
+            elementClicked = elementClicked.parentElement!
 
-        window.addEventListener('scroll', (event: Event) => {Utils.dragElement(event as MouseEvent)});
-        window.addEventListener('mousemove', Utils.dragElement);
-        window.addEventListener('mouseup', Utils.draggingElementStopped);
+        elementParent = elementClicked.parentElement!
+        if((elementParent.className == 'repeater' && elementParent.children.length <= 2))
+            return
+        
+        Utils.elementClicked = elementClicked
+        window.addEventListener('mousemove', Utils.dragElement)
+        window.addEventListener('mouseup', Utils.draggingElementStopped)
+        Utils.listContent.addEventListener('scroll', Utils.dragElement)
     }
     
-    static dragElement(event: MouseEvent) {
+    private static scrollTop: number
+    private static top: number
+    static dragElement(event: MouseEvent | Event) {
+        console.log('aaa')
+        
         if (Utils.isDragging == false) {
             Utils.isDragging = true
             document.body.style.cursor = "pointer";
             
+
             Utils.ghostElement = Utils.elementClicked.cloneNode(true) as HTMLElement
             Utils.ghostElement.classList.add('ghost')
             
             const originalWidth = Utils.elementClicked.getBoundingClientRect().width
             
-            Utils.elementClicked.classList.add('absolute')
+            Utils.elementClicked.className += ' z-50 absolute'
+            if(Utils.elementClicked.className.includes('subtimer'))
+                Utils.elementClicked.className += ' absolute shadow-md shadow-gray-300 border-gray-300'
+            
             Utils.elementClicked.style.width = `${originalWidth}px`
             
             Utils.elementClicked.replaceWith(Utils.ghostElement)
-            document.getElementById('list-content')!.appendChild(Utils.elementClicked)
+            Utils.listContent.appendChild(Utils.elementClicked)
         }
         
-        const scrollTop = document.getElementById("list-content")!.scrollTop
-        Utils.elementClicked.style.left = `${event.clientX - Utils.DRAG_OFFSET_X}px`
-        Utils.elementClicked.style.top = `${event.clientY - Utils.DRAG_OFFSET_Y + scrollTop}px`
+        if(event instanceof MouseEvent) {
+            Utils.top = event.clientY - Utils.DRAG_OFFSET_Y
+            Utils.elementClicked.style.left = `${event.clientX - Utils.elementClicked.clientWidth / 2}px`
+        }
+        Utils.scrollTop = Utils.listContent.scrollTop
+        Utils.elementClicked.style.top = `${Utils.top + Utils.scrollTop}px`
         
-        //TODO scroll down when element is down or up if up
-        //if(Utils.elementClicked.style.top <= 0 || document.getElementById("list-content")!.clientHeight + scrollTop - (parseInt(Utils.elementClicked.style.top.split('px', 1).at(0)!) + Utils.elementClicked.clientHeight < 0)
-        //document.getElementById("list-content")!.scrollTop += value
+        if(Utils.top <= 0)
+            document.getElementById("list-content")!.scrollTop -= 3
+        
+        if(Utils.top + 40 >= document.getElementById("list-content")!.clientHeight) {
+            if(Utils.ghostElement.parentElement != Utils.listContent || Utils.ghostElement != Utils.elementClicked.previousElementSibling!)
+                document.getElementById("list-content")!.scrollTop += 3
+        }
 
         const prevElement: HTMLElement = <HTMLElement>Utils.ghostElement.previousElementSibling!
         const nextElement: HTMLElement = <HTMLElement>Utils.ghostElement.nextElementSibling!
@@ -163,7 +184,8 @@ export class Utils {
 
         window.removeEventListener('mousemove', Utils.dragElement);
         window.removeEventListener('mouseup', Utils.draggingElementStopped);
-
+        Utils.listContent.removeEventListener('scroll', Utils.dragElement);
+        
         if(!Utils.isDragging)
             return
         Utils.isDragging = false
@@ -179,7 +201,7 @@ export class Utils {
         if(prevElement == null)  
             return
         if(prevElement.className.includes('repeater-values')) {
-            if(Utils.elementClicked.offsetTop > prevElement.parentElement!.offsetTop || Utils.ghostElement.parentElement!.childElementCount <= 2)
+            if(Utils.elementClicked.offsetTop > prevElement.parentElement!.offsetTop)
                 return
 
             let repeater = Utils.ghostElement.parentElement!
@@ -212,7 +234,7 @@ export class Utils {
                 return
 
             let repeater = Utils.ghostElement.parentElement!
-            if(Utils.elementClicked.offsetTop <=  repeater.offsetTop + repeater.offsetHeight || repeater.childElementCount <= 2)
+            if(Utils.elementClicked.offsetTop <=  repeater.offsetTop + repeater.offsetHeight)
                 return
             
             Utils.insertElementBeforeElement(Utils.ghostElement, repeater)
