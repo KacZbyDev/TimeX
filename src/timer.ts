@@ -10,7 +10,7 @@ export class Timer {
     public static bigTimerDisplay: HTMLElement = document.getElementById('big-timer-time')!
     public static progress_bar: HTMLElement = document.getElementById('progress-bar')!
 
-    public static listOfSubtimers: HTMLElement = document.getElementById('list-of-subtimer')!;
+    public static listOfSubtimers: HTMLElement = document.getElementById('list-of-elements')!;
     public static resizer: HTMLElement = document.getElementById('resizer')!;
     public static listInitialSize: number;
 
@@ -62,10 +62,7 @@ export class Timer {
 
         //update bigTimer
         let percent = Timer.currentMiliseconds / Subtimer.duration * 100
-        Timer.progress_bar.style.setProperty('--value', percent + '')
-        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
-        
-        Subtimer.element.style.setProperty('--value', percent + '')
+        Timer.updateTimeOnUI(percent)
 
         //the time elapsed after the last call
         Timer.currentMiliseconds -= Date.now() - Timer.elapsedTime
@@ -97,5 +94,12 @@ export class Timer {
         Timer.bigTimerDisplay.textContent = 'DONE'
         Subtimer.element.className = 'subtimer'
         Timer.progress_bar.style.setProperty('--value', '0')
+    }
+
+    static updateTimeOnUI(percent: number): void {
+        Timer.progress_bar.style.setProperty('--value', percent + '')
+        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
+        
+        Subtimer.element.style.setProperty('--value', percent + '')
     }
 }

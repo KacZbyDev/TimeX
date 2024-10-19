@@ -14,12 +14,14 @@ export class Subtimer {
         Subtimer.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
 
         element.className = 'subtimer-active';
-
+        
         //the time displayed by bigTimer
         Timer.currentMiliseconds = Subtimer.duration
 
         //Change the time on top of the big timer
         document.getElementById('current-subtimer-name')!.textContent! = Subtimer.subtimerName
+        
+        Timer.updateTimeOnUI(100)
     }
 
     static startNextSubtimer(): void {
@@ -27,6 +29,7 @@ export class Subtimer {
             return
         Utils.playSubtimerFinish()
 
+        Timer.currentElement.removeAttribute('style')
         Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
         //if it finds the next element
         if (Timer.currentElement) {
@@ -61,7 +64,9 @@ export class Subtimer {
         Utils.playSubtimerFinish()
 
         let prevElement = Timer.currentElement!.previousElementSibling as HTMLElement
-        if(prevElement) {
+        if(prevElement) { 
+            Timer.currentElement.removeAttribute('style')
+
             if(prevElement.className.includes('repeater-values'))
                 prevElement = prevElement.parentElement!.previousElementSibling as HTMLElement
 
@@ -72,7 +77,7 @@ export class Subtimer {
             Subtimer.element.className = 'subtimer'
             Timer.currentElement = prevElement
         }
-        
+
         Subtimer.startSubtimer(Timer.currentElement)
         Timer.elapsedTime = Date.now()
     }

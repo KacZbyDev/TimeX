@@ -106,7 +106,7 @@ function showMenu(menu: Element): void {
     
     menu.classList.remove('hidden');
     $('#blurred-backround').removeClass('hidden');
-    $('#list-of-subtimer').removeClass('z-50')
+    $('#list-of-elements').removeClass('z-50')
 }
  
 function hideAndClearMenu(menu: Element):void {
@@ -114,7 +114,7 @@ function hideAndClearMenu(menu: Element):void {
     if(Timer.currentState != TimerState.Edit)
          $('#blurred-backround').addClass('hidden');
      
-    $('#list-of-subtimer').addClass('z-50')
+    $('#list-of-elements').addClass('z-50')
 
     menu.classList.add('hidden');
     
