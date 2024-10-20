@@ -3,7 +3,7 @@ import { Timer } from './timer.js';
 import { Subtimer } from "./subtimer.js";
 
 const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('subtimer-name')
-const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('timer-duration'));
+const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('duration-picker'));
 
 $(document).ready(function () {
     //UI buttons
@@ -41,11 +41,10 @@ $(document).ready(function () {
     $('#modal-add-button').on('click', () => {
         if(!areInputsValid())//empty fields
             return
-            
-        //Doesnt work idk
-        Utils.addTimer(nameInput.value, durationInput.value)
+        
+        Utils.addTimer(nameInput.value, durationInput)
         Timer.resumeTimer()
-        hideAndClearMenu($('#modal-add-button')[0])
+        hideAndClearMenu($('#modal')[0])
     })
     $('#modal-cancel-button').on('click', () => {
         Timer.resumeTimer()
@@ -91,8 +90,9 @@ $("#modal").submit(function(e) {
 });
 
 function areInputsValid():boolean {
-    if(!nameInput.value || Number.isNaN(Utils.timeToSeconds(durationInput.value))) {
-        Utils.showWarningPopUp('somethings wrong I can feel it')
+    if(!nameInput.value || Utils.getItemPickerValue(durationInput) == "00:00:00") {
+        Utils.showWarningPopUp(Utils.getItemPickerValue(durationInput) + nameInput.value)
+
         return false
     }
 
@@ -120,6 +120,8 @@ function hideAndClearMenu(menu: Element):void {
     
     if (menu == $('#modal')[0]) {
         nameInput.value = '';
+
+        //TODO reset durationInput
         durationInput.value = '';
     }
 }

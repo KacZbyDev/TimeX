@@ -60,4 +60,17 @@
         box-shadow: 0 -10px 20px -5px rgba(0, 0, 0, 0.3);
     }
     
+    .item-picker {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        text-align: center;
+        border: 1px solid #dddddd;
+        font-size: larger;
+        padding: 16px 20px;
+        border-radius: 8px;
+        background: #fff;
+        cursor: pointer;
+    }
 }

@@ -50,7 +50,7 @@ export class Timer {
             Timer.currentElement = Timer.list.firstElementChild! as HTMLElement
 
         Subtimer.startSubtimer(Timer.currentElement)
-        Timer.resumeTimer()
+        // Timer.resumeTimer()
     }
 
     static updateTime(): void {

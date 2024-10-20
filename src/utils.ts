@@ -69,12 +69,12 @@ export class Utils {
         return res + seconds.toFixed(this.DECIMALS)
     }
 
-    static addTimer(name: string, duration: string): void {
+    static addTimer(name: string, duration: HTMLElement): void {
         let newElement: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
 
         newElement.querySelector('.name')!.textContent = name
 
-        newElement.querySelector('.duration')!.textContent = duration
+        newElement.querySelector('.duration')!.textContent = Utils.getItemPickerValue(duration)
 
         Utils.listContent.appendChild(newElement)
     }
@@ -372,5 +372,15 @@ export class Utils {
 
     static hideWarningPopUp():void {
         document.getElementById('warning-pop-up')!.classList.add('hidden')
+    }
+
+    static getItemPickerValue(picker: HTMLElement): string {
+        let currentElement: HTMLSelectElement = picker.children[0] as HTMLSelectElement
+        let res: string = currentElement.value
+        
+        for(let i = 1; i < picker.children.length; i++)
+            res += ":" + (picker.children[i] as HTMLSelectElement).value
+
+        return res
     }
 }
