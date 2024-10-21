@@ -25,6 +25,7 @@ export class Utils {
     public static readonly listContent = document.getElementById('list-content')!
 
     public static isModalVisible:boolean = false
+    public static editedElement: HTMLElement//TODO make this the subtimer before you add and then display the subtimer menu, if this doesnt have a parent, it adds as the last of the list, if it has it just changes it
 
     static playSubtimerFinish(): void {
         this.SUBTIMER_FINISH.play()
@@ -77,6 +78,15 @@ export class Utils {
         newElement.querySelector('.duration')!.textContent = Utils.getItemPickerValue(duration)
 
         Utils.listContent.appendChild(newElement)
+
+        newElement.firstElementChild!.addEventListener('click', () => {
+            let menu: HTMLElement = document.getElementById('subtimer-menu')!
+            
+            menu.querySelector('.subtimer-name')!.setAttribute('placeholder', newElement.querySelector('.name')!.textContent!) 
+            Utils.setItemPickerValue(menu.querySelector('.picker')!, newElement.querySelector('.duration')!.textContent!)
+            
+            Utils.showMenu(menu)
+        })
     }
 
     static resize(e: MouseEvent) {
@@ -382,5 +392,31 @@ export class Utils {
             res += ":" + (picker.children[i] as HTMLSelectElement).value
 
         return res
+    }
+
+    static setItemPickerValue(picker: HTMLElement, value: string) {
+        let values:string[] = value.split(':')
+
+        for(let i = 0; i < values.length; i++) {
+            (picker.children[values.length - i - 1] as HTMLSelectElement).value = values[values.length - i - 1]
+        }
+    }
+
+    static resetPicker(picker: HTMLElement) {
+        for(let i = 0; i < picker.children.length - 1; i++)
+            (picker.children[i] as HTMLSelectElement).value = "00";
+
+        (picker.children[picker.children.length - 1] as HTMLSelectElement).value = "01"
+    }
+
+    static showMenu(menu: Element): void {
+        if(Utils.isModalVisible)
+            return
+        Utils.isModalVisible = true
+        
+        Utils.resetPicker(menu.querySelector('.picker')!)
+        menu.classList.remove('hidden');
+        $('#blurred-backround').removeClass('hidden');
+        $('#list-of-elements').removeClass('z-50')
     }
 }

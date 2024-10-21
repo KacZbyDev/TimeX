@@ -3,14 +3,14 @@ import { Timer } from './timer.js';
 import { Subtimer } from "./subtimer.js";
 
 const nameInput:HTMLInputElement = <HTMLInputElement>document.getElementById('subtimer-name')
-const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('duration-picker'));
+const durationInput:HTMLInputElement = (<HTMLInputElement>document.getElementById('picker'));
 
 $(document).ready(function () {
     //UI buttons
     $("#add-element-button").on("click", () => {
         Timer.pauseTimer()
 
-        showMenu($('#modal')[0])
+        Utils.showMenu($('#modal')[0])
         $('#add-button').blur()
     });
     $('#edit-mode-button').on('click', () => {
@@ -19,16 +19,18 @@ $(document).ready(function () {
     })
     $('.edit-button-subtimer').on('click', (event) => {
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
-
-        menu.querySelector('.subtimer-name')!.setAttribute('placeholder', event.target.parentElement!.querySelector('.name')!.textContent!)  
-        menu.querySelector('.subtimer-time')!.textContent =  event.target.parentElement!.querySelector('.duration')!.textContent
-        showMenu(menu)
+        
+        menu.querySelector('.subtimer-name')!.setAttribute('placeholder', event.target.parentElement!.querySelector('.name')!.textContent!) 
+        Utils.setItemPickerValue(menu.querySelector('.picker')!, event.target.parentElement!.querySelector('.duration')!.textContent!)
+        
+        // TODO editElement = event.target
+        Utils.showMenu(menu)
     })
     $('.edit-button-repeater').on('click', (event) => {
         let menu: HTMLElement = document.getElementById('repeater-menu')!
 
-        menu.querySelector('.repeater-repeats')!.textContent = event.target.parentElement!.querySelector('.total-repeats')!.textContent
-        showMenu(menu)
+        Utils.setItemPickerValue(menu.querySelector('.picker')!, event.target.parentElement!.querySelector('.total-repeats')!.textContent!)
+        Utils.showMenu(menu)
     })
     $('#repeater-menu-cancel-button').on('click', () => {
        hideAndClearMenu($('#repeater-menu')[0])
@@ -97,16 +99,6 @@ function areInputsValid():boolean {
     }
 
     return true
-}
-
-function showMenu(menu: Element): void {
-    if(Utils.isModalVisible)
-        return
-    Utils.isModalVisible = true
-    
-    menu.classList.remove('hidden');
-    $('#blurred-backround').removeClass('hidden');
-    $('#list-of-elements').removeClass('z-50')
 }
  
 function hideAndClearMenu(menu: Element):void {

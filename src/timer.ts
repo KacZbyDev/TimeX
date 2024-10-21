@@ -37,7 +37,11 @@ export class Timer {
                 return
             Utils.toggleStop()
         })
+        let menu: HTMLElement = document.getElementById('subtimer-menu')!
         
+        Utils.setItemPickerValue(menu.querySelector('.picker')!, Timer.list.firstElementChild!.querySelector('.duration')!.textContent!)
+        
+        Utils.showMenu(menu)
         Timer.startTimer()
     }
 
@@ -50,10 +54,11 @@ export class Timer {
             Timer.currentElement = Timer.list.firstElementChild! as HTMLElement
 
         Subtimer.startSubtimer(Timer.currentElement)
-        // Timer.resumeTimer()
+        Timer.resumeTimer()
     }
 
     static updateTime(): void {
+        return
         if (Timer.currentMiliseconds <= 0)
             Subtimer.startNextSubtimer()
 
