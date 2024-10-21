@@ -25,7 +25,7 @@ export class Utils {
     public static readonly listContent = document.getElementById('list-content')!
 
     public static isModalVisible:boolean = false
-    public static editedElement: HTMLElement//TODO make this the subtimer before you add and then display the subtimer menu, if this doesnt have a parent, it adds as the last of the list, if it has it just changes it
+    public static elementInEdit: HTMLElement//TODO make this the subtimer before you add and then display the subtimer menu, if this doesnt have a parent, it adds as the last of the list, if it has it just changes it
 
     static playSubtimerFinish(): void {
         this.SUBTIMER_FINISH.play()
@@ -70,20 +70,15 @@ export class Utils {
         return res + seconds.toFixed(this.DECIMALS)
     }
 
-    static addTimer(name: string, duration: HTMLElement): void {
-        let newElement: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
+    static setSubtimer(subtimer:HTMLElement, name: string, duration: string): void {
+        subtimer.querySelector('.name')!.textContent = name
+        subtimer.querySelector('.duration')!.textContent = duration
 
-        newElement.querySelector('.name')!.textContent = name
-
-        newElement.querySelector('.duration')!.textContent = Utils.getItemPickerValue(duration)
-
-        Utils.listContent.appendChild(newElement)
-
-        newElement.firstElementChild!.addEventListener('click', () => {
+        subtimer.firstElementChild!.addEventListener('click', () => {
             let menu: HTMLElement = document.getElementById('subtimer-menu')!
             
-            menu.querySelector('.subtimer-name')!.setAttribute('placeholder', newElement.querySelector('.name')!.textContent!) 
-            Utils.setItemPickerValue(menu.querySelector('.picker')!, newElement.querySelector('.duration')!.textContent!)
+            menu.querySelector('.subtimer-name')!.setAttribute('placeholder', subtimer.querySelector('.name')!.textContent!) 
+            Utils.setItemPickerValue(menu.querySelector('.picker')!, subtimer.querySelector('.duration')!.textContent!)
             
             Utils.showMenu(menu)
         })

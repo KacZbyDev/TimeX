@@ -22,8 +22,9 @@ $(document).ready(function () {
         
         menu.querySelector('.subtimer-name')!.setAttribute('placeholder', event.target.parentElement!.querySelector('.name')!.textContent!) 
         Utils.setItemPickerValue(menu.querySelector('.picker')!, event.target.parentElement!.querySelector('.duration')!.textContent!)
+        Utils.elementInEdit = event.target.parentElement!
+        console.log(Utils.elementInEdit)
         
-        // TODO editElement = event.target
         Utils.showMenu(menu)
     })
     $('.edit-button-repeater').on('click', (event) => {
@@ -44,7 +45,10 @@ $(document).ready(function () {
         if(!areInputsValid())//empty fields
             return
         
-        Utils.addTimer(nameInput.value, durationInput)
+        let newSubtimer: HTMLElement = Subtimer.createSubtimer()
+        Utils.setSubtimer(newSubtimer, nameInput.value, Utils.getItemPickerValue(document.getElementById('picker')!))
+        Utils.listContent.appendChild(newSubtimer)
+
         Timer.resumeTimer()
         hideAndClearMenu($('#modal')[0])
     })
@@ -64,7 +68,14 @@ $(document).ready(function () {
         Subtimer.startNextSubtimer()
         $('#next-button').blur()
     })
-
+    $('#subtimer-menu-ok-button').on('click', () => {
+        //TODO maybe make menu global in utils
+        let menu: HTMLElement = document.getElementById('subtimer-menu')! 
+        let name = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
+        let duration = Utils.getItemPickerValue(menu.querySelector('.picker')!)
+        Utils.setSubtimer(Utils.elementInEdit, name, duration)
+    })
+    
     //Others
     $('#blurred-backround').on('click', () => {
         if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))

@@ -81,4 +81,8 @@ export class Subtimer {
         Subtimer.startSubtimer(Timer.currentElement)
         Timer.elapsedTime = Date.now()
     }
+
+    static createSubtimer(): HTMLElement {
+        return document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
+    }
 }
