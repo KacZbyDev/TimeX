@@ -25,7 +25,7 @@ export class Utils {
     public static readonly listContent = document.getElementById('list-content')!
 
     public static isModalVisible:boolean = false
-    public static elementInEdit: HTMLElement//TODO make this the subtimer before you add and then display the subtimer menu, if this doesnt have a parent, it adds as the last of the list, if it has it just changes it
+    public static elementInEdit:HTMLElement
 
     static playSubtimerFinish(): void {
         this.SUBTIMER_FINISH.play()
@@ -140,8 +140,6 @@ export class Utils {
     private static scrollTop: number
     private static top: number
     static dragElement(event: MouseEvent | Event) {
-        console.log('aaa')
-        
         if (Utils.isDragging == false) {
             Utils.isDragging = true
             document.body.style.cursor = "pointer";
@@ -389,6 +387,7 @@ export class Utils {
         return res
     }
 
+    //FIX ME
     static setItemPickerValue(picker: HTMLElement, value: string) {
         let values:string[] = value.split(':')
 
@@ -404,14 +403,34 @@ export class Utils {
         (picker.children[picker.children.length - 1] as HTMLSelectElement).value = "01"
     }
 
+    //FIXME make this modal only
     static showMenu(menu: Element): void {
         if(Utils.isModalVisible)
             return
         Utils.isModalVisible = true
         
-        Utils.resetPicker(menu.querySelector('.picker')!)
         menu.classList.remove('hidden');
         $('#blurred-backround').removeClass('hidden');
         $('#list-of-elements').removeClass('z-50')
+    }
+
+    static openEditElementMenu(element: HTMLElement) {
+        let menu: HTMLElement
+        Utils.elementInEdit = element
+
+        if(element.className.includes('subtimer')) {
+            menu = document.getElementById('subtimer-menu')! as HTMLElement
+
+            (menu.querySelector('.subtimer-name')! as HTMLInputElement).value = (Utils.elementInEdit.querySelector('.name')! as HTMLInputElement).textContent!;
+
+            Utils.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.duration')!.textContent!)
+        }
+        else {
+            menu = document.getElementById('repeater-menu')!
+            
+            Utils.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.total-repeats')!.textContent!)
+        }
+
+        Utils.showMenu(menu)
     }
 }

@@ -60,4 +60,8 @@ export class Repeater {
     static getTotalRepeats(repeater: Element):number {
         return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent!)
     }
+
+    static createRepeater(): HTMLElement {
+        return document.getElementById('repeater-example')!.cloneNode(true) as HTMLElement
+    }
 }

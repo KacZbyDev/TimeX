@@ -83,6 +83,8 @@ export class Subtimer {
     }
 
     static createSubtimer(): HTMLElement {
-        return document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
+        let newSubtimer: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
+        newSubtimer.id = ""
+        return newSubtimer
     }
 }

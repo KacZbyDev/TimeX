@@ -37,11 +37,7 @@ export class Timer {
                 return
             Utils.toggleStop()
         })
-        let menu: HTMLElement = document.getElementById('subtimer-menu')!
         
-        Utils.setItemPickerValue(menu.querySelector('.picker')!, Timer.list.firstElementChild!.querySelector('.duration')!.textContent!)
-        
-        Utils.showMenu(menu)
         Timer.startTimer()
     }
 
