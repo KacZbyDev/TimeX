@@ -82,6 +82,20 @@ export class Subtimer {
         Timer.elapsedTime = Date.now()
     }
 
+    static setSubtimer(subtimer:HTMLElement, name: string, duration: string): void {
+        subtimer.querySelector('.name')!.textContent = name
+        subtimer.querySelector('.duration')!.textContent = duration
+
+        subtimer.firstElementChild!.addEventListener('click', () => {
+            let menu: HTMLElement = document.getElementById('subtimer-menu')!
+            
+            menu.querySelector('.subtimer-name')!.setAttribute('placeholder', subtimer.querySelector('.name')!.textContent!) 
+            Utils.setItemPickerValue(menu.querySelector('.picker')!, subtimer.querySelector('.duration')!.textContent!)
+            
+            Utils.showMenu(menu)
+        })
+    }
+
     static createSubtimer(): HTMLElement {
         let newSubtimer: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
         newSubtimer.id = ""

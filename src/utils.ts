@@ -40,14 +40,6 @@ export class Utils {
         return parseInt(time) * 1000
     }
 
-    static switchElements(element1:HTMLElement, element2:HTMLElement): void {
-        let placeholder: HTMLElement = document.createElement('div');
-                
-        element1.replaceWith(placeholder); 
-        element2.replaceWith(element1); 
-        placeholder.replaceWith(element2); 
-    }
-
     //converts miliseconds into 12:34:56.7 format
     static milisecondsToTime(miliseconds: number): string {
         let seconds: number = (miliseconds / 1000)
@@ -70,18 +62,12 @@ export class Utils {
         return res + seconds.toFixed(this.DECIMALS)
     }
 
-    static setSubtimer(subtimer:HTMLElement, name: string, duration: string): void {
-        subtimer.querySelector('.name')!.textContent = name
-        subtimer.querySelector('.duration')!.textContent = duration
-
-        subtimer.firstElementChild!.addEventListener('click', () => {
-            let menu: HTMLElement = document.getElementById('subtimer-menu')!
-            
-            menu.querySelector('.subtimer-name')!.setAttribute('placeholder', subtimer.querySelector('.name')!.textContent!) 
-            Utils.setItemPickerValue(menu.querySelector('.picker')!, subtimer.querySelector('.duration')!.textContent!)
-            
-            Utils.showMenu(menu)
-        })
+    static switchElements(element1:HTMLElement, element2:HTMLElement): void {
+        let placeholder: HTMLElement = document.createElement('div');
+                
+        element1.replaceWith(placeholder); 
+        element2.replaceWith(element1); 
+        placeholder.replaceWith(element2); 
     }
 
     static resize(e: MouseEvent) {

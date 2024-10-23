@@ -61,6 +61,10 @@ export class Repeater {
         return parseInt(repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent!)
     }
 
+    static setTotalRepeats(repeater: Element, repeats: string):void {
+        repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent! = repeats
+    }
+
     static createRepeater(): HTMLElement {
         return document.getElementById('repeater-example')!.cloneNode(true) as HTMLElement
     }

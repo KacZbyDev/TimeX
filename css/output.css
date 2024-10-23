@@ -817,12 +817,12 @@ video {
   margin: 0.25rem;
 }
 
-.m-auto {
-  margin: auto;
-}
-
 .m-2 {
   margin: 0.5rem;
+}
+
+.m-auto {
+  margin: auto;
 }
 
 .mx-3 {
@@ -873,10 +873,6 @@ video {
 
 .mt-20 {
   margin-top: 5rem;
-}
-
-.inline-block {
-  display: inline-block;
 }
 
 .flex {
@@ -956,10 +952,6 @@ video {
   height: 100%;
 }
 
-.h-4\/6 {
-  height: 66.666667%;
-}
-
 .max-h-\[100dvh\] {
   max-height: 100dvh;
 }
@@ -1002,14 +994,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-12 {
-  width: 3rem;
-}
-
-.w-2 {
-  width: 0.5rem;
 }
 
 .max-w-\[100vh\] {
@@ -1063,12 +1047,6 @@ video {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-y-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .overflow-y-auto {
@@ -1191,6 +1169,11 @@ video {
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 
+.bg-blue-primary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(44 89 157 / var(--tw-bg-opacity));
+}
+
 .bg-blue-secondary {
   --tw-bg-opacity: 1;
   background-color: rgb(91 132 196 / var(--tw-bg-opacity));
@@ -1206,6 +1189,11 @@ video {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
+.bg-orange-primary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 129 37 / var(--tw-bg-opacity));
+}
+
 .bg-orange-secondary {
   --tw-bg-opacity: 1;
   background-color: rgb(251 155 80 / var(--tw-bg-opacity));
@@ -1214,16 +1202,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-blue-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(44 89 157 / var(--tw-bg-opacity));
-}
-
-.bg-orange-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 129 37 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1299,6 +1277,11 @@ video {
   padding-right: 0.75rem;
 }
 
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .py-1\.5 {
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
@@ -1307,21 +1290,6 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
 }
 
 .py-6 {

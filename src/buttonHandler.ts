@@ -2,6 +2,7 @@ import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js';
 import { Subtimer } from "./subtimer.js";
 import { Repeater } from "./repeater.js";
+import { SlowBuffer } from "buffer";
 
 $(document).ready(function () {
     //List
@@ -19,7 +20,7 @@ $(document).ready(function () {
         Utils.openEditElementMenu(event.target.parentElement!)
     })
     $('.edit-button-repeater').on('click', (event) => {
-        Utils.openEditElementMenu(event.target.parentElement!)
+        Utils.openEditElementMenu(event.target.parentElement!.parentElement!)
     })
     
     //Timer
@@ -40,26 +41,44 @@ $(document).ready(function () {
     $('#subtimer-menu-ok-button').on('click', () => {
         //TODO maybe make menu global in utils
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
-        hideMenu(menu)
         let name = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
         let duration = Utils.getItemPickerValue(menu.querySelector('.picker')!)
 
-        Utils.setSubtimer(Utils.elementInEdit, name, duration)
+        if(Utils.timeToSeconds(duration) == 0)
+            return//TODO add warning
+        
+        hideMenu(menu)
+        
+        //format duration
+
+        Subtimer.setSubtimer(Utils.elementInEdit, name, duration)
 
         if(Utils.elementInEdit.parentElement == null)
             Utils.listContent.append(Utils.elementInEdit)
     })
-    $('#repeater-menu-cancel-button').on('click', () => {
-        hideMenu($('#repeater-menu')[0])
+    $('#repeater-menu-ok-button').on('click', () => {
+        let menu: HTMLElement = document.getElementById('repeater-menu')!
+        let repeats = Utils.getItemPickerValue(menu.querySelector('.picker')!)
+
+        hideMenu(menu)
+
+        Repeater.setTotalRepeats(Utils.elementInEdit, repeats)
+
+        if(Utils.elementInEdit.parentElement == null) {
+            Utils.elementInEdit.appendChild(Subtimer.createSubtimer())
+            Utils.listContent.append(Utils.elementInEdit)
+        }
     })
     $('#subtimer-menu-cancel-button').on('click', () => {
         hideMenu($('#subtimer-menu')[0])
+    })
+    $('#repeater-menu-cancel-button').on('click', () => {
+        hideMenu($('#repeater-menu')[0])
     })
 
     //Modal
     $('#modal-add-subtimer').on('click', () => {
         Utils.elementInEdit = Subtimer.createSubtimer()
-        console.log(Utils.elementInEdit)
         
         hideMenu($('#modal')[0])
         Utils.openEditElementMenu(Utils.elementInEdit)
