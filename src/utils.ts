@@ -46,15 +46,16 @@ export class Utils {
         let minutes: number = Math.floor(seconds / 60)
         let hours: number = Math.floor(minutes / 60)
         seconds %= 60
+        seconds = parseFloat(seconds.toFixed(Utils.DECIMALS))
         minutes %= 60
-
+        
         let res: string = ''
         if (hours > 0) {
             res += hours + ':'
             if (minutes < 10)
                 res += '0'
         }
-        if (minutes > 0 || hours > 0) {
+        if (minutes + hours > 0) {
             res += minutes + ':'
             if (seconds < 10)
                 res += '0'
@@ -388,14 +389,13 @@ export class Utils {
         return res
     } 
 
-    //FIX ME
     static setItemPickerValue(picker: HTMLElement, value: string) {
         let values:string[] = value.split(':')
         
-        for(let i = 0; i < values.length; i++) {
+        for(let i = 0; i < picker.children.length; i++) {
             let val:string = values[values.length - i - 1];
             
-            (picker.children[picker.children.length - i - 1] as HTMLSelectElement).value = val
+            (picker.children[picker.children.length - i - 1] as HTMLSelectElement).value = val || '0'
         }
     }
 

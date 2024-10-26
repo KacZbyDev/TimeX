@@ -57,6 +57,7 @@ export class Subtimer {
             Timer.killTimer()
     }
 
+    //FIXME when previous subtimer is actually a repeater
     static startPreviousSubtimer(): void {
         if(!Timer.currentElement)
             return

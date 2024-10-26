@@ -53,6 +53,7 @@ export class Timer {
         Timer.resumeTimer()
     }
 
+    //FIXME weird things when the seconds are 10
     static updateTime(): void {
         if (Timer.currentMiliseconds <= 0)
             Subtimer.startNextSubtimer()
@@ -98,7 +99,7 @@ export class Timer {
 
     static updateTimeOnUI(percent: number): void {
         Timer.progress_bar.style.setProperty('--value', percent + '')
-        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds);
+        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds)
         
         Subtimer.element.style.setProperty('--value', percent + '')
     }
