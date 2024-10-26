@@ -59,7 +59,8 @@ export class Utils {
             if (seconds < 10)
                 res += '0'
         }
-        return res + seconds.toFixed(this.DECIMALS)
+        
+        return res + seconds.toFixed(Utils.DECIMALS)
     }
 
     static switchElements(element1:HTMLElement, element2:HTMLElement): void {
@@ -364,21 +365,37 @@ export class Utils {
     }
 
     static getItemPickerValue(picker: HTMLElement): string {
-        let currentElement: HTMLSelectElement = picker.children[0] as HTMLSelectElement
-        let res: string = currentElement.value
-        
-        for(let i = 1; i < picker.children.length; i++)
-            res += ":" + (picker.children[i] as HTMLSelectElement).value
+        let res: string = ''
+        let wasValue = false
 
+        for(let i = 0; i < picker.children.length; i++) {
+            let val:string = (picker.children[i] as HTMLSelectElement).value
+
+            if(wasValue) {
+                if(val.length == 1)
+                    val = '0' + val
+                val = ':' + val
+            }
+
+            if(val == '0' && !wasValue)
+                continue
+            else
+                wasValue = true
+
+            res += val
+        }
+        
         return res
-    }
+    } 
 
     //FIX ME
     static setItemPickerValue(picker: HTMLElement, value: string) {
         let values:string[] = value.split(':')
-
+        
         for(let i = 0; i < values.length; i++) {
-            (picker.children[values.length - i - 1] as HTMLSelectElement).value = values[values.length - i - 1]
+            let val:string = values[values.length - i - 1];
+            
+            (picker.children[picker.children.length - i - 1] as HTMLSelectElement).value = val
         }
     }
 

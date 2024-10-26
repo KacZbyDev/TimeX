@@ -92,6 +92,8 @@ export class Subtimer {
             menu.querySelector('.subtimer-name')!.setAttribute('placeholder', subtimer.querySelector('.name')!.textContent!) 
             Utils.setItemPickerValue(menu.querySelector('.picker')!, subtimer.querySelector('.duration')!.textContent!)
             
+            //TODO  Utils.openEditElementMenu(event.target.parentElement!)
+        
             Utils.showMenu(menu)
         })
     }

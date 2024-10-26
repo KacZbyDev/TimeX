@@ -2,7 +2,6 @@ import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js';
 import { Subtimer } from "./subtimer.js";
 import { Repeater } from "./repeater.js";
-import { SlowBuffer } from "buffer";
 
 $(document).ready(function () {
     //List
@@ -43,19 +42,22 @@ $(document).ready(function () {
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
         let name = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
         let duration = Utils.getItemPickerValue(menu.querySelector('.picker')!)
-
-        if(Utils.timeToSeconds(duration) == 0)
-            return//TODO add warning
+        
+        if(Utils.timeToSeconds(duration) == 0) {
+            Utils.showWarningPopUp("Seconds cant be 0")
+            return
+        }
         
         hideMenu(menu)
         
-        //format duration
+        //TODO format duration
 
         Subtimer.setSubtimer(Utils.elementInEdit, name, duration)
 
         if(Utils.elementInEdit.parentElement == null)
             Utils.listContent.append(Utils.elementInEdit)
     })
+    //FIXME
     $('#repeater-menu-ok-button').on('click', () => {
         let menu: HTMLElement = document.getElementById('repeater-menu')!
         let repeats = Utils.getItemPickerValue(menu.querySelector('.picker')!)

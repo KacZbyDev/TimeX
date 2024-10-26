@@ -54,7 +54,6 @@ export class Timer {
     }
 
     static updateTime(): void {
-        return
         if (Timer.currentMiliseconds <= 0)
             Subtimer.startNextSubtimer()
 
