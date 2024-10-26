@@ -38,7 +38,6 @@ $(document).ready(function () {
     
     //Edit menus
     $('#subtimer-menu-ok-button').on('click', () => {
-        //TODO maybe make menu global in utils
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
         let name = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
         let duration = Utils.getItemPickerValue(menu.querySelector('.picker')!)
@@ -49,15 +48,14 @@ $(document).ready(function () {
         }
         
         hideMenu(menu)
-        
-        //TODO format duration
 
         Subtimer.setSubtimer(Utils.elementInEdit, name, duration)
 
         if(Utils.elementInEdit.parentElement == null)
             Utils.listContent.append(Utils.elementInEdit)
+
+        Timer.resumeTimer()
     })
-    //FIXME
     $('#repeater-menu-ok-button').on('click', () => {
         let menu: HTMLElement = document.getElementById('repeater-menu')!
         let repeats = Utils.getItemPickerValue(menu.querySelector('.picker')!)
@@ -70,12 +68,18 @@ $(document).ready(function () {
             Utils.elementInEdit.appendChild(Subtimer.createSubtimer())
             Utils.listContent.append(Utils.elementInEdit)
         }
+
+        Timer.resumeTimer()
     })
     $('#subtimer-menu-cancel-button').on('click', () => {
         hideMenu($('#subtimer-menu')[0])
+
+        Timer.resumeTimer()
     })
     $('#repeater-menu-cancel-button').on('click', () => {
         hideMenu($('#repeater-menu')[0])
+
+        Timer.resumeTimer()
     })
 
     //Modal
@@ -101,18 +105,17 @@ $(document).ready(function () {
         if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
             Utils.hideWarningPopUp()
 
-        if(Utils.isModalVisible) {
-            if (!document.getElementById('subtimer-menu')!.classList.contains('hidden')) {
+        if(Utils.isMenuVisible) {
+            if (!document.getElementById('subtimer-menu')!.classList.contains('hidden'))
                 hideMenu($('#subtimer-menu')[0])
-            }
-            if (!document.getElementById('repeater-menu')!.classList.contains('hidden')) {
-                hideMenu($('#repeater-menu')[0])
-            }
-            if (!document.getElementById('modal')!.classList.contains('hidden')) {
-                hideMenu($('#modal')[0])
-            }
             
+            if (!document.getElementById('repeater-menu')!.classList.contains('hidden'))
+                hideMenu($('#repeater-menu')[0])
+            
+            if (!document.getElementById('modal')!.classList.contains('hidden'))
+                hideMenu($('#modal')[0])
         }
+
         Timer.resumeTimer()
     })
 });
@@ -123,7 +126,7 @@ $("#modal").submit(function(e) {
 });
  
 function hideMenu(menu: Element):void {
-    Utils.isModalVisible = false
+    Utils.isMenuVisible = false
     if(Timer.currentState != TimerState.Edit)
          $('#blurred-backround').addClass('hidden');
      

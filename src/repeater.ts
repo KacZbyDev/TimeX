@@ -66,6 +66,9 @@ export class Repeater {
     }
 
     static createRepeater(): HTMLElement {
-        return document.getElementById('repeater-example')!.cloneNode(true) as HTMLElement
+        let newRepeater:HTMLElement = document.getElementById('repeater-example')!.cloneNode(true) as HTMLElement
+        newRepeater.removeAttribute('id')
+        
+        return newRepeater
     }
 }

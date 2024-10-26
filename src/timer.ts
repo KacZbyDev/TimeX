@@ -53,7 +53,6 @@ export class Timer {
         Timer.resumeTimer()
     }
 
-    //FIXME weird things when the seconds are 10
     static updateTime(): void {
         if (Timer.currentMiliseconds <= 0)
             Subtimer.startNextSubtimer()

@@ -57,7 +57,6 @@ export class Subtimer {
             Timer.killTimer()
     }
 
-    //FIXME when previous subtimer is actually a repeater
     static startPreviousSubtimer(): void {
         if(!Timer.currentElement)
             return
@@ -65,15 +64,19 @@ export class Subtimer {
         Utils.playSubtimerFinish()
 
         let prevElement = Timer.currentElement!.previousElementSibling as HTMLElement
+        
         if(prevElement) { 
             Timer.currentElement.removeAttribute('style')
-
-            if(prevElement.className.includes('repeater-values'))
+            
+            if(prevElement.className.includes('repeater-values')) {
+                Repeater.resetChildren(prevElement.parentElement!.parentElement!)
                 prevElement = prevElement.parentElement!.previousElementSibling as HTMLElement
-
-            if(prevElement.className.includes('repeater'))
-                prevElement = prevElement.lastElementChild as HTMLElement
-
+            }
+            if(prevElement.className.includes('repeater')) {
+                Repeater.resetChildren(prevElement)
+                prevElement = prevElement.querySelector('.subtimer')!
+            }
+            
             //reset subtimer progress
             Subtimer.element.className = 'subtimer'
             Timer.currentElement = prevElement
@@ -93,15 +96,14 @@ export class Subtimer {
             menu.querySelector('.subtimer-name')!.setAttribute('placeholder', subtimer.querySelector('.name')!.textContent!) 
             Utils.setItemPickerValue(menu.querySelector('.picker')!, subtimer.querySelector('.duration')!.textContent!)
             
-            //TODO  Utils.openEditElementMenu(event.target.parentElement!)
-        
-            Utils.showMenu(menu)
+            Utils.openEditElementMenu(subtimer)
         })
     }
 
     static createSubtimer(): HTMLElement {
         let newSubtimer: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
-        newSubtimer.id = ""
+        newSubtimer.removeAttribute('id')
+
         return newSubtimer
     }
 }

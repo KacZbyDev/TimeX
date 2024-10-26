@@ -24,7 +24,7 @@ export class Utils {
     public static ghostElement: HTMLElement
     public static readonly listContent = document.getElementById('list-content')!
 
-    public static isModalVisible:boolean = false
+    public static isMenuVisible:boolean = false
     public static elementInEdit:HTMLElement
 
     static playSubtimerFinish(): void {
@@ -316,7 +316,7 @@ export class Utils {
     }
 
     static toggleStop(): void {
-        if(Timer.currentState >= TimerState.Finished || Utils.isModalVisible)
+        if(Timer.currentState >= TimerState.Finished || Utils.isMenuVisible)
             return
 
         if(Timer.currentState == TimerState.Active) {
@@ -406,11 +406,10 @@ export class Utils {
         (picker.children[picker.children.length - 1] as HTMLSelectElement).value = "01"
     }
 
-    //FIXME make this modal only
     static showMenu(menu: Element): void {
-        if(Utils.isModalVisible)
+        if(Utils.isMenuVisible)
             return
-        Utils.isModalVisible = true
+        Utils.isMenuVisible = true
         
         menu.classList.remove('hidden');
         $('#blurred-backround').removeClass('hidden');
