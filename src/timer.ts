@@ -1,5 +1,6 @@
 import { Repeater } from './repeater.js';
 import { Subtimer } from './subtimer.js'
+import { UiHandler } from './ui-handler.js';
 import { TimerState, Utils } from './utils.js'
 
 window.addEventListener('load', () => {
@@ -7,13 +8,6 @@ window.addEventListener('load', () => {
 });
 
 export class Timer {
-    public static bigTimerDisplay: HTMLElement = document.getElementById('big-timer-time')!
-    public static progress_bar: HTMLElement = document.getElementById('progress-bar')!
-
-    public static listOfSubtimers: HTMLElement = document.getElementById('list-of-elements')!;
-    public static resizer: HTMLElement = document.getElementById('resizer')!;
-    public static listInitialSize: number;
-
     public static currentMiliseconds: number
     public static elapsedTime: number
 
@@ -25,13 +19,11 @@ export class Timer {
     public static currentState: TimerState = TimerState.Paused
 
     static initialize(): void {
-        Timer.listInitialSize = Timer.listOfSubtimers.getBoundingClientRect().right
-        Timer.resizer.addEventListener('mousedown', () => {
-            window.addEventListener('mousemove', Utils.resize);
-            window.addEventListener('mouseup', Utils.stopResize);
+        UiHandler.RESIZER.addEventListener('mousedown', () => {
+            window.addEventListener('mousemove', UiHandler.resize);
         });
-        Timer.list.addEventListener('mousedown', Utils.changeTimeListener);
-        Timer.list.addEventListener('mousedown', Utils.dragElementListener);
+        Timer.list.addEventListener('mousedown', UiHandler.changeTimeListener);
+        Timer.list.addEventListener('mousedown', UiHandler.dragElementListener);
         addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key != ' ')
                 return
@@ -44,13 +36,12 @@ export class Timer {
     static startTimer(): void {
         Repeater.setListToFirstSubtimerParent(Timer.list)
 
-        if (!Timer.list.id.includes('list'))
-            Timer.currentElement = Timer.list.children[1]! as HTMLElement
+        if (Timer.list.id.includes('list'))
+            Timer.currentElement = Timer.list.children[0] as HTMLElement
         else
-            Timer.currentElement = Timer.list.firstElementChild! as HTMLElement
+            Timer.currentElement = Timer.list.children[1]! as HTMLElement
 
         Subtimer.startSubtimer(Timer.currentElement)
-        Timer.resumeTimer()
     }
 
     static updateTime(): void {
@@ -61,7 +52,7 @@ export class Timer {
             return;
 
         //update bigTimer
-        let percent = Timer.currentMiliseconds / Subtimer.duration * 100
+        let percent: number = Timer.currentMiliseconds / Subtimer.duration * 100
         Timer.updateTimeOnUI(percent)
 
         //the time elapsed after the last call
@@ -91,14 +82,15 @@ export class Timer {
         Timer.pauseTimer()
 
         Timer.currentState = TimerState.Finished
-        Timer.bigTimerDisplay.textContent = 'DONE'
+
         Subtimer.element.className = 'subtimer'
-        Timer.progress_bar.style.setProperty('--value', '0')
+        UiHandler.BIG_TIMER_DISPLAY.textContent = 'DONE'
+        UiHandler.PROGRESS_BAR.style.setProperty('--value', '0')
     }
 
     static updateTimeOnUI(percent: number): void {
-        Timer.progress_bar.style.setProperty('--value', percent + '')
-        Timer.bigTimerDisplay.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds)
+        UiHandler.PROGRESS_BAR.style.setProperty('--value', percent + '')
+        UiHandler.BIG_TIMER_DISPLAY.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds)
         
         Subtimer.element.style.setProperty('--value', percent + '')
     }
