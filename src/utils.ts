@@ -1,5 +1,7 @@
 import { Menus } from './menus.js'
+import { Repeater } from './repeater.js'
 import { Timer } from './timer.js'
+import { UiHandler } from './ui-handler.js'
 
 export enum TimerState {
     Active,
@@ -94,5 +96,35 @@ export class Utils {
  
         Timer.currentState = Utils.lastState
         Timer.resumeTimer()
+    }
+
+    //Save as cookie named 'list'
+    static saveList() {
+        //Save the data
+        const date: Date = new Date();
+        date.setTime(date.getTime() + 365 * 24 * 60 * 60 * 1000)
+        let expires: string = "expires=" + date.toUTCString()
+        const encodedListContent: string = btoa(UiHandler.LIST_CONTENT.innerHTML)
+        
+        document.cookie = `list=${encodedListContent}; ${expires}; path=/`
+    }
+
+    //Load from cookie named 'list'
+    static loadList() {
+        const cookiesContent = decodeURIComponent(document.cookie)
+        const cookiesArray: string[] = cookiesContent.split('; ')
+        const listCookie = cookiesArray.find(cookie => cookie.startsWith("list="));
+
+        if (listCookie) {
+            const listValue = listCookie.split("=")[1];
+            UiHandler.LIST_CONTENT.innerHTML = atob(listValue);
+        }
+
+        
+        if(UiHandler.LIST_CONTENT.querySelector('.subtimer-active')) {
+            (UiHandler.LIST_CONTENT.querySelector('.subtimer-active') as HTMLElement).className = 'subtimer';
+        }
+
+        Repeater.resetChildren(UiHandler.LIST_CONTENT)
     }
 }

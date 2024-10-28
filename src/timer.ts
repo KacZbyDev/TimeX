@@ -30,6 +30,8 @@ export class Timer {
             Utils.toggleStop()
         })
         
+        Utils.loadList()
+        
         Timer.activateFirstSubtimer()
     }
 

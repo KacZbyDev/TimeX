@@ -39,10 +39,8 @@ $(document).ready(function () {
         let name: string = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
         let duration: string = Menus.getItemPickerValue(menu.querySelector('.picker')!)
         
-        if(duration == '') {
-            Menus.showWarningPopUp("Seconds cant be 0")
-            return
-        }
+        if(duration == '')
+            duration = '1'
         
         Subtimer.setSubtimer(Menus.elementInEdit, name, duration)
         
@@ -51,6 +49,7 @@ $(document).ready(function () {
         if(Menus.elementInEdit.parentElement == null)
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
 
+        Utils.saveList()
         Timer.resumeTimer()
     })
     $('#repeater-menu-ok-button').on('click', () => {
@@ -67,6 +66,7 @@ $(document).ready(function () {
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
         }
 
+        Utils.saveList()
         Timer.resumeTimer()
     })
     $('#subtimer-menu-cancel-button').on('click', () => {
@@ -100,9 +100,7 @@ $(document).ready(function () {
     
     //OTHERS
     $('#blurred-backround').on('click', () => {
-        if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
-            Menus.hideWarningPopUp()
-
+        Menus.hideAllMenus()
         Timer.resumeTimer()
     })
 });

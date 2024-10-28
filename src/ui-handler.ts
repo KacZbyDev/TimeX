@@ -92,7 +92,8 @@ export class UiHandler {
         UiHandler.LIST_CONTENT.removeEventListener('scroll', UiHandler.dragElement);
         
         document.body.style.cursor = "auto";
-        UiHandler.TRASH_BIN.classList.add('hidden')
+        UiHandler.TRASH_BIN.classList.add('opacity-0', 'hidden')
+        UiHandler.TRASH_BIN.classList.remove('opacity-70')
 
         if(!UiHandler.isDragging)
             return
@@ -103,6 +104,8 @@ export class UiHandler {
             UiHandler.ghostElement.remove()
             UiHandler.elementClicked.remove()
             Timer.activateFirstSubtimer()
+
+            Utils.saveList()
             return
         }
 
@@ -186,8 +189,8 @@ export class UiHandler {
 
         if(!Subtimer.isSubtimer(elementClicked))
             elementClicked = elementParent
-        
-        if(elementClicked == UiHandler.LIST_CONTENT)
+
+        if(elementClicked.className.includes('list'))
             return false
         
         if(Repeater.isRepeaterValues(elementClicked))
@@ -206,8 +209,9 @@ export class UiHandler {
 
     static initializeGhostAndClickedElement(): void {
         UiHandler.isDragging = true
-        document.body.style.cursor = "pointer";
-        UiHandler.TRASH_BIN.classList.remove('hidden')//TODO make it fade in
+        document.body.style.cursor = "pointer"
+        UiHandler.TRASH_BIN.classList.remove('hidden', 'opacity-0', 'hidden')
+        UiHandler.TRASH_BIN.classList.add('opacity-70')
 
         //Deactivate the active subtimer
         if(UiHandler.LIST_CONTENT.querySelector('.subtimer-active'))

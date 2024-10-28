@@ -9,6 +9,7 @@ module.exports = {
     'shadow-gray-300',
     'border-[1px]',
     'border-gray-300',
+    'opacity-70',
   ],
   theme: {
     extend: {

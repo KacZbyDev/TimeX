@@ -6,16 +6,6 @@ export class Menus {
     public static isMenuVisible: boolean = false
     public static elementInEdit: HTMLElement
 
-    //TODO
-    static showWarningPopUp(message: string):void {
-        document.getElementById('warning-message')!.textContent = message
-        document.getElementById('warning-pop-up')!.classList.remove('hidden')
-    }
-
-    static hideWarningPopUp():void {
-        document.getElementById('warning-pop-up')!.classList.add('hidden')
-    }
-
     static getItemPickerValue(picker: HTMLElement): string {
         let res: string = ''
         let wasValue: boolean = false
@@ -100,10 +90,10 @@ export class Menus {
 
     static hideAllMenus() {
         Menus.hideMenu($('#subtimer-menu')[0])
-        Menus.isMenuVisible = false
+        Menus.isMenuVisible = true
         Menus.hideMenu($('#repeater-menu')[0])
-        Menus.isMenuVisible = false
+        Menus.isMenuVisible = true
         Menus.hideMenu($('#add-element-menu')[0])
-        Menus.isMenuVisible = false
+        Menus.isMenuVisible = true
     }
 }
