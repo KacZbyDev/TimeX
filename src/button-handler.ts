@@ -9,7 +9,6 @@ $(document).ready(function () {
     //LIST
     $("#add-element-button").on("click", () => {
         Timer.pauseTimer()
-
         Menus.showMenu($('#add-element-menu')[0])
     });
     $('#edit-mode-button').on('click', () => {
@@ -40,7 +39,7 @@ $(document).ready(function () {
         let name: string = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
         let duration: string = Menus.getItemPickerValue(menu.querySelector('.picker')!)
         
-        if(Utils.timeToSeconds(duration) == 0) {
+        if(duration == '') {
             Menus.showWarningPopUp("Seconds cant be 0")
             return
         }
@@ -103,12 +102,6 @@ $(document).ready(function () {
     $('#blurred-backround').on('click', () => {
         if(!document.getElementById('warning-pop-up')!.className.includes('hidden'))
             Menus.hideWarningPopUp()
-
-        if(Menus.isMenuVisible) {
-            Menus.hideMenu($('#subtimer-menu')[0])
-            Menus.hideMenu($('#repeater-menu')[0])
-            Menus.hideMenu($('#add-element-menu')[0])
-        }
 
         Timer.resumeTimer()
     })

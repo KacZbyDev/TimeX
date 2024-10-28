@@ -50,11 +50,8 @@ export class Subtimer {
         Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
         
         if (Timer.currentElement) {
-            if (Repeater.isRepeater(Timer.currentElement)) {
+            if (Repeater.isRepeater(Timer.currentElement))
                 Repeater.setListToFirstSubtimerParent(Timer.currentElement)
-
-                Timer.currentElement = Timer.list.children[1] as HTMLElement
-            }
 
             //Reset subtimer progress
             Subtimer.element.className = 'subtimer'
@@ -75,30 +72,45 @@ export class Subtimer {
             return
         Sounds.playSubtimerFinish()
 
-        let prevElement: HTMLElement = Timer.currentElement!.previousElementSibling as HTMLElement
-        
-        if(prevElement) { 
-            if(Repeater.isRepeaterValues(prevElement)) {
-                Repeater.resetChildren(prevElement.parentElement!.parentElement!)
-                prevElement = prevElement.parentElement!.previousElementSibling as HTMLElement
-            }
-            if(Repeater.isRepeater(prevElement)) {
-                Repeater.resetChildren(prevElement)
-                prevElement = prevElement.querySelector('.subtimer')!
-            }
-            
-            //reset subtimer progress
-            Timer.currentElement.removeAttribute('style')
-            Subtimer.element.className = 'subtimer'
-            
-            Timer.currentElement = prevElement
-        }
+        Timer.currentElement = Subtimer.getPreviousSubtimer(Timer.currentElement)
+
+        //reset subtimer progress
+        Timer.currentElement.removeAttribute('style')
+        Subtimer.element.className = 'subtimer'
 
         Subtimer.startSubtimer(Timer.currentElement)
         Timer.elapsedTime = Date.now()
     }
 
+    //Return the previous subtimer or the current one if it doesnt have a previous
+    static getPreviousSubtimer(element: HTMLElement): HTMLElement {
+        let prevElement: HTMLElement = element.previousElementSibling! as HTMLElement
+
+        if(!prevElement) 
+            return element
+
+        if(Repeater.isRepeaterValues(prevElement)) {
+            Repeater.resetChildren(prevElement.parentElement!.parentElement!)
+            prevElement = prevElement.parentElement!.previousElementSibling as HTMLElement
+            if(!prevElement)
+                return element
+        }
+        if(Repeater.isRepeater(prevElement)) {
+            Repeater.resetChildren(prevElement)
+            prevElement = prevElement.querySelector('.subtimer')!
+        }
+        
+        if(prevElement)
+            return prevElement
+        else
+            return element
+    }
+
     static isSubtimer(element: HTMLElement): boolean {
         return element.className.includes('subtimer')
+    }
+
+    static isActiveSubtimer(element: HTMLElement): boolean {
+        return element.className.includes('active-subtimer')
     }
 }

@@ -16,7 +16,7 @@ export class Timer {
     public static list: HTMLElement = document.getElementById('list-content')!
     public static currentElement: HTMLElement
 
-    public static currentState: TimerState = TimerState.Paused
+    public static currentState: TimerState = TimerState.Stopped
 
     static initialize(): void {
         UiHandler.RESIZER.addEventListener('mousedown', () => {
@@ -30,16 +30,11 @@ export class Timer {
             Utils.toggleStop()
         })
         
-        Timer.startTimer()
+        Timer.activateFirstSubtimer()
     }
 
-    static startTimer(): void {
+    static activateFirstSubtimer(): void {
         Repeater.setListToFirstSubtimerParent(Timer.list)
-
-        if (Timer.list.id.includes('list'))
-            Timer.currentElement = Timer.list.children[0] as HTMLElement
-        else
-            Timer.currentElement = Timer.list.children[1]! as HTMLElement
 
         Subtimer.startSubtimer(Timer.currentElement)
     }

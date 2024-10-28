@@ -97,4 +97,13 @@ export class Menus {
 
         Menus.showMenu(menu)
     }
+
+    static hideAllMenus() {
+        Menus.hideMenu($('#subtimer-menu')[0])
+        Menus.isMenuVisible = false
+        Menus.hideMenu($('#repeater-menu')[0])
+        Menus.isMenuVisible = false
+        Menus.hideMenu($('#add-element-menu')[0])
+        Menus.isMenuVisible = false
+    }
 }

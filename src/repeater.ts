@@ -1,5 +1,6 @@
 import { Subtimer } from './subtimer.js'
 import { Timer } from './timer.js'
+import { UiHandler } from './ui-handler.js'
 
 export class Repeater {
     static createRepeater(): HTMLElement {
@@ -51,6 +52,11 @@ export class Repeater {
 
     static setListToFirstSubtimerParent(list: Element):void {
         Timer.list = list.querySelector('.subtimer')!.parentElement!
+
+        if (Timer.list == UiHandler.LIST_CONTENT)
+            Timer.currentElement = Timer.list.children[0] as HTMLElement
+        else
+            Timer.currentElement = Timer.list.children[1]! as HTMLElement
     }
     static repeaterFinished():void {
         Repeater.setCurrentRepeats(Timer.list, Repeater.getCurrentRepeats(Timer.list) + 1)
@@ -72,5 +78,6 @@ export class Repeater {
     }
     static isRepeaterValues(element: HTMLElement): boolean {
         return element.className.includes('repeater-values')
+        
     }
 }

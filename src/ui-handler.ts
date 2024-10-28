@@ -9,8 +9,9 @@ export class UiHandler {
     public static readonly LIST_CONTENT = document.getElementById('list-content')!
     public static readonly BIG_TIMER_DISPLAY: HTMLElement = document.getElementById('big-timer-time')!
     public static readonly PROGRESS_BAR: HTMLElement = document.getElementById('progress-bar')!
-    public static readonly ELEMENTS_LIST: HTMLElement = document.getElementById('list-of-elements')!;
+    public static readonly ELEMENTS_LIST: HTMLElement = document.getElementById('list-of-elements')!
     public static readonly RESIZER: HTMLElement = document.getElementById('resizer')!;
+    private static readonly TRASH_BIN: HTMLElement = document.getElementById('trash-bin')!
     public static readonly LIST_INITIAL_SIZE: number = UiHandler.ELEMENTS_LIST.getBoundingClientRect().right
 
     private static isChangingTime = false
@@ -86,21 +87,32 @@ export class UiHandler {
     }
 
     static draggingElementStopped(): void {
-        document.body.style.cursor = "auto";
-
         window.removeEventListener('mousemove', UiHandler.dragElement);
         window.removeEventListener('mouseup', UiHandler.draggingElementStopped);
         UiHandler.LIST_CONTENT.removeEventListener('scroll', UiHandler.dragElement);
         
+        document.body.style.cursor = "auto";
+        UiHandler.TRASH_BIN.classList.add('hidden')
+
         if(!UiHandler.isDragging)
             return
         UiHandler.isDragging = false
         
+        //Delete the dragged element if you hover over the bin 
+        if(UiHandler.TRASH_BIN.matches(':hover')) {
+            UiHandler.ghostElement.remove()
+            UiHandler.elementClicked.remove()
+            Timer.activateFirstSubtimer()
+            return
+        }
+
         UiHandler.elementClicked.setAttribute('style', UiHandler.ghostElement.getAttribute('style')!)
         UiHandler.elementClicked.className = UiHandler.ghostElement.className
         UiHandler.elementClicked.classList.remove('ghost')
 
         UiHandler.ghostElement.replaceWith(UiHandler.elementClicked)
+
+        Timer.activateFirstSubtimer()
     }
     
     //Move element backward if needed
@@ -175,15 +187,18 @@ export class UiHandler {
         if(!Subtimer.isSubtimer(elementClicked))
             elementClicked = elementParent
         
-        if(elementClicked.id.includes('list'))
+        if(elementClicked == UiHandler.LIST_CONTENT)
             return false
         
         if(Repeater.isRepeaterValues(elementClicked))
             elementClicked = elementClicked.parentElement!
 
         elementParent = elementClicked.parentElement!
-        if((elementParent.className == 'repeater' && elementParent.children.length <= 2))
+        if(elementParent.children.length <= 1)
             return false
+        if(Repeater.isRepeater(elementParent) && elementParent.children.length <= 2) {
+            return false
+        }
 
         UiHandler.elementClicked = elementClicked
         return true
@@ -192,15 +207,20 @@ export class UiHandler {
     static initializeGhostAndClickedElement(): void {
         UiHandler.isDragging = true
         document.body.style.cursor = "pointer";
+        UiHandler.TRASH_BIN.classList.remove('hidden')//TODO make it fade in
+
+        //Deactivate the active subtimer
+        if(UiHandler.LIST_CONTENT.querySelector('.subtimer-active'))
+            (UiHandler.LIST_CONTENT.querySelector('.subtimer-active') as HTMLElement).className = 'subtimer'
 
         UiHandler.ghostElement = UiHandler.elementClicked.cloneNode(true) as HTMLElement
         UiHandler.ghostElement.classList.add('ghost')
         
         const originalWidth = UiHandler.elementClicked.getBoundingClientRect().width
         
-        UiHandler.elementClicked.className += ' z-50 absolute'
+        UiHandler.elementClicked.className += ' z-40 absolute'
         if(Subtimer.isSubtimer(UiHandler.elementClicked))
-            UiHandler.elementClicked.className += ' absolute shadow-md shadow-gray-300 border-gray-300'
+            UiHandler.elementClicked.className += ' shadow-md shadow-gray-300 border-gray-300'
         
         UiHandler.elementClicked.style.width = `${originalWidth}px`
         

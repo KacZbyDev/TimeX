@@ -54,6 +54,9 @@
             </div>
 
             <div id="list-footer" class="flex justify-between top-shadow pt-7 p-4 z-40">
+                <div id="trash-bin" class="absolute bg-red-300 size-12 right-5 rounded-lg bottom-24 opacity-70 hover:shadow-custom-amber hover:bg-red-400 hover:opacity-85 hover:shadow-red-600 duration-300 z-50 hidden">
+                    <img src="../res/img/trash_bin_icon.png" class="hover:shake transition">
+                </div>
                 <button id="edit-mode-button" onclick="this.blur()"
                     class="size-11 bg-orange-secondary rounded-xl text-center text-white font-bold hover:shadow-custom-amber hover:shadow-amber-600 hover:scale-125 transition-all duration-500">Edit</button>
                 <button id="add-element-button" onclick="this.blur()"
@@ -79,7 +82,7 @@
                 
             <div class="mb-12 flex justify-between z-20">
                 <button id="previous-button" onclick="this.blur()" class="mx-4 rounded-lg size-10 bg-blue-secondary font-extrabold text-base text-white flex justify-center items-center select-none">|&lt</button>
-                <button id="pause-button" onclick="this.blur()" class="mx-4 rounded-lg size-10 bg-orange-secondary font-extrabold text-base text-white flex justify-center items-center select-none">| |</button>
+                <button id="pause-button" onclick="this.blur()" class="mx-4 rounded-lg size-10 bg-orange-secondary font-extrabold text-base text-white flex justify-center items-center select-none">►</button>
                 <button id="next-button" onclick="this.blur()" class="mx-4 rounded-lg size-10 bg-blue-secondary font-extrabold text-base text-white flex justify-center items-center select-none">&gt|</button>
             </div>
         </div>
