@@ -14,12 +14,6 @@ $(document).ready(function () {
     $('#edit-mode-button').on('click', () => {
         Utils.toggleEditMode()
     })
-    $('.edit-button-subtimer').on('click', (event) => {
-        Menus.openEditElementMenu(event.target.parentElement!)
-    })
-    $('.edit-button-repeater').on('click', (event) => {
-        Menus.openEditElementMenu(event.target.parentElement!.parentElement!)
-    })
     
     //TIMER
     $('#pause-button').on('click', () => {
@@ -46,8 +40,10 @@ $(document).ready(function () {
         
         Menus.hideMenu(menu)
 
-        if(Menus.elementInEdit.parentElement == null)
+        if(Menus.elementInEdit.parentElement == null) {
+            Menus.elementInEdit
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
+        }
 
         Utils.saveList()
         Timer.resumeTimer()
@@ -61,10 +57,8 @@ $(document).ready(function () {
         
         Menus.hideMenu(menu)
 
-        if(Menus.elementInEdit.parentElement == null) {
-            Menus.elementInEdit.appendChild(Subtimer.createSubtimer())
+        if(Menus.elementInEdit.parentElement == null)
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
-        }
 
         Utils.saveList()
         Timer.resumeTimer()

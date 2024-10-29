@@ -184,13 +184,13 @@ export class UiHandler {
         let elementClicked:HTMLElement = event.target as HTMLElement
         let elementParent = elementClicked.parentElement!
         
-        if (Timer.currentState != TimerState.Edit || elementClicked.className.includes('edit-button'))
+        if (Timer.currentState != TimerState.Edit || elementClicked.className.includes('edit-button') || elementClicked.id.includes('list'))
             return false
-
+        
         if(!Subtimer.isSubtimer(elementClicked))
             elementClicked = elementParent
 
-        if(elementClicked.className.includes('list'))
+        if(elementClicked.id.includes('list'))
             return false
         
         if(Repeater.isRepeaterValues(elementClicked))

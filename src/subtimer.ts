@@ -13,16 +13,16 @@ export class Subtimer {
         let newSubtimer: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
         newSubtimer.removeAttribute('id')
 
+        newSubtimer.firstElementChild!.addEventListener('click', () => {
+            Menus.openEditElementMenu(newSubtimer)
+        })
+
         return newSubtimer
     }
 
     static setSubtimer(subtimer:HTMLElement, name: string, duration: string): void {
         subtimer.querySelector('.name')!.textContent = name
         subtimer.querySelector('.duration')!.textContent = duration
-
-        subtimer.firstElementChild!.addEventListener('click', () => {
-            Menus.openEditElementMenu(subtimer)
-        })
     }
 
     static startSubtimer(element: HTMLElement):void {

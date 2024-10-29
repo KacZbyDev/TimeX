@@ -1,3 +1,4 @@
+import { Menus } from './menus.js'
 import { Subtimer } from './subtimer.js'
 import { Timer } from './timer.js'
 import { UiHandler } from './ui-handler.js'
@@ -6,6 +7,11 @@ export class Repeater {
     static createRepeater(): HTMLElement {
         let newRepeater: HTMLElement = document.getElementById('repeater-example')!.cloneNode(true) as HTMLElement
         newRepeater.removeAttribute('id')
+
+        newRepeater.appendChild(Subtimer.createSubtimer())
+        newRepeater.firstElementChild!.addEventListener('click', () => {
+            Menus.openEditElementMenu(newRepeater)
+        })
         
         return newRepeater
     }

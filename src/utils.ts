@@ -119,12 +119,22 @@ export class Utils {
             const listValue = listCookie.split("=")[1];
             UiHandler.LIST_CONTENT.innerHTML = atob(listValue);
         }
-
         
         if(UiHandler.LIST_CONTENT.querySelector('.subtimer-active')) {
             (UiHandler.LIST_CONTENT.querySelector('.subtimer-active') as HTMLElement).className = 'subtimer';
         }
-
+        //Hide the edit buttons
+        document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
+            element.classList.add('hidden')
+        });
         Repeater.resetChildren(UiHandler.LIST_CONTENT)
+
+        //Load edit buttons listeners
+        $('.edit-button-subtimer').on('click', (event) => {
+            Menus.openEditElementMenu(event.target.parentElement!)
+        })
+        $('.edit-button-repeater').on('click', (event) => {
+            Menus.openEditElementMenu(event.target.parentElement!.parentElement!)
+        })
     }
 }
