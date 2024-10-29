@@ -210,7 +210,7 @@ export class UiHandler {
     static initializeGhostAndClickedElement(): void {
         UiHandler.isDragging = true
         document.body.style.cursor = "pointer"
-        UiHandler.TRASH_BIN.classList.remove('hidden', 'opacity-0', 'hidden')
+        UiHandler.TRASH_BIN.classList.remove('hidden', 'opacity-0')
         UiHandler.TRASH_BIN.classList.add('opacity-70')
 
         //Deactivate the active subtimer

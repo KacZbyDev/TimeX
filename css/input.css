@@ -73,6 +73,33 @@
         background: #fff;
         cursor: pointer;
     }
+
+    .blue-orange-shadow {
+        position: relative;
+    }
+    
+    .blue-orange-shadow::before {
+        content: '';
+        position: absolute;
+        top: 0px;   
+        bottom: -20px;
+        left: 0px;
+        right: 0px;
+        background: linear-gradient(to right, #2C599D 45%, #F98125 55%);
+        filter: blur(10px); 
+        opacity: 0.5;
+        border-radius: 32px;
+        z-index: -1;
+    }
+    
+    .text-outline {
+        color: transparent;
+        text-shadow: 
+            1px 1px 0px rgb(232, 232, 232), 
+           -1px -1px 0px rgb(232, 232, 232), 
+           -1px 1px 0px rgb(232, 232, 232), 
+            1px -1px 0px rgb(232, 232, 232);
+    }
 }
 
 @layer utilities {

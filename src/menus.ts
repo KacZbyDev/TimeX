@@ -94,6 +94,6 @@ export class Menus {
         Menus.hideMenu($('#repeater-menu')[0])
         Menus.isMenuVisible = true
         Menus.hideMenu($('#add-element-menu')[0])
-        Menus.isMenuVisible = true
+        Menus.isMenuVisible = false
     }
 }
