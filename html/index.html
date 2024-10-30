@@ -89,10 +89,10 @@
         </div>
     </div>
 
-    <div id="blurred-backround" class="absolute h-dvh w-screen bg-black opacity-45 z-40 "></div>
+    <div id="blurred-backround" class="absolute h-dvh w-screen bg-black opacity-45 z-40 hidden"></div>
 
     <div id="pop-ups">
-        <div id="add-element-menu" class="shadow-xl shadow-gray-500 fixed h-3/5 w-1/3 bg-white m-auto inset-0 rounded-2xl z-50 ">
+        <div id="add-element-menu" class="shadow-xl shadow-gray-500 fixed h-3/5 w-1/3 min-w-fit bg-white m-auto inset-0 rounded-2xl z-50 hidden">
             <div id="menu-header-container" class="flex items-center w-full h-1/6 space-x-4 font-extrabold text-4xl bg-white blue-orange-shadow rounded-2xl rounded-b-3xl">
                 <div class="w-1/2 text-orange-primary flex justify-end">ADD</div>
                 <div class="w-1/2 text-blue-primary">ELEMENT</div>
@@ -107,9 +107,9 @@
                 </div>
                     <button type="button" id="add-element-menu-cancel-button" class="cancel-button w-full h-1/6">Cancel</button>
             </div>
-        </div>
+        </div>   
 
-        <div id="subtimer-menu" class="element-menu bg-blue-light-secondary hidden">
+        <div id="subtimer-menu" class="element-menu bg-blue-light-secondary min-w-fit hidden">
             <div class="shadow-lg shadow-blue-light-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
                 <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-blue-dark-secondary to-blue-light-primary">SUBTIMER MENU</div>
             </div>
@@ -360,7 +360,7 @@
             </div>
         </div>
 
-        <div id="repeater-menu" class="element-menu bg-orange-secondary hidden">
+        <div id="repeater-menu" class="element-menu bg-orange-secondary min-w-fit hidden">
             <div class="shadow-lg shadow-orange-primary pb-3 bg-white absolute w-full top-0 pt-4 left-0 rounded-xl">
                 <div class="flex text-4xl font-bold justify-center bg-clip-text text-transparent bg-gradient-to-r from-orange-dark-primary to-orange-light-primary">REPEATER MENU</div>
             </div>

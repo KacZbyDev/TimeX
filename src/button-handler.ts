@@ -1,4 +1,4 @@
-import { Utils } from "./utils.js";
+import { TimerState, Utils } from "./utils.js";
 import { Timer } from './timer.js';
 import { Subtimer } from "./subtimer.js";
 import { Repeater } from "./repeater.js";
@@ -94,6 +94,12 @@ $(document).ready(function () {
     
     //OTHERS
     $('#blurred-backround').on('click', () => {
+        //Exit edit mode
+        if(Timer.currentState == TimerState.Edit && UiHandler.ELEMENTS_LIST.classList.contains('z-50')) {
+            Utils.toggleEditMode()
+            return
+        }
+
         Menus.hideAllMenus()
         Timer.resumeTimer()
     })

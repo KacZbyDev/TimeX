@@ -1,5 +1,6 @@
 import { Subtimer } from "./subtimer.js"
 import { Timer } from "./timer.js"
+import { UiHandler } from "./ui-handler.js"
 import { TimerState } from "./utils.js"
 
 export class Menus {
@@ -54,18 +55,16 @@ export class Menus {
         
         menu.classList.remove('hidden');
         $('#blurred-backround').removeClass('hidden');
-        $('#list-of-elements').removeClass('z-50')
+        UiHandler.ELEMENTS_LIST.classList.remove('z-50')
     }
 
     static hideMenu(menu: Element):void {
-        if(!Menus.isMenuVisible)
-            return
         Menus.isMenuVisible = false
 
         if(Timer.currentState != TimerState.Edit)
              $('#blurred-backround').addClass('hidden');
          
-        $('#list-of-elements').addClass('z-50')
+        UiHandler.ELEMENTS_LIST.classList.add('z-50')
         menu.classList.add('hidden');
     }
 

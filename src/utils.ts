@@ -84,7 +84,7 @@ export class Utils {
                 element.classList.remove('hidden') 
             });
             $('#blurred-backround').removeClass('hidden');
-            $('#list-of-elements').addClass('z-50')
+            UiHandler.ELEMENTS_LIST.classList.add('z-50')
             return
         }
 
@@ -92,7 +92,7 @@ export class Utils {
             element.classList.add('hidden')
         });
         $('#blurred-backround').addClass('hidden')
-        $('#list-of-elements').removeClass('z-50')
+        UiHandler.ELEMENTS_LIST.classList.remove('z-50')
  
         Timer.currentState = Utils.lastState
         Timer.resumeTimer()
