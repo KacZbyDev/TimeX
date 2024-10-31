@@ -28,6 +28,7 @@ $(document).ready(function () {
     
     //EDIT MENUS
     $('#subtimer-menu-ok-button').on('click', () => {
+        //TODO solve time shown as 15:: when I wanted 15 hours, also when I try to edit 15 hours it shows 15: blank : blank even though the first issue 'solved'
         //Get values from menu
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
         let name: string = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
