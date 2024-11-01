@@ -44,12 +44,13 @@ export class Subtimer {
     static startNextSubtimer(): void {
         if(Timer.currentElement == null)
             return
-        Sounds.playSubtimerFinish()
 
         Timer.currentElement.removeAttribute('style')
         Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
         
         if (Timer.currentElement) {
+            Sounds.playSubtimerFinish()
+
             if (Repeater.isRepeater(Timer.currentElement))
                 Repeater.setListToFirstSubtimerParent(Timer.currentElement)
 
@@ -61,10 +62,13 @@ export class Subtimer {
             return
         }
 
-        if (Repeater.isRepeater(Timer.list))
+        if (Repeater.isRepeater(Timer.list)) {
             Repeater.repeaterFinished()
-        else
-            Timer.killTimer()
+            return
+        }
+
+        Sounds.playSubtimerFinish()
+        Timer.killTimer()
     }
 
     static startPreviousSubtimer(): void {

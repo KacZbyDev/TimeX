@@ -75,7 +75,7 @@ export class Repeater {
             Timer.currentElement = Timer.list.firstElementChild as HTMLElement
             Repeater.resetChildren(Timer.list)
         }
-        
+    
         Subtimer.startNextSubtimer()
     } 
 
