@@ -20,11 +20,13 @@ export class Menus {
                 val = ':' + val
             }
 
-            if(val == '0' && !wasValue)
+            if(val == '00' && !wasValue)
                 continue
             else
                 wasValue = true
 
+            if(parseInt(val) >= 1 && parseInt(val) <= 9)
+                val = val[1]
             res += val
         }
         
@@ -36,10 +38,13 @@ export class Menus {
         
         for(let i: number = 0; i < picker.children.length; i++) {
             let val: string = values[values.length - i - 1];
-            
-            (picker.children[picker.children.length - i - 1] as HTMLSelectElement).value = val || '0'
+            if(val)
+                val = val.padStart(2, '0');
+
+            (picker.children[picker.children.length - i - 1] as HTMLSelectElement).value = val || '00'
         }
     }
+        
 
     static resetPicker(picker: HTMLElement) {
         for(let i: number = 0; i < picker.children.length - 1; i++)
@@ -76,6 +81,7 @@ export class Menus {
             menu = document.getElementById('subtimer-menu')! as HTMLElement
 
             (menu.querySelector('.subtimer-name')! as HTMLInputElement).value = (Menus.elementInEdit.querySelector('.name')! as HTMLInputElement).textContent!;
+            
             Menus.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.duration')!.textContent!)
         }
         else {
