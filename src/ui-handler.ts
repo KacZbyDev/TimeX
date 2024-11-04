@@ -115,6 +115,7 @@ export class UiHandler {
 
         UiHandler.ghostElement.replaceWith(UiHandler.elementClicked)
 
+        Utils.saveList()
         Timer.activateFirstSubtimer()
     }
     
