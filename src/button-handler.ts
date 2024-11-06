@@ -6,7 +6,7 @@ import { Menus } from "./menus.js";
 import { UiHandler } from "./ui-handler.js";
 
 $(document).ready(function () {
-    //LIST
+    // LIST
     $("#add-element-button").on("click", () => {
         Timer.pauseTimer()
         Menus.showMenu($('#add-element-menu')[0])
@@ -15,7 +15,7 @@ $(document).ready(function () {
         Utils.toggleEditMode()
     })
     
-    //TIMER
+    // TIMER
     $('#pause-button').on('click', () => {
         Utils.toggleStop()
     })
@@ -26,7 +26,8 @@ $(document).ready(function () {
         Subtimer.startNextSubtimer()
     })
     
-    //EDIT MENUS
+    // EDIT MENUS
+    // Changes the values of a subtimer, if it subtimer was newly created add it to the list
     $('#subtimer-menu-ok-button').on('click', () => {
         //Get values from menu
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
@@ -38,8 +39,9 @@ $(document).ready(function () {
         
         Subtimer.setSubtimer(Menus.elementInEdit, name, duration)
         
-        Menus.hideMenu(menu)
+        Menus.hideActiveMenu()
 
+        //If was newly created
         if(Menus.elementInEdit.parentElement == null) {
             Menus.elementInEdit
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
@@ -48,6 +50,7 @@ $(document).ready(function () {
         Utils.saveList()
         Timer.resumeTimer()
     })
+    // Changes the values of a repeater, if it was newly created add it to the list
     $('#repeater-menu-ok-button').on('click', () => {
         //Get values from menu
         let menu: HTMLElement = document.getElementById('repeater-menu')!
@@ -55,7 +58,7 @@ $(document).ready(function () {
         
         Repeater.setTotalRepeats(Menus.elementInEdit, repeats)
         
-        Menus.hideMenu(menu)
+        Menus.hideActiveMenu()
 
         if(Menus.elementInEdit.parentElement == null)
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
@@ -64,43 +67,43 @@ $(document).ready(function () {
         Timer.resumeTimer()
     })
     $('#subtimer-menu-cancel-button').on('click', () => {
-        Menus.hideMenu($('#subtimer-menu')[0])
+        Menus.hideActiveMenu()
 
         Timer.resumeTimer()
     })
     $('#repeater-menu-cancel-button').on('click', () => {
-        Menus.hideMenu($('#repeater-menu')[0])
+        Menus.hideActiveMenu()
 
         Timer.resumeTimer()
     })
 
-    //ADD ELEMENT MENU
+    // ADD ELEMENT MENU - create elements and edit them in the menus
     $('#add-element-menu-subtimer').on('click', () => {
         Menus.elementInEdit = Subtimer.createSubtimer()
         
-        Menus.hideMenu($('#add-element-menu')[0])
+        Menus.hideActiveMenu()
         Menus.openEditElementMenu(Menus.elementInEdit)
     })
     $('#add-element-menu-repeater').on('click', () => {
         Menus.elementInEdit = Repeater.createRepeater()
 
-        Menus.hideMenu($('#add-element-menu')[0])
+        Menus.hideActiveMenu()
         Menus.openEditElementMenu(Menus.elementInEdit)
     })
     $('#add-element-menu-cancel-button').on('click', () => {
         Timer.resumeTimer()
-        Menus.hideMenu($("#add-element-menu")[0])
+        Menus.hideActiveMenu()
     })
     
-    //OTHERS
+    // OTHERS
     $('#blurred-backround').on('click', () => {
-        //Exit edit mode
-        if(Timer.currentState == TimerState.Edit && UiHandler.ELEMENTS_LIST.classList.contains('z-50')) {
+        // Exit edit mode
+        if(Timer.currentState == TimerState.Edit && Menus.getActiveMenu() == null) {
             Utils.toggleEditMode()
             return
         }
 
-        Menus.hideAllMenus()
+        Menus.hideActiveMenu()
         Timer.resumeTimer()
     })
 });

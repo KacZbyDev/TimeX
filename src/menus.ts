@@ -4,9 +4,14 @@ import { UiHandler } from "./ui-handler.js"
 import { TimerState } from "./utils.js"
 
 export class Menus {
+    public static readonly SUBTIMER_MENU: HTMLElement = document.getElementById('subtimer-menu')!
+    public static readonly REPEATER_MENU: HTMLElement = document.getElementById('repeater-menu')!
+    public static readonly ADD_ELEMENT_MENU: HTMLElement = document.getElementById('add-element-menu')!
+
     public static isMenuVisible: boolean = false
     public static elementInEdit: HTMLElement
 
+    // Convert the picker values to a string
     static getItemPickerValue(picker: HTMLElement): string {
         let res: string = ''
         let wasValue: boolean = false
@@ -33,7 +38,8 @@ export class Menus {
         return res
     } 
 
-    static setItemPickerValue(picker: HTMLElement, value: string) {
+    // Set the picker values to the value parameter
+    static setItemPickerValue(picker: HTMLElement, value: string): void {
         let values: string[] = value.split(':')
         
         for(let i: number = 0; i < picker.children.length; i++) {
@@ -44,26 +50,20 @@ export class Menus {
             (picker.children[picker.children.length - i - 1] as HTMLSelectElement).value = val || '00'
         }
     }
-        
-
-    static resetPicker(picker: HTMLElement) {
-        for(let i: number = 0; i < picker.children.length - 1; i++)
-            (picker.children[i] as HTMLSelectElement).value = "00";
-
-        (picker.children[picker.children.length - 1] as HTMLSelectElement).value = "01"
-    }
 
     static showMenu(menu: Element): void {
-        if(Menus.isMenuVisible)
-            return
+        if(Menus.getActiveMenu() != null)
+            return 
         Menus.isMenuVisible = true
         
+        // Show the menu, add the blurred backroudn and hide the element list
         menu.classList.remove('hidden');
         $('#blurred-backround').removeClass('hidden');
         UiHandler.ELEMENTS_LIST.classList.remove('z-50')
     }
 
-    static hideMenu(menu: Element):void {
+    static hideActiveMenu(): void {
+        let menu: HTMLElement = Menus.getActiveMenu()!
         Menus.isMenuVisible = false
 
         if(Timer.currentState != TimerState.Edit)
@@ -73,19 +73,20 @@ export class Menus {
         menu.classList.add('hidden');
     }
 
-    static openEditElementMenu(element: HTMLElement) {
+    // Shows the edit menu for the element and sets the fields
+    static openEditElementMenu(element: HTMLElement): void  {
         let menu: HTMLElement
         Menus.elementInEdit = element
 
         if(Subtimer.isSubtimer(element)) {
-            menu = document.getElementById('subtimer-menu')! as HTMLElement
+            menu = Menus.SUBTIMER_MENU!;
 
             (menu.querySelector('.subtimer-name')! as HTMLInputElement).value = (Menus.elementInEdit.querySelector('.name')! as HTMLInputElement).textContent!;
             
             Menus.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.duration')!.textContent!)
         }
         else {
-            menu = document.getElementById('repeater-menu')!
+            menu = Menus.REPEATER_MENU!
             
             Menus.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.total-repeats')!.textContent!)
         }
@@ -93,12 +94,14 @@ export class Menus {
         Menus.showMenu(menu)
     }
 
-    static hideAllMenus() {
-        Menus.hideMenu($('#subtimer-menu')[0])
-        Menus.isMenuVisible = true
-        Menus.hideMenu($('#repeater-menu')[0])
-        Menus.isMenuVisible = true
-        Menus.hideMenu($('#add-element-menu')[0])
-        Menus.isMenuVisible = false
+    static getActiveMenu(): HTMLElement | null {
+        if(Menus.SUBTIMER_MENU!.classList.contains('hidden'))
+            return Menus.SUBTIMER_MENU
+        if(Menus.REPEATER_MENU!.classList.contains('hidden'))
+            return Menus.REPEATER_MENU
+        if(Menus.ADD_ELEMENT_MENU!.classList.contains('hidden'))
+            return Menus.ADD_ELEMENT_MENU
+
+        return null
     }
 }
