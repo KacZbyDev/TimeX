@@ -1,7 +1,6 @@
 import { Menus } from './menus.js'
 import { Subtimer } from './subtimer.js'
 import { Timer } from './timer.js'
-import { UiHandler } from './ui-handler.js'
 
 export class Repeater {
     static createRepeater(): HTMLElement {
@@ -29,7 +28,7 @@ export class Repeater {
         repeater.querySelector('.repeater-values')!.querySelector('.total-repeats')!.textContent! = repeats
     }
 
-    //Reset every child of the repeater
+    // Reset every child of the repeater
     static resetChildren(repeater:Element): void {
         repeater.querySelectorAll('.repeater').forEach((element) => {
             element.querySelector('.repeater-values')!.querySelector('.current-repeats')!.textContent = '0'
@@ -38,9 +37,8 @@ export class Repeater {
             element.className = 'subtimer'
         })
     }
+    // If the parent repeaters or siblings' repeated enough times, rewinds back with 1 repeat, could probably improve it
     static rewindParentsAndSiblings(repeater: HTMLElement): void {
-        if(!Repeater.isRepeater(repeater))
-            return
         if(Repeater.getCurrentRepeats(repeater) < Repeater.getTotalRepeats(repeater))
             return
         
@@ -56,14 +54,6 @@ export class Repeater {
         
     }
 
-    static setListToFirstSubtimerParent(list: Element):void {
-        Timer.list = list.querySelector('.subtimer')!.parentElement!
-
-        if (Timer.list == UiHandler.LIST_CONTENT)
-            Timer.currentElement = Timer.list.children[0] as HTMLElement
-        else
-            Timer.currentElement = Timer.list.children[1]! as HTMLElement
-    }
     static repeaterFinished():void {
         Repeater.setCurrentRepeats(Timer.list, Repeater.getCurrentRepeats(Timer.list) + 1)
     

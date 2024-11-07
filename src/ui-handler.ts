@@ -4,6 +4,7 @@ import { Subtimer } from './subtimer.js'
 import { TimerState, Utils } from './utils.js'
 
 export class UiHandler {
+    //for dragging elements
     public static readonly DRAG_OFFSET_Y = 136
 
     public static readonly LIST_CONTENT = document.getElementById('list-content')!
@@ -17,7 +18,7 @@ export class UiHandler {
     private static isChangingTime = false
     private static isDragging = false
     private static elementClicked: HTMLElement
-    private static ghostElement: HTMLElement
+    private static ghostElement: HTMLElement //the fainted element that shows you where will the dragged element be
 
     static resize(e: MouseEvent) {
         window.addEventListener('mouseup', UiHandler.stopResize);
@@ -52,13 +53,15 @@ export class UiHandler {
         if(!UiHandler.setElementClicked(event))
             return
         
+        //Update on scroll and mousemove
         UiHandler.LIST_CONTENT.addEventListener('scroll', UiHandler.dragElement)
         window.addEventListener('mousemove', UiHandler.dragElement)
         window.addEventListener('mouseup', UiHandler.draggingElementStopped)
     }
-
+    
     private static scrollTop: number
     private static top: number
+    // Drag an element to move it
     static dragElement(event: MouseEvent | Event): void {
         if (UiHandler.isDragging == false)
             UiHandler.initializeGhostAndClickedElement()
@@ -99,7 +102,7 @@ export class UiHandler {
             return
         UiHandler.isDragging = false
         
-        //Delete the dragged element if you hover over the bin 
+        // Delete the dragged element if you hover over the bin 
         if(UiHandler.TRASH_BIN.matches(':hover')) {
             UiHandler.ghostElement.remove()
             UiHandler.elementClicked.remove()
@@ -109,6 +112,7 @@ export class UiHandler {
             return
         }
 
+        // Make elementClicked replace ghostElement
         UiHandler.elementClicked.setAttribute('style', UiHandler.ghostElement.getAttribute('style')!)
         UiHandler.elementClicked.className = UiHandler.ghostElement.className
         UiHandler.elementClicked.classList.remove('ghost')
@@ -208,6 +212,7 @@ export class UiHandler {
         return true
     }
 
+    // Creates the ghostElement and moves the elementClicked to the cursor
     static initializeGhostAndClickedElement(): void {
         UiHandler.isDragging = true
         document.body.style.cursor = "pointer"
@@ -223,7 +228,7 @@ export class UiHandler {
         
         const originalWidth = UiHandler.elementClicked.getBoundingClientRect().width
         
-        UiHandler.elementClicked.className += ' z-40 absolute'
+        UiHandler.elementClicked.classList.add('z-40', 'absolute')
         if(Subtimer.isSubtimer(UiHandler.elementClicked))
             UiHandler.elementClicked.className += ' shadow-md shadow-gray-300 border-gray-300'
         
@@ -233,6 +238,7 @@ export class UiHandler {
         UiHandler.LIST_CONTENT.appendChild(UiHandler.elementClicked)
     }
 
+    // Decide what subtimer should be dragged and if it should be dragged
     static changeTimeListener(event: MouseEvent): void {
         let elementClicked: HTMLElement = event.target as HTMLElement
         
@@ -252,6 +258,7 @@ export class UiHandler {
         window.addEventListener('mouseup', UiHandler.changingTimeStopped);
     }
     
+    // Changes the time of a subtimer when dragged
     static changeTime(event: MouseEvent): void {
         if(UiHandler.isChangingTime == false)
            UiHandler.initializeChangingTime()

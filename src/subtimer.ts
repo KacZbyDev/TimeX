@@ -25,6 +25,7 @@ export class Subtimer {
         subtimer.querySelector('.duration')!.textContent = duration
     }
 
+    //Start a certain subtimer
     static startSubtimer(element: HTMLElement):void {
         //Get the time and name from the variables stored in the html
         Subtimer.element = element
@@ -48,11 +49,11 @@ export class Subtimer {
         Timer.currentElement.removeAttribute('style')
         Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
         
-        if (Timer.currentElement) {
+        if(Timer.currentElement) {
             Sounds.playSubtimerFinish()
 
-            if (Repeater.isRepeater(Timer.currentElement))
-                Repeater.setListToFirstSubtimerParent(Timer.currentElement)
+            if(Repeater.isRepeater(Timer.currentElement))
+                Timer.setListToFirstSubtimerParent(Timer.currentElement)
 
             //Reset subtimer progress
             Subtimer.element.className = 'subtimer'
@@ -62,7 +63,7 @@ export class Subtimer {
             return
         }
 
-        if (Repeater.isRepeater(Timer.list)) {
+        if(Repeater.isRepeater(Timer.list)) {
             Repeater.repeaterFinished()
             return
         }
@@ -113,7 +114,6 @@ export class Subtimer {
     static isSubtimer(element: HTMLElement): boolean {
         return element.className.includes('subtimer')
     }
-
     static isActiveSubtimer(element: HTMLElement): boolean {
         return element.className.includes('active-subtimer')
     }

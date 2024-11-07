@@ -1,4 +1,3 @@
-import { Repeater } from './repeater.js';
 import { Subtimer } from './subtimer.js'
 import { UiHandler } from './ui-handler.js';
 import { TimerState, Utils } from './utils.js'
@@ -31,16 +30,16 @@ export class Timer {
         })
         
         Utils.loadList()
-        
         Timer.activateFirstSubtimer()
     }
 
     static activateFirstSubtimer(): void {
-        Repeater.setListToFirstSubtimerParent(Timer.list)
+        Timer.setListToFirstSubtimerParent(Timer.list)
 
         Subtimer.startSubtimer(Timer.currentElement)
     }
 
+    // Calculate the current time and update  the UI
     static updateTime(): void {
         if (Timer.currentMiliseconds <= 0)
             Subtimer.startNextSubtimer()
@@ -90,5 +89,14 @@ export class Timer {
         UiHandler.BIG_TIMER_DISPLAY.textContent = Utils.milisecondsToTime(Timer.currentMiliseconds)
         
         Subtimer.element.style.setProperty('--value', percent + '')
+    }
+
+    static setListToFirstSubtimerParent(list: Element):void {
+        Timer.list = list.querySelector('.subtimer')!.parentElement!
+
+        if (Timer.list == UiHandler.LIST_CONTENT)
+            Timer.currentElement = Timer.list.children[0] as HTMLElement
+        else
+            Timer.currentElement = Timer.list.children[1]! as HTMLElement
     }
 }

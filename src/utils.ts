@@ -60,6 +60,7 @@ export class Utils {
         if(Timer.currentState >= TimerState.Finished || Menus.isMenuVisible)
             return
 
+        // Stop
         if(Timer.currentState == TimerState.Active) {
             document.getElementById('pause-button')!.textContent = '►'
             Timer.pauseTimer()
@@ -67,6 +68,7 @@ export class Utils {
             return
         }
 
+        // Resume
         document.getElementById('pause-button')!.textContent = '| |'
         Timer.currentState = TimerState.Paused
         Timer.resumeTimer()
@@ -74,6 +76,7 @@ export class Utils {
 
     private static lastState:TimerState
     static toggleEditMode(): void {
+        // Enter edit mode
         if(Timer.currentState < TimerState.Edit) {
             Timer.pauseTimer()
             
@@ -88,6 +91,7 @@ export class Utils {
             return
         }
 
+        // Exit edit mode
         document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
             element.classList.add('hidden')
         });
@@ -109,7 +113,7 @@ export class Utils {
         document.cookie = `list=${encodedListContent}; ${expires}; path=/`
     }
 
-    //Load from cookie named 'list'
+    //Load list from the cookie named 'list'
     static loadList() {
         const cookiesContent = decodeURIComponent(document.cookie)
         const cookiesArray: string[] = cookiesContent.split('; ')
