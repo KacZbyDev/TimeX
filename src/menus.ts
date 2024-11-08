@@ -54,6 +54,8 @@ export class Menus {
     static showMenu(menu: Element): void {
         if(Menus.getActiveMenu() != null)
             return 
+        
+        
         Menus.isMenuVisible = true
         
         // Show the menu, add the blurred backroudn and hide the element list
@@ -95,11 +97,11 @@ export class Menus {
     }
 
     static getActiveMenu(): HTMLElement | null {
-        if(Menus.SUBTIMER_MENU!.classList.contains('hidden'))
+        if(!Menus.SUBTIMER_MENU!.classList.contains('hidden'))
             return Menus.SUBTIMER_MENU
-        if(Menus.REPEATER_MENU!.classList.contains('hidden'))
+        if(!Menus.REPEATER_MENU!.classList.contains('hidden'))
             return Menus.REPEATER_MENU
-        if(Menus.ADD_ELEMENT_MENU!.classList.contains('hidden'))
+        if(!Menus.ADD_ELEMENT_MENU!.classList.contains('hidden'))
             return Menus.ADD_ELEMENT_MENU
 
         return null

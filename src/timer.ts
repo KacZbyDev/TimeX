@@ -92,7 +92,8 @@ export class Timer {
     }
 
     static setListToFirstSubtimerParent(list: Element):void {
-        Timer.list = list.querySelector('.subtimer')!.parentElement!
+        // Finds the first element with subtimer or subtimer-active class 
+        Timer.list = list.querySelector('.subtimer')?.parentElement || list.querySelector('.subtimer-active')!.parentElement!;
 
         if (Timer.list == UiHandler.LIST_CONTENT)
             Timer.currentElement = Timer.list.children[0] as HTMLElement
