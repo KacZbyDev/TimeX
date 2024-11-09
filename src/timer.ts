@@ -34,7 +34,7 @@ export class Timer {
     }
 
     static activateFirstSubtimer(): void {
-        Timer.setListToFirstSubtimerParent(Timer.list)
+        Timer.setListToFirstSubtimerParent(UiHandler.LIST_CONTENT)
 
         Subtimer.startSubtimer(Timer.currentElement)
     }
