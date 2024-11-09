@@ -31,7 +31,7 @@ export class Subtimer {
         Subtimer.element = element
         Subtimer.subtimerName = (<HTMLElement>element!.querySelector('.name')!).textContent!
         Subtimer.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
-
+        
         element.className = 'subtimer-active';
         
         //The time displayed by bigTimer
@@ -115,6 +115,6 @@ export class Subtimer {
         return element.className.includes('subtimer')
     }
     static isActiveSubtimer(element: HTMLElement): boolean {
-        return element.className.includes('active-subtimer')
+        return element.className.includes('subtimer-active')
     }
 }

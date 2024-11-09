@@ -9,7 +9,7 @@ export class Menus {
     public static readonly ADD_ELEMENT_MENU: HTMLElement = document.getElementById('add-element-menu')!
 
     public static isMenuVisible: boolean = false
-    public static elementInEdit: HTMLElement
+    public static elementInEdit: HTMLElement // The element that you edit in the edit menus, can be either a subtimer or repeater
 
     // Convert the picker values to a string
     static getItemPickerValue(picker: HTMLElement): string {
@@ -54,7 +54,7 @@ export class Menus {
     static showMenu(menu: Element): void {
         if(Menus.getActiveMenu() != null)
             return 
-        
+        Timer.pauseTimer()
         
         Menus.isMenuVisible = true
         
@@ -83,7 +83,7 @@ export class Menus {
         if(Subtimer.isSubtimer(element)) {
             menu = Menus.SUBTIMER_MENU!;
 
-            (menu.querySelector('.subtimer-name')! as HTMLInputElement).value = (Menus.elementInEdit.querySelector('.name')! as HTMLInputElement).textContent!;
+            (menu.querySelector('.subtimer-name-input')! as HTMLInputElement).value = (Menus.elementInEdit.querySelector('.name')! as HTMLInputElement).textContent!;
             
             Menus.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.duration')!.textContent!)
         }

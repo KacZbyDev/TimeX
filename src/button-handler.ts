@@ -8,7 +8,6 @@ import { UiHandler } from "./ui-handler.js";
 $(document).ready(function () {
     // LIST
     $("#add-element-button").on("click", () => {
-        Timer.pauseTimer()
         Menus.showMenu($('#add-element-menu')[0])
     });
     $('#edit-mode-button').on('click', () => {
@@ -31,14 +30,15 @@ $(document).ready(function () {
     $('#subtimer-menu-ok-button').on('click', () => {
         //Get values from menu
         let menu: HTMLElement = document.getElementById('subtimer-menu')!
-        let name: string = (menu.querySelector('.subtimer-name')! as HTMLSelectElement).value
+        let name: string = (menu.querySelector('.subtimer-name-input')! as HTMLSelectElement).value
         let duration: string = Menus.getItemPickerValue(menu.querySelector('.picker')!)
-        
+
+        // If duration field was 0
         if(duration == '')
             duration = '1'
         
         Subtimer.setSubtimer(Menus.elementInEdit, name, duration)
-        
+
         Menus.hideActiveMenu()
 
         //If was newly created
@@ -46,6 +46,9 @@ $(document).ready(function () {
             Menus.elementInEdit
             UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
         }
+        
+        if(Subtimer.isActiveSubtimer(Menus.elementInEdit))
+            Subtimer.startSubtimer(Menus.elementInEdit)
 
         Utils.saveList()
         Timer.resumeTimer()
@@ -79,22 +82,22 @@ $(document).ready(function () {
 
     // ADD ELEMENT MENU - create elements and edit them in the menus
     $('#add-element-menu-subtimer').on('click', () => {
-        Menus.elementInEdit = Subtimer.createSubtimer()
-        
         Menus.hideActiveMenu()
-        Menus.openEditElementMenu(Menus.elementInEdit)
+        Menus.openEditElementMenu(Subtimer.createSubtimer())
     })
     $('#add-element-menu-repeater').on('click', () => {
-        Menus.elementInEdit = Repeater.createRepeater()
-
         Menus.hideActiveMenu()
-        Menus.openEditElementMenu(Menus.elementInEdit)
+        Menus.openEditElementMenu(Repeater.createRepeater())
     })
     $('#add-element-menu-cancel-button').on('click', () => {
         Timer.resumeTimer()
         Menus.hideActiveMenu()
     })
-    
+    $('#current-subtimer-name').on('click', () =>{
+        if(document.getElementById('current-subtimer-name')!.textContent != "done")
+            Menus.openEditElementMenu(Timer.currentElement)
+    })
+
     // OTHERS
     $('#blurred-backround').on('click', () => {
         // Exit edit mode
