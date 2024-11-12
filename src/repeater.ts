@@ -4,7 +4,7 @@ import { Timer } from './timer.js'
 
 export class Repeater {
     static createRepeater(): HTMLElement {
-        let newRepeater: HTMLElement = document.getElementById('repeater-example')!.cloneNode(true) as HTMLElement
+        let newRepeater: HTMLElement = $('#repeater-example')[0].cloneNode(true) as HTMLElement
         newRepeater.removeAttribute('id')
 
         newRepeater.appendChild(Subtimer.createSubtimer())

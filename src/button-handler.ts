@@ -7,7 +7,7 @@ import { UiHandler } from "./ui-handler.js";
 
 $(document).ready(function () {
     // LIST
-    $("#add-element-button").on("click", () => {
+    $('#add-element-button').on("click", () => {
         Menus.showMenu($('#add-element-menu')[0])
     });
     $('#edit-mode-button').on('click', () => {
@@ -29,7 +29,7 @@ $(document).ready(function () {
     // Changes the values of a subtimer, if it subtimer was newly created add it to the list
     $('#subtimer-menu-ok-button').on('click', () => {
         //Get values from menu
-        let menu: HTMLElement = document.getElementById('subtimer-menu')!
+        let menu: HTMLElement = Menus.SUBTIMER_MENU
         let name: string = (menu.querySelector('.subtimer-name-input')! as HTMLSelectElement).value
         let duration: string = Menus.getItemPickerValue(menu.querySelector('.picker')!)
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
     // Changes the values of a repeater, if it was newly created add it to the list
     $('#repeater-menu-ok-button').on('click', () => {
         //Get values from menu
-        let menu: HTMLElement = document.getElementById('repeater-menu')!
+        let menu: HTMLElement = Menus.REPEATER_MENU
         let repeats: string = Menus.getItemPickerValue(menu.querySelector('.picker')!)
         
         Repeater.setTotalRepeats(Menus.elementInEdit, repeats)
@@ -94,7 +94,7 @@ $(document).ready(function () {
         Menus.hideActiveMenu()
     })
     $('#current-subtimer-name').on('click', () =>{
-        if(document.getElementById('current-subtimer-name')!.textContent != "done")
+        if($('#current-subtimer-name')[0].textContent != "done")
             Menus.openEditElementMenu(Timer.currentElement)
     })
 

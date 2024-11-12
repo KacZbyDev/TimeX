@@ -4,9 +4,9 @@ import { UiHandler } from "./ui-handler.js"
 import { TimerState } from "./utils.js"
 
 export class Menus {
-    public static readonly SUBTIMER_MENU: HTMLElement = document.getElementById('subtimer-menu')!
-    public static readonly REPEATER_MENU: HTMLElement = document.getElementById('repeater-menu')!
-    public static readonly ADD_ELEMENT_MENU: HTMLElement = document.getElementById('add-element-menu')!
+    public static readonly SUBTIMER_MENU: HTMLElement = $('#subtimer-menu')[0]
+    public static readonly REPEATER_MENU: HTMLElement = $('#repeater-menu')[0]
+    public static readonly ADD_ELEMENT_MENU: HTMLElement = $('#add-element-menu')[0]
 
     public static isMenuVisible: boolean = false
     public static elementInEdit: HTMLElement // The element that you edit in the edit menus, can be either a subtimer or repeater
@@ -60,7 +60,7 @@ export class Menus {
         
         // Show the menu, add the blurred backroudn and hide the element list
         menu.classList.remove('hidden');
-        $('#blurred-backround').removeClass('hidden');
+        UiHandler.BLURRED_BACKROUND.classList.remove('hidden');
         UiHandler.ELEMENTS_LIST.classList.remove('z-50')
     }
 
@@ -69,7 +69,7 @@ export class Menus {
         Menus.isMenuVisible = false
 
         if(Timer.currentState != TimerState.Edit)
-             $('#blurred-backround').addClass('hidden');
+            UiHandler.BLURRED_BACKROUND.classList.add('hidden');
          
         UiHandler.ELEMENTS_LIST.classList.add('z-50')
         menu.classList.add('hidden');

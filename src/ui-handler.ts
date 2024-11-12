@@ -4,15 +4,16 @@ import { Subtimer } from './subtimer.js'
 import { TimerState, Utils } from './utils.js'
 
 export class UiHandler {
+    public static readonly LIST_CONTENT = $('#list-content')[0]
+    public static readonly RESIZER: HTMLElement = $('#resizer')[0]
+    private static readonly TRASH_BIN: HTMLElement = $('#trash-bin')[0]
+    public static readonly ELEMENTS_LIST: HTMLElement = $('#list-of-elements')[0]
+    public static readonly BIG_TIMER_DISPLAY: HTMLElement = $('#big-timer-time')[0]
+    public static readonly PROGRESS_BAR: HTMLElement = $('#progress-bar')[0]
+    public static readonly BLURRED_BACKROUND: HTMLElement = $('#blurred-backround')[0]
+
     //for dragging elements
     public static readonly DRAG_OFFSET_Y = 136
-
-    public static readonly LIST_CONTENT = document.getElementById('list-content')!
-    public static readonly BIG_TIMER_DISPLAY: HTMLElement = document.getElementById('big-timer-time')!
-    public static readonly PROGRESS_BAR: HTMLElement = document.getElementById('progress-bar')!
-    public static readonly ELEMENTS_LIST: HTMLElement = document.getElementById('list-of-elements')!
-    public static readonly RESIZER: HTMLElement = document.getElementById('resizer')!;
-    private static readonly TRASH_BIN: HTMLElement = document.getElementById('trash-bin')!
     public static readonly LIST_INITIAL_SIZE: number = UiHandler.ELEMENTS_LIST.getBoundingClientRect().right
 
     private static isChangingTime = false
@@ -23,7 +24,7 @@ export class UiHandler {
     static resize(e: MouseEvent) {
         window.addEventListener('mouseup',UiHandler.stopResize);
 
-        const maxSize = window.innerWidth - document.getElementById('timer')!.getBoundingClientRect().width - 10;
+        const maxSize = window.innerWidth - $('#timer')[0].getBoundingClientRect().width - 10;
         const startingEffectAtX = maxSize - 100;
 
         let newWidth: number = UiHandler.ELEMENTS_LIST.getBoundingClientRect().width;
@@ -76,11 +77,11 @@ export class UiHandler {
 
         //Scroll if elementClicked is out of bounds
         if(UiHandler.top <= 0)
-            document.getElementById("list-content")!.scrollTop -= 3
+            UiHandler.LIST_CONTENT.scrollTop -= 3
         
-        if(UiHandler.top + 40 >= document.getElementById("list-content")!.clientHeight)
+        if(UiHandler.top + 40 >= UiHandler.LIST_CONTENT.clientHeight)
             if(UiHandler.ghostElement.parentElement != UiHandler.LIST_CONTENT || UiHandler.ghostElement != UiHandler.elementClicked.previousElementSibling!)
-                document.getElementById("list-content")!.scrollTop += 3
+                UiHandler.LIST_CONTENT.scrollTop += 3
 
         const prevElement: HTMLElement = <HTMLElement>UiHandler.ghostElement.previousElementSibling!
         const nextElement: HTMLElement = <HTMLElement>UiHandler.ghostElement.nextElementSibling!
@@ -286,7 +287,7 @@ export class UiHandler {
 
         Timer.currentState = TimerState.Paused
         Subtimer.element.className = 'subtimer' 
-        document.getElementById('pause-button')!.textContent = '| |'
+        $('#pause-button')[0].textContent = '| |'
 
         Timer.currentElement = UiHandler.elementClicked
         Timer.list = Timer.currentElement.parentElement!

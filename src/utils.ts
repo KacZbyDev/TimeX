@@ -62,14 +62,14 @@ export class Utils {
 
         // Stop
         if(Timer.currentState == TimerState.Active) {
-            document.getElementById('pause-button')!.textContent = '►'
+            $('#pause-button')[0].textContent = '►'
             Timer.pauseTimer()
             Timer.currentState = TimerState.Stopped
             return
         }
 
         // Resume
-        document.getElementById('pause-button')!.textContent = '| |'
+        $('#pause-button')[0].textContent = '| |'
         Timer.currentState = TimerState.Paused
         Timer.resumeTimer()
     }
@@ -86,7 +86,7 @@ export class Utils {
             document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
                 element.classList.remove('hidden') 
             });
-            $('#blurred-backround').removeClass('hidden');
+            UiHandler.BLURRED_BACKROUND.classList.remove('hidden');
             UiHandler.ELEMENTS_LIST.classList.add('z-50')
             return
         }
@@ -95,7 +95,7 @@ export class Utils {
         document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
             element.classList.add('hidden')
         });
-        $('#blurred-backround').addClass('hidden')
+        UiHandler.BLURRED_BACKROUND.classList.add('hidden')
         UiHandler.ELEMENTS_LIST.classList.remove('z-50')
  
         Timer.currentState = Utils.lastState

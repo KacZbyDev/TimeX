@@ -10,7 +10,7 @@ export class Subtimer {
     public static duration:number
 
     static createSubtimer(): HTMLElement {
-        let newSubtimer: HTMLElement = document.getElementById('subtimer-example')!.cloneNode(true) as HTMLElement
+        let newSubtimer: HTMLElement = $('#subtimer-example')[0].cloneNode(true) as HTMLElement
         newSubtimer.removeAttribute('id')
 
         newSubtimer.firstElementChild!.addEventListener('click', () => {
@@ -38,7 +38,7 @@ export class Subtimer {
         Timer.currentMiliseconds = Subtimer.duration
 
         //Change UI
-        document.getElementById('current-subtimer-name')!.textContent! = Subtimer.subtimerName
+        $('#current-subtimer-name')[0].textContent! = Subtimer.subtimerName
         Timer.updateTimeOnUI(100)
     }
 

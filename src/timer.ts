@@ -12,7 +12,7 @@ export class Timer {
 
     public static timerRefresher: NodeJS.Timeout
 
-    public static list: HTMLElement = document.getElementById('list-content')!
+    public static list: HTMLElement = $('#list-content')[0]
     public static currentElement: HTMLElement
 
     public static currentState: TimerState = TimerState.Stopped
@@ -79,6 +79,7 @@ export class Timer {
 
         Timer.currentState = TimerState.Finished
 
+        $('#current-subtimer-name')[0].textContent = ''
         Subtimer.element.className = 'subtimer'
         UiHandler.BIG_TIMER_DISPLAY.textContent = 'DONE'
         UiHandler.PROGRESS_BAR.style.setProperty('--value', '0')
