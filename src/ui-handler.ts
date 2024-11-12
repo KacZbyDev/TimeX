@@ -21,7 +21,7 @@ export class UiHandler {
     private static ghostElement: HTMLElement //the fainted element that shows you where will the dragged element be
 
     static resize(e: MouseEvent) {
-        window.addEventListener('mouseup', UiHandler.stopResize);
+        window.addEventListener('mouseup',UiHandler.stopResize);
 
         const maxSize = window.innerWidth - document.getElementById('timer')!.getBoundingClientRect().width - 10;
         const startingEffectAtX = maxSize - 100;
