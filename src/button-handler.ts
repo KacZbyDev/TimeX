@@ -26,20 +26,19 @@ $(document).ready(function () {
     })
     
     // EDIT MENUS
-    // Changes the values of a subtimer, if it subtimer was newly created add it to the list
+    // Changes the values of a subtimer, if it was newly created add it to the list
     $('#subtimer-menu-ok-button').on('click', () => {
         //Get values from menu
         let menu: HTMLElement = Menus.SUBTIMER_MENU
         let name: string = (menu.querySelector('.subtimer-name-input')! as HTMLSelectElement).value
         let duration: string = Menus.getItemPickerValue(menu.querySelector('.picker')!)
-        let color : string = $('#subtimer-color-input').val()!.toString(); 
-        console.log(color)
+        let color : string = $('#subtimer-color-input').val()!.toString()
     
         // If duration field was 0
         if(duration == '')
             duration = '1'
         
-        Subtimer.setSubtimer(Menus.elementInEdit, name, duration,color)
+        Subtimer.setSubtimer(Menus.elementInEdit, name, duration, color)
 
         Menus.hideActiveMenu()
 

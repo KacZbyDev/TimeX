@@ -20,11 +20,10 @@ export class Subtimer {
         return newSubtimer
     }
 
-    static setSubtimer(subtimer:HTMLElement, name: string, duration: string,color:string): void {
+    static setSubtimer(subtimer:HTMLElement, name: string, duration: string, color:string): void {
         subtimer.querySelector('.name')!.textContent = name
         subtimer.querySelector('.duration')!.textContent = duration
-        subtimer.style.setProperty('--color',color)
-        subtimer.querySelector(".subtimer-color")!.textContent = color;
+        subtimer.style.setProperty('--color', color)
     }
 
     //Start a certain subtimer
@@ -49,7 +48,7 @@ export class Subtimer {
         if(Timer.currentElement == null)
             return
 
-        Timer.currentElement.removeAttribute('style')
+        Timer.currentElement.style.setProperty('--style', '')
         Timer.currentElement = Timer.currentElement!.nextElementSibling as HTMLElement
         
         if(Timer.currentElement) {
@@ -83,7 +82,7 @@ export class Subtimer {
         Timer.currentElement = Subtimer.getPreviousSubtimer(Timer.currentElement)
 
         //reset subtimer progress
-        Timer.currentElement.removeAttribute('style')
+        Timer.currentElement.style.setProperty('--style', '')
         Subtimer.element.className = 'subtimer'
 
         Subtimer.startSubtimer(Timer.currentElement)
@@ -94,6 +93,7 @@ export class Subtimer {
     static getPreviousSubtimer(element: HTMLElement): HTMLElement {
         let prevElement: HTMLElement = element.previousElementSibling! as HTMLElement
 
+        //TODO it may be the first element inside a repeater so it doesnt have a previous siblign
         if(!prevElement) 
             return element
 

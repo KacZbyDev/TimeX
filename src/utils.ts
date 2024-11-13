@@ -102,7 +102,7 @@ export class Utils {
         Timer.resumeTimer()
     }
 
-    // TODO ask for cookies
+    //TODO ask for cookies
     //Save as cookie named 'list'
     static saveList() {
         //Save the data
