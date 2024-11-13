@@ -17,7 +17,7 @@
     }
 
     .subtimer-active {
-        background: linear-gradient(90deg, #5B84C4, calc(var(--value) * 1%), transparent 0);
+        background: linear-gradient(90deg, var(--color), calc(var(--value) * 1%), transparent 0);
         @apply subtimer; 
     }
 

@@ -20,9 +20,11 @@ export class Subtimer {
         return newSubtimer
     }
 
-    static setSubtimer(subtimer:HTMLElement, name: string, duration: string): void {
+    static setSubtimer(subtimer:HTMLElement, name: string, duration: string,color:string): void {
         subtimer.querySelector('.name')!.textContent = name
         subtimer.querySelector('.duration')!.textContent = duration
+        subtimer.style.setProperty('--color',color)
+        subtimer.querySelector(".subtimer-color")!.textContent = color;
     }
 
     //Start a certain subtimer
@@ -33,6 +35,7 @@ export class Subtimer {
         Subtimer.duration = Utils.timeToSeconds(element!.querySelector('.duration')!.textContent!)
         
         element.className = 'subtimer-active';
+        
         
         //The time displayed by bigTimer
         Timer.currentMiliseconds = Subtimer.duration
