@@ -3,7 +3,6 @@ import { Timer } from './timer.js';
 import { Subtimer } from "./subtimer.js";
 import { Repeater } from "./repeater.js";
 import { Menus } from "./menus.js";
-import { UiHandler } from "./ui-handler.js";
 
 $(document).ready(function () {
     // LIST
@@ -43,10 +42,8 @@ $(document).ready(function () {
         Menus.hideActiveMenu()
 
         //If was newly created
-        if(Menus.elementInEdit.parentElement == null) {
-            Menus.elementInEdit
-            UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
-        }
+        if(Menus.elementInEdit.parentElement == null)
+            Utils.addELementInList(Menus.elementInEdit)
         
         if(Subtimer.isActiveSubtimer(Menus.elementInEdit))
             Subtimer.startSubtimer(Menus.elementInEdit)
@@ -65,7 +62,7 @@ $(document).ready(function () {
         Menus.hideActiveMenu()
 
         if(Menus.elementInEdit.parentElement == null)
-            UiHandler.LIST_CONTENT.append(Menus.elementInEdit)
+            Utils.addELementInList(Menus.elementInEdit)
 
         Utils.saveList()
         Timer.resumeTimer()

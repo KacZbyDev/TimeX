@@ -236,7 +236,7 @@ export class UiHandler {
         UiHandler.elementClicked.style.width = `${originalWidth}px`
         
         UiHandler.elementClicked.replaceWith(UiHandler.ghostElement)
-        UiHandler.LIST_CONTENT.appendChild(UiHandler.elementClicked)
+        Utils.addELementInList(UiHandler.elementClicked)
     }
 
     // Decide what subtimer should be dragged and if it should be dragged

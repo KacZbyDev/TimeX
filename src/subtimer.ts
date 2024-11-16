@@ -93,12 +93,11 @@ export class Subtimer {
     static getPreviousSubtimer(element: HTMLElement): HTMLElement {
         let prevElement: HTMLElement = element.previousElementSibling! as HTMLElement
 
-        //TODO it may be the first element inside a repeater so it doesnt have a previous siblign
         if(!prevElement) 
             return element
 
         if(Repeater.isRepeaterValues(prevElement)) {
-            Repeater.resetChildren(prevElement.parentElement!.parentElement!)
+            Repeater.resetChildren(prevElement.parentElement!)
             prevElement = prevElement.parentElement!.previousElementSibling as HTMLElement
             if(!prevElement)
                 return element

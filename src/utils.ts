@@ -102,9 +102,13 @@ export class Utils {
         Timer.resumeTimer()
     }
 
+    static addELementInList(element : Element): void {
+        UiHandler.LIST_CONTENT.append(element)
+    }
+
     //TODO ask for cookies
     //Save as cookie named 'list'
-    static saveList() {
+    static saveList(): void {
         //Save the data
         const date: Date = new Date();
         date.setTime(date.getTime() + 365 * 24 * 60 * 60 * 1000)
@@ -115,19 +119,23 @@ export class Utils {
     }
 
     //Load list from the cookie named 'list'
-    static loadList() {
+    static loadList(): void {
         const cookiesContent = decodeURIComponent(document.cookie)
         const cookiesArray: string[] = cookiesContent.split('; ')
         const listCookie = cookiesArray.find(cookie => cookie.startsWith("list="));
 
-        if (listCookie) {
-            const listValue = listCookie.split("=")[1];
-            UiHandler.LIST_CONTENT.innerHTML = atob(listValue);
+        //If it doesnt a have a saved list, create a template
+        if (!listCookie) {
+            Utils.addELementInList(Repeater.createRepeater())
+            return
         }
         
-        if(UiHandler.LIST_CONTENT.querySelector('.subtimer-active')) {
+        const listValue = listCookie.split("=")[1];
+        UiHandler.LIST_CONTENT.innerHTML = atob(listValue);
+
+        if(UiHandler.LIST_CONTENT.querySelector('.subtimer-active'))
             (UiHandler.LIST_CONTENT.querySelector('.subtimer-active') as HTMLElement).className = 'subtimer';
-        }
+        
         //Hide the edit buttons
         document.querySelectorAll('[class^="edit-button"]').forEach((element) => {
             element.classList.add('hidden')
