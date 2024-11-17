@@ -79,12 +79,12 @@ export class Menus {
     static openEditElementMenu(element: HTMLElement): void  {
         let menu: HTMLElement
         Menus.elementInEdit = element
-
+        
         if(Subtimer.isSubtimer(element)) {
             menu = Menus.SUBTIMER_MENU!;
 
-            (menu.querySelector('.subtimer-name-input')! as HTMLInputElement).value = (Menus.elementInEdit.querySelector('.name')! as HTMLInputElement).textContent!;
-            
+            (menu.querySelector('.subtimer-name-input')! as HTMLInputElement).value = (element.querySelector('.name')! as HTMLInputElement).textContent!;
+            $('#subtimer-color-input').attr('value', getComputedStyle(element).getPropertyValue('--color'))
             Menus.setItemPickerValue(menu.querySelector('.picker')!, element.querySelector('.duration')!.textContent!)
         }
         else {
